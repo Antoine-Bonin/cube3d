@@ -34,6 +34,12 @@ $(NAME): $(MLX) $(LIBFT) $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
 
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_PATH)
+
+$(MLX):
+	$(MAKE) -C $(MLX_PATH)
+
 clean:
 	rm -f $(OBJS)
 	$(MAKE) -C $(LIBFT_PATH) clean
