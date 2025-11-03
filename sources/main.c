@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/03 17:30:30 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:59:30 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "init.h"
+#include "stdio.h"
 
 int main(void)
 {
+    printf("%d", HEIGHT);
     return 0;
 }

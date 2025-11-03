@@ -1,6 +1,6 @@
 .PHONY :all re clean fclean
 
-FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH) -Iincludes
+FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH) -Iincludes -MD
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
 FLAGLIBFT = -L$(LIBFT_PATH) -lft
 
@@ -24,13 +24,13 @@ DEPS = $(addprefix $(OBJ_DIR), $(addsuffix .d, $(FILES)))
 
 all: $(NAME)
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)/.
+$(OBJ_DIR): $(OBJS)
+	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c 
 	$(CC) $(FLAGS) -DHEIGHT=$(H) -DLENGTH=$(L) -c $< -o $@
 
-$(NAME): $(MLX) $(LIBFT) $(OBJS)
+$(NAME): $(OBJ_DIR) $(MLX) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
 
