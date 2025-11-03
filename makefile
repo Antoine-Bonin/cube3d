@@ -1,6 +1,6 @@
 .PHONY :all re clean fclean
 
-FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH)
+FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH) -Iincludes
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
 FLAGLIBFT = -L$(LIBFT_PATH) -lft
 
