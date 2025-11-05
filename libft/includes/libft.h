@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:25:15 by antbonin          #+#    #+#             */
-/*   Updated: 2025/08/02 16:28:54 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 11:13:08 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ char				*ft_strdup_gnl(const char *src);
 char				*ft_strjoin_gnl(char *dest, const char *src);
 size_t				ft_strlen_gnl(const char *str);
 char				*get_next_line(int fd);
+char				*super_get_next_line(int fd, char *line);
 int					ft_strcmp(char *s1, char *s2);
 
 #endif

@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 09:51:28 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/04 18:30:07 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/05 11:14:22 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/05 11:14:26 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../includes/libft.h"
+#ifndef MESSAGES_H
+# define MESSAGES_H
 
-int	ft_isdigit(int c)
-{
-	if ((c >= '0' && c <= '9'))
-	{
-		return (1);
-	}
-	return (0);
-}
+int	msg_error(char *str, int error);
+
+#endif

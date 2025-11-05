@@ -12,9 +12,16 @@ MLX_PATH = minilibx-linux
 MLX = $(MLX_PATH)/libmlx_Linux.a
 LIBFT = $(LIBFT_PATH)/libft.a
 FILES = main \
+		errors/print_errors \
+		free_malloc/free_parsing_data \
+		parsing/00-check_cub_file \
+		parsing/01-parse_cub_file \
+		parsing/02-parse_texture_cub \
+		parsing/03-parse_color_cub \
+		parsing/04-parse_map_cub
 
-H = 900
-L = 1920
+HEIGHT = 900
+WIDTH = 1920
 
 OBJ_DIR = build/
 SRC_DIR = sources/
@@ -24,13 +31,11 @@ DEPS = $(addprefix $(OBJ_DIR), $(addsuffix .d, $(FILES)))
 
 all: $(NAME)
 
-$(OBJ_DIR): $(OBJS)
-	mkdir -p $(OBJ_DIR)
-
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c 
-	$(CC) $(FLAGS) -DHEIGHT=$(H) -DLENGTH=$(L) -c $< -o $@
+	@mkdir -p $(dir $@)
+	$(CC) $(FLAGS) -DHEIGHT=$(HEIGHT) -DLENGTH=$(WIDTH) -c $< -o $@
 
-$(NAME): $(OBJ_DIR) $(MLX) $(LIBFT)
+$(NAME): $(OBJS) $(MLX) $(LIBFT)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
 
@@ -41,7 +46,7 @@ $(MLX):
 	$(MAKE) -C $(MLX_PATH)
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_PATH) clean
 	$(MAKE) -C $(MLX_PATH) clean
 

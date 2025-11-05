@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 09:51:28 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/04 18:30:07 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/04 14:43:32 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/05 11:04:02 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../includes/libft.h"
+#include "../../libft/includes/libft.h"
+#include "messages.h"
+#include "stdlib.h"
 
-int	ft_isdigit(int c)
+int	msg_error(char *str, int error)
 {
-	if ((c >= '0' && c <= '9'))
-	{
-		return (1);
-	}
-	return (0);
+	ft_printf_fd(2, str);
+	return (error);
+}
+
+int	msg_error_and_free(char *str, int error, void *to_free)
+{
+	ft_printf_fd(2, str);
+	free(to_free);
+	return (error);
 }

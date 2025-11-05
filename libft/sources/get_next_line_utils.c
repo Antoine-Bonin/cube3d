@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:15:17 by antbonin          #+#    #+#             */
-/*   Updated: 2025/04/21 18:07:37 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/05 11:16:16 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,34 @@ char	*ft_strjoin_gnl(char *s1, const char *s2)
 	ft_strlcpy_gnl(str, s1, len_s1 + 1);
 	ft_strlcpy_gnl(str + len_s1, s2, len_s2 + 1);
 	free(s1);
+	return (str);
+}
+
+char	*super_get_next_line(int fd, char *line)
+{
+	static char	buf[BUFFER_SIZE + 1] = "\0";
+	ssize_t		bytes_read;
+	char		*str;
+
+	if (BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
+	free(line);
+	str = ft_strdup_gnl(buf);
+	if (!str)
+		return (NULL);
+	bytes_read = 1;
+	while (bytes_read && check_end_line(buf) == 0)
+	{
+		bytes_read = read(fd, buf, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (ft_bzero_gnl(buf), free(str), NULL);
+		buf[bytes_read] = '\0';
+		str = ft_strjoin_gnl(str, buf);
+		if (!str)
+			return (NULL);
+	}
+	ft_next_line(buf);
+	if (str[0] == '\0')
+		return (free(str), NULL);
 	return (str);
 }

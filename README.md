@@ -28,8 +28,8 @@ Liste minimaliste des tâches à faire pour la partie parsing :
 
 Checklist rapide :
 
-- [ ] Identifiants parsés
-- [ ] Map lue et stockée (tableau de lignes)
+- [x] Identifiants parsés
+- [x] Map lue et stockée (tableau de lignes)
 - [ ] Validation (caractères, joueur unique)
 - [ ] Vérification fermeture map
 - [ ] Tests `.cub` créés

@@ -1,0 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   03-parse_color_cub.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 09:52:29 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/05 11:27:47 by antbonin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../libft/includes/libft.h"
+#include "free_malloc.h"
+#include "parsing.h"
+#include "stdlib.h"
+
+static int	count_commas(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static int	is_valid_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !str[0])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	get_color_in_data_loop(int *i, char **split, char *trimmed, int *color)
+{
+	int	value;
+
+	while (*i < 3 && split[*i])
+	{
+		trimmed = ft_strtrim(split[*i], " \t\n");
+		if (!trimmed || !is_valid_number(trimmed))
+		{
+			free(trimmed);
+			ft_free_tab(split);
+			return (0);
+		}
+		value = ft_atoi(trimmed, 0);
+		free(trimmed);
+		if (value < 0 || value > 255)
+		{
+			ft_free_tab(split);
+			return (0);
+		}
+		color[*i] = value;
+		(*i)++;
+	}
+	return (1);
+}
+
+int	get_color_in_data(int *color, char *line)
+{
+	char	**split;
+	int		i;
+	char	*trimmed;
+
+	trimmed = NULL;
+	if (count_commas(line) != 2)
+		return (0);
+	split = ft_split(line, ',');
+	if (!split)
+		return (0);
+	i = 0;
+	if (!get_color_in_data_loop(&i, split, trimmed, color))
+		return (0);
+	if (i != 3 || split[3] != NULL)
+	{
+		ft_free_tab(split);
+		return (0);
+	}
+	ft_free_tab(split);
+	return (1);
+}
