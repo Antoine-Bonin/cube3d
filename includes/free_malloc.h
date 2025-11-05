@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:21:31 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 10:32:20 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:51:00 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structures.h"
 
-int		error_cleanup(t_parsing_data *data, int error);
+int		error_cleanup(t_parsing_data *data, int error, t_mlx_data *mlx_data);
 void	ft_free_tab(char **map);
 int		malloc_error_parsing(t_parsing_data *data);
 int		msg_error_and_free(char *str, int error, void *to_free);

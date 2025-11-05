@@ -18,7 +18,8 @@ FILES = main \
 		parsing/01-parse_cub_file \
 		parsing/02-parse_texture_cub \
 		parsing/03-parse_color_cub \
-		parsing/04-parse_map_cub
+		parsing/04-parse_map_cub \
+		parsing/06-check_map_validity 
 
 HEIGHT = 900
 WIDTH = 1920

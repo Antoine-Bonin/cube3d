@@ -6,12 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 14:15:17 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:16:16 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:36:39 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 #include "stdlib.h"
+#include "fcntl.h"
 
 size_t	ft_strlen_gnl(const char *str)
 {
@@ -86,31 +87,15 @@ char	*ft_strjoin_gnl(char *s1, const char *s2)
 	return (str);
 }
 
-char	*super_get_next_line(int fd, char *line)
+int	open_file(char *FileName)
 {
-	static char	buf[BUFFER_SIZE + 1] = "\0";
-	ssize_t		bytes_read;
-	char		*str;
+	int	fd;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
-	free(line);
-	str = ft_strdup_gnl(buf);
-	if (!str)
-		return (NULL);
-	bytes_read = 1;
-	while (bytes_read && check_end_line(buf) == 0)
+	fd = open(FileName, O_RDONLY);
+	if (fd == -1)
 	{
-		bytes_read = read(fd, buf, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (ft_bzero_gnl(buf), free(str), NULL);
-		buf[bytes_read] = '\0';
-		str = ft_strjoin_gnl(str, buf);
-		if (!str)
-			return (NULL);
+		ft_putendl_fd("Error\nCan't open file", 2);
+		return (0);
 	}
-	ft_next_line(buf);
-	if (str[0] == '\0')
-		return (free(str), NULL);
-	return (str);
+	return (fd);
 }

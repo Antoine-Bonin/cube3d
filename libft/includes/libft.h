@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 12:25:15 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:13:08 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:35:38 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_isalpha_space(int c);
 int					is_whitespace(char c);
+int					is_whitespace_str(char *str);
 /****************************************************************/
 
 size_t				ft_strlen(const char *str);
@@ -112,7 +113,10 @@ char				*ft_strdup_gnl(const char *src);
 char				*ft_strjoin_gnl(char *dest, const char *src);
 size_t				ft_strlen_gnl(const char *str);
 char				*get_next_line(int fd);
-char				*super_get_next_line(int fd, char *line);
+void				ft_next_line(char *str);
+void				ft_bzero_gnl(char *str);
+int					open_file(char *FileName);
+int					check_end_line(const char *str);
 int					ft_strcmp(char *s1, char *s2);
 
 #endif

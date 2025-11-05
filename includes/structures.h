@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:14:34 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:33:31 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,31 @@
 
 typedef struct s_parsing_data
 {
-	char	*no_texture;
-	char	*so_texture;
-	char	*we_texture;
-	char	*ea_texture;
+	char	*north_texture_path;
+	char	*south_texture_path;
+	char	*west_texture_path;
+	char	*east_texture_path;
 	int		floor_color[3];
 	int		ceiling_color[3];
 	char	**map;
 	int		map_height;
 	int		map_width;
 	bool	textures_complete;
+	int		player_x;
+	int		player_y;
+	char	player_direction;
 }			t_parsing_data;
+
+typedef struct s_mlx_data
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*north_mlx_ptr;
+	void	*south_mlx_ptr;
+	void	*west_mlx_ptr;
+	void	*east_mlx_ptr;
+	int		img_width;
+	int		img_height;
+} t_mlx_data;
 
 #endif

@@ -6,14 +6,14 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 16:30:14 by pauldepetri       #+#    #+#             */
-/*   Updated: 2025/11/05 11:16:11 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 14:25:08 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 #include "stdlib.h"
 
-static void	ft_bzero_gnl(char *str)
+void	ft_bzero_gnl(char *str)
 {
 	size_t	i;
 
@@ -57,7 +57,7 @@ static size_t	ft_strlcpy1(char *dest, const char *src, size_t size)
 	return (ft_strlen_gnl(src));
 }
 
-static void	ft_next_line(char *str)
+void	ft_next_line(char *str)
 {
 	size_t	i;
 	size_t	str_len;

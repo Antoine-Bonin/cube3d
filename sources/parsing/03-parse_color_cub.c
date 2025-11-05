@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:52:29 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:27:47 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:39:26 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "free_malloc.h"
 #include "parsing.h"
 #include "stdlib.h"
+#include "messages.h"
 
 static int	count_commas(char *str)
 {
@@ -62,11 +63,6 @@ int	get_color_in_data_loop(int *i, char **split, char *trimmed, int *color)
 		}
 		value = ft_atoi(trimmed, 0);
 		free(trimmed);
-		if (value < 0 || value > 255)
-		{
-			ft_free_tab(split);
-			return (0);
-		}
 		color[*i] = value;
 		(*i)++;
 	}

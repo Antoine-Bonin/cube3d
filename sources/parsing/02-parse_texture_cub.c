@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:57:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:03:33 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:21:51 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int	get_texture(char **texture_ptr, char *trimmed, int offset,
 int	parse_only_textures(char *trimmed, t_parsing_data *data)
 {
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
-		return (get_texture(&data->no_texture, trimmed, 3, data));
+		return (get_texture(&data->north_texture_path, trimmed, 3, data));
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
-		return (get_texture(&data->so_texture, trimmed, 3, data));
+		return (get_texture(&data->south_texture_path, trimmed, 3, data));
 	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
-		return (get_texture(&data->we_texture, trimmed, 3, data));
+		return (get_texture(&data->west_texture_path, trimmed, 3, data));
 	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
-		return (get_texture(&data->ea_texture, trimmed, 3, data));
+		return (get_texture(&data->east_texture_path, trimmed, 3, data));
 	return (0);
 }
 
@@ -66,8 +66,8 @@ int	parse_textures_cub(char *line, t_parsing_data *data)
 	result = 0;
 	if (parse_only_textures(trimmed, data))
 		result = 1;
-	else if (parse_color(trimmed, data))
-		result = 1;
+	else
+		result = parse_color(trimmed, data);
 	free(trimmed);
 	return (result);
 }
