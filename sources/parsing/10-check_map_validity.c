@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   06-check_map_validity.c                            :+:      :+:    :+:   */
+/*   10-check_map_validity.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 15:07:16 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:49:40 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,12 @@ int	is_map_valid(t_parsing_data *data)
 	char	**map_copy;
 	int		result;
 
+	if (data->map_height < 3)
+		return (msg_error(MAP_TOO_SMALL, 0));
 	if (data->map_height > 1000)
-		return (msg_error(MAP_TO_BIG, 0));
+		return (msg_error(MAP_TOO_BIG, 0));
 	if (!find_player(data, &data->player_x, &data->player_y))
-		return (0);
+		return (msg_error(NO_PLAYER, 0));
 	if (find_multi_player(data, 0))
 		return (msg_error(MULTI_PLAYER, 0));
 	if (find_invalid_char(data))

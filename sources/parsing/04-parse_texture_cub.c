@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   02-parse_texture_cub.c                             :+:      :+:    :+:   */
+/*   04-parse_texture_cub.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:57:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 15:11:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:27:42 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
 #include "free_malloc.h"
+#include "messages.h"
 #include "parsing.h"
 #include "stdlib.h"
-#include "messages.h"
 
 int	get_texture(char **texture_ptr, char *trimmed, int offset,
 		t_parsing_data *data)
 {
+	if (*texture_ptr != NULL)
+	{
+		data->dup_found = true;
+		return (msg_error(DUPLICATE_TEXTURE, 0));
+	}
 	*texture_ptr = ft_strtrim(trimmed + offset, " \t\n");
 	if (!*texture_ptr)
 		malloc_error_parsing(data);
 	return (1);
 }
 
-int	parse_only_textures(char *trimmed, t_parsing_data *data)
+int	parse_textures(char *trimmed, t_parsing_data *data)
 {
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
 		return (get_texture(&data->north_texture_path, trimmed, 3, data));
@@ -45,11 +50,21 @@ int	parse_color(char *trimmed, t_parsing_data *data)
 	result = 0;
 	if (ft_strncmp(trimmed, "F ", 2) == 0)
 	{
+		if (data->floor_color[0] != -1)
+		{
+			data->dup_found = true;
+			return (msg_error(DUPLICATE_FLOOR, 0));
+		}
 		result = get_color_in_data(data->floor_color, trimmed + 2);
 		return (result);
 	}
 	else if (ft_strncmp(trimmed, "C ", 2) == 0)
 	{
+		if (data->ceiling_color[0] != -1)
+		{
+			data->dup_found = true;
+			return (msg_error(DUPLICATE_CEILING, 0));
+		}
 		result = get_color_in_data(data->ceiling_color, trimmed + 2);
 		return (result);
 	}
@@ -65,7 +80,7 @@ int	parse_textures_cub(char *line, t_parsing_data *data)
 	if (!trimmed)
 		return (0);
 	result = 0;
-	if (parse_only_textures(trimmed, data))
+	if (parse_textures(trimmed, data))
 		result = 1;
 	else
 		result = parse_color(trimmed, data);

@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 17:33:31 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:27:42 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_parsing_data
 	int		player_x;
 	int		player_y;
 	char	player_direction;
+	bool	dup_found;
 }			t_parsing_data;
 
 typedef struct s_mlx_data

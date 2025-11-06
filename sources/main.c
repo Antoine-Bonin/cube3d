@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/05 17:51:18 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:27:42 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ t_parsing_data	*init_parsing_data(void)
 	data->west_texture_path = NULL;
 	data->east_texture_path = NULL;
 	data->map = NULL;
-	i = 0;
-	while (i < 3)
+	i = -1;
+	while (++i < 3)
 	{
 		data->ceiling_color[i] = -1;
 		data->floor_color[i] = -1;
-		i++;
 	}
 	data->map_height = 0;
 	data->player_x = 0;
 	data->player_y = 0;
 	data->player_direction = '\0';
 	data->textures_complete = false;
+	data->dup_found = false;
 	return (data);
 }
 

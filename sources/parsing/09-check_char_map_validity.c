@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   07-check_char_map_validity.c                       :+:      :+:    :+:   */
+/*   09-check_char_map_validity.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:07:04 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 15:07:22 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 16:39:28 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "messages.h"
 #include "parsing.h"
 
 int	is_different_char_from(char c)
