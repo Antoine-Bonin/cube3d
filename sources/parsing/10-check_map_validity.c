@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 14:44:51 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:07:16 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ int	is_map_valid(t_parsing_data *data)
 		return (0);
 	if (find_multi_player(data, 0))
 		return (msg_error(MULTI_PLAYER, 0));
+	if (find_invalid_char(data))
+		return (msg_error(INVALID_CHAR, 0));
 	map_copy = copy_map(data->map, data->map_height);
 	if (!map_copy)
 		return (0);

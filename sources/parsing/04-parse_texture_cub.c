@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:57:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 17:21:51 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:11:40 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "free_malloc.h"
 #include "parsing.h"
 #include "stdlib.h"
+#include "messages.h"
 
 int	get_texture(char **texture_ptr, char *trimmed, int offset,
 		t_parsing_data *data)

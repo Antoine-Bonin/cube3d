@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   01-parse_cub_file.c                                :+:      :+:    :+:   */
+/*   03-parse_cub_file_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 18:50:07 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 14:51:20 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/06 15:19:47 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/06 15:28:27 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
-#include "fcntl.h"
-#include "free_malloc.h"
-#include "messages.h"
 #include "parsing.h"
-#include "stdio.h"
+#include "../libft/includes/libft.h"
 #include "stdlib.h"
+#include "messages.h"
+#include "free_malloc.h"
 
-bool	all_textures_parsed(t_parsing_data *data)
+static bool	all_textures_parsed(t_parsing_data *data)
 {
-	return (data->north_texture_path && data->south_texture_path && data->west_texture_path
-		&& data->east_texture_path && data->floor_color[0] != -1
-		&& data->ceiling_color[0] != -1);
+	return (data->north_texture_path && data->south_texture_path
+		&& data->west_texture_path && data->east_texture_path
+		&& data->floor_color[0] != -1 && data->ceiling_color[0] != -1);
 }
 
 static char	*next_line(int fd, char *current)

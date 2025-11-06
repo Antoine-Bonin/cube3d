@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:14:22 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 14:14:24 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:04:21 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MAP_TO_BIG "Error\nMap is too big for us to handle sorry to let you down like that\n"
 # define WRONG_RGB "Error\nMake sure to have an rgb value between 0 and 255\n"
 # define TEXTURE_PATH "Error\nMake sure to use a valid path or the right to open the file\n"
+#define INVALID_CHAR "Error\n only valid chars are 'S' 'N' 'W' 'E' '1' '0' and ' ' for the map\n"
 
 int	msg_error(char *str, int error);
 

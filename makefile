@@ -15,12 +15,17 @@ LIBFT = $(LIBFT_PATH)/libft.a
 FILES = main \
 		errors/print_errors \
 		free_malloc/free_parsing_data \
-		parsing/00-check_cub_file \
-		parsing/01-parse_cub_file \
-		parsing/02-parse_texture_cub \
-		parsing/03-parse_color_cub \
-		parsing/04-parse_map_cub \
-		parsing/06-check_map_validity 
+		parsing/00-start_of_parsing \
+		parsing/01-check_cub_filename \
+		parsing/02-parse_cub_file \
+		parsing/03-parse_cub_file_utils \
+		parsing/04-parse_texture_cub \
+		parsing/05-parse_color_cub \
+		parsing/06-parse_map_cub \
+		parsing/07-check_textures_path \
+		parsing/08-check_floor_ceiling_color \
+		parsing/09-check_char_map_validity \
+		parsing/10-check_map_validity 
 
 HEIGHT = 900
 WIDTH = 1920
