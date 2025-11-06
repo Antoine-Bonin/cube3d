@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 16:27:42 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:08:16 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ typedef struct s_mlx_data
 	void	*east_mlx_ptr;
 	int		img_width;
 	int		img_height;
-} t_mlx_data;
+}			t_mlx_data;
 
 #endif

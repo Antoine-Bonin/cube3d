@@ -6,15 +6,19 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/06 16:27:42 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:00:41 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_malloc.h"
 #include "init.h"
+#include "mlx.h"
 #include "parsing.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "window.h"
+#include <X11/X.h>
+#include <X11/keysym.h>
 
 t_parsing_data	*init_parsing_data(void)
 {
@@ -45,9 +49,10 @@ t_parsing_data	*init_parsing_data(void)
 	return (data);
 }
 
-t_mlx_data *init_mlx(void)
+t_mlx_data	*init_mlx(void)
 {
-	t_mlx_data *data;
+	t_mlx_data	*data;
+
 	data = (t_mlx_data *)malloc(sizeof(t_mlx_data));
 	data->east_mlx_ptr = NULL;
 	data->south_mlx_ptr = NULL;
@@ -63,8 +68,7 @@ t_mlx_data *init_mlx(void)
 int	main(int ac, char **av)
 {
 	t_parsing_data	*data;
-	t_mlx_data *mlx_data;
-	int				i;
+	t_mlx_data		*mlx_data;
 
 	data = init_parsing_data();
 	if (!data)
@@ -74,28 +78,34 @@ int	main(int ac, char **av)
 		return (1);
 	if (ac > 1)
 	{
-		if (start_of_parsing(av[1], data, mlx_data))
+		if (!parsing(av[1], data))
 			return (error_cleanup(data, 1, mlx_data));
-		i = 0;
-		if (data->map)
-		{
-			while (data->map[i])
-			{
-				printf("%s", data->map[i]);
-				i++;
-			}
-			printf("\n%s\n", data->north_texture_path);
-			printf("%s\n", data->east_texture_path);
-			printf("%s\n", data->south_texture_path);
-			printf("%s\n", data->west_texture_path);
-			printf("floor color : %d,%d,%d\n", data->floor_color[0],
-				data->floor_color[1], data->floor_color[2]);
-			printf("ceiling color : %d,%d,%d\n", data->ceiling_color[0],
-				data->ceiling_color[1], data->ceiling_color[2]);
-			printf("player direction : %c\n", data->player_direction);
-			printf("player x : %d\n", data->player_x);
-			printf("player y : %d\n", data->player_y);
-		}
+		if (!init_window_and_textures(data, mlx_data))
+			return (error_cleanup(data, 1, mlx_data));
+		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, NULL);
+		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask, (int (*)())handle_keypress, NULL);
+		mlx_loop(mlx_data->mlx_ptr);
 	}
 	return (error_cleanup(data, 0, mlx_data));
 }
+
+// int i = 0;
+// if (data->map)
+// {
+// 	while (data->map[i])
+// 	{
+// 		printf("%s", data->map[i]);
+// 		i++;
+// 	}
+// 	printf("\n%s\n", data->north_texture_path);
+// 	printf("%s\n", data->east_texture_path);
+// 	printf("%s\n", data->south_texture_path);
+// 	printf("%s\n", data->west_texture_path);
+// 	printf("floor color : %d,%d,%d\n", data->floor_color[0],
+// 		data->floor_color[1], data->floor_color[2]);
+// 	printf("ceiling color : %d,%d,%d\n", data->ceiling_color[0],
+// 		data->ceiling_color[1], data->ceiling_color[2]);
+// 	printf("player direction : %c\n", data->player_direction);
+// 	printf("player x : %d\n", data->player_x);
+// 	printf("player y : %d\n", data->player_y);
+// }

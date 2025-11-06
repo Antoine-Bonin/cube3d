@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   01-check_cub_filename.c                            :+:      :+:    :+:   */
+/*   00-parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 14:16:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 18:04:57 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/06 15:16:43 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/06 18:04:38 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/libft.h"
-#include "messages.h"
-#include "mlx.h"
 #include "parsing.h"
-#include "stdlib.h"
+#include "messages.h"
 
-bool	is_file_name_correct(char *map)
+int	parsing(char *FileName, t_parsing_data *data)
 {
-	int	map_len;
-
-	map_len = ft_strlen(map);
-	if (map_len < 5)
+	if (!is_file_name_correct(FileName))
+		return (msg_error(INVALID_NAME, 0));
+	if (!parse_cub_file(FileName, data))
 		return (0);
-	if (map[map_len - 3] == 'c' && map[map_len - 2] == 'u' && map[map_len
-			- 1] == 'b')
-		return (1);
-	return (0);
+	if (!floor_ceiling_color_valid(data))
+		return (0);
+	if (!is_map_valid(data))
+		return (0);
+	return (1);
 }

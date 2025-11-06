@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   07-check_textures_path.c                           :+:      :+:    :+:   */
+/*   init_window_and_textures.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 15:11:13 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 15:11:44 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/06 17:14:59 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/06 18:04:22 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "mlx.h"
+#include "init.h"
 #include "messages.h"
+#include "mlx.h"
+#include "window.h"
 
-int	texture_to_mlx(t_parsing_data *data, t_mlx_data *mlx_data)
+static int	init_textures(t_parsing_data *data, t_mlx_data *mlx_data)
 {
 	int	width;
 	int	height;
@@ -35,7 +36,20 @@ int	texture_to_mlx(t_parsing_data *data, t_mlx_data *mlx_data)
 			&mlx_data->img_height);
 	if (!mlx_data->north_mlx_ptr || !mlx_data->south_mlx_ptr
 		|| !mlx_data->west_mlx_ptr || !mlx_data->east_mlx_ptr)
+		return (msg_error(TEXTURE_PATH, 0));
+	return (1);
+}
+
+int	init_window_and_textures(t_parsing_data *game, t_mlx_data *mlx_data)
+{
+	mlx_data->mlx_ptr = mlx_init();
+	if (!mlx_data->mlx_ptr)
 		return (0);
-	return (msg_error(TEXTURE_PATH, 0));
-	return (0);
+	if (!init_textures(game, mlx_data))
+		return (0);
+	mlx_data->win_ptr = mlx_new_window(mlx_data->mlx_ptr, LENGTH, HEIGHT,
+			"Cub3D");
+	if (!mlx_data->win_ptr)
+		return (0);
+	return (1);
 }

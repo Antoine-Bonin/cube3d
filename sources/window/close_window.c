@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   00-start_of_parsing.c                              :+:      :+:    :+:   */
+/*   close_window.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 15:16:43 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 16:03:01 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
+/*   Updated: 2025/11/06 17:58:27 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "messages.h"
+#include "mlx.h"
+#include "stdlib.h"
+#include "window.h"
 
-int	start_of_parsing(char *FileName, t_parsing_data *data, t_mlx_data *mlx_data)
+#define ESC_KEY 65307
+
+int	close_window(void *param)
 {
-	if (!is_file_name_correct(FileName))
-		return (msg_error(INVALID_NAME, 1));
-	if (!parse_cub_file(FileName, data))
-		return (1);
-	if (!floor_ceiling_color_valid(data))
-		return (1);
-	if (texture_to_mlx(data, mlx_data))
-		return (1);
-	if (!is_map_valid(data))
-		return (1);
+	(void)param;
+	exit(0);
+	return (0);
+}
+
+int	handle_keypress(int keycode, void *param)
+{
+	(void)param;
+	if (keycode == ESC_KEY)
+		exit(0);
 	return (0);
 }

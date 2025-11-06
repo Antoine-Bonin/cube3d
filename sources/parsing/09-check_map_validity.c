@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   10-check_map_validity.c                            :+:      :+:    :+:   */
+/*   09-check_map_validity.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 16:49:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:04:29 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	flood_fill(char **map, int x, int y, t_parsing_data *data)
 		return (0);
 	return (1);
 }
+
 int	is_map_valid(t_parsing_data *data)
 {
 	char	**map_copy;
