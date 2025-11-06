@@ -6,15 +6,15 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 16:16:48 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:44:51 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/includes/libft.h"
-#include "parsing.h"
 #include "free_malloc.h"
-#include "stdlib.h"
 #include "messages.h"
+#include "parsing.h"
+#include "stdlib.h"
 
 int	find_player(t_parsing_data *data, int *x, int *y)
 {
@@ -92,12 +92,14 @@ char	**copy_map(char **map, int height)
 
 int	flood_fill(char **map, int x, int y, t_parsing_data *data)
 {
-	if (x < 0 || y < 0 || y >= data->map_height || x >= (int)ft_strlen(map[y]))
+	if (y < 0 || y >= data->map_height)
+		return (0);
+	if (x < 0)
+		return (0);
+	if (x >= (int)ft_strlen(map[y]))
 		return (0);
 	if (map[y][x] == '1' || map[y][x] == 'V')
 		return (1);
-	if (map[y][x] == ' ' || map[y][x] == '\0')
-		return (0);
 	map[y][x] = 'V';
 	if (!flood_fill(map, x + 1, y, data))
 		return (0);

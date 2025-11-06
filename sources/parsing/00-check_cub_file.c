@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:16:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 17:42:00 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:51:31 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	parse_cub_file(char *filename, t_parsing_data *data)
 		return (1);
 	map_started = false;
 	line = get_next_line(fd);
-	if (parse_cub_file_loop(fd, data, line, &map_started))
+	if (!parse_cub_file_loop(fd, data, line, &map_started))
 	{
 		close(fd);
 		return (1);
@@ -91,7 +91,8 @@ int	texture_to_mlx(t_parsing_data *data, t_mlx_data *mlx_data)
 			&mlx_data->img_height);
 	if (!mlx_data->north_mlx_ptr || !mlx_data->south_mlx_ptr
 		|| !mlx_data->west_mlx_ptr || !mlx_data->east_mlx_ptr)
-		return (1);
+		return (0);
+	return (msg_error(TEXTURE_PATH, 0));
 	return (0);
 }
 

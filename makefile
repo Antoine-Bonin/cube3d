@@ -1,4 +1,4 @@
-.PHONY :all re clean fclean
+.PHONY: all re clean fclean libft_make mlx_make
 
 FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH) -Iincludes -MD
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
@@ -11,6 +11,7 @@ MLX_PATH = minilibx-linux
 
 MLX = $(MLX_PATH)/libmlx_Linux.a
 LIBFT = $(LIBFT_PATH)/libft.a
+
 FILES = main \
 		errors/print_errors \
 		free_malloc/free_parsing_data \
@@ -36,15 +37,19 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) -DHEIGHT=$(HEIGHT) -DLENGTH=$(WIDTH) -c $< -o $@
 
-$(NAME): $(OBJS) $(MLX) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
 
-$(LIBFT):
+libft_make:
 	$(MAKE) -C $(LIBFT_PATH)
 
-$(MLX):
+mlx_make:
 	$(MAKE) -C $(MLX_PATH)
+
+$(LIBFT): libft_make
+
+$(MLX): mlx_make
 
 clean:
 	rm -rf $(OBJ_DIR)

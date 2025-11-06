@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:50:07 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 17:54:17 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/06 14:51:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ int	parse_cub_file_loop(int fd, t_parsing_data *data, char *line,
 			continue ;
 		}
 		if (!data->textures_complete)
-			return (msg_error_and_free(MISSING_TEXTURE, 1, line));
+			return (msg_error_and_free(MISSING_TEXTURE, 0, line));
 		if (!handle_map_line(data, line, map_started))
-			return (error_cleanup(data, 1, NULL));
+			return (error_cleanup(data, 0, NULL));
 		line = next_line(fd, line);
 	}
-	return (0);
+	return (1);
 }
