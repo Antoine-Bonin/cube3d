@@ -1,6 +1,6 @@
 .PHONY: all re clean fclean libft_make mlx_make
 
-FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH) -I$(MLX_PATH) -Iincludes -MD
+FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH)/includes -I$(MLX_PATH) -Iincludes -MD
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
 FLAGLIBFT = -L$(LIBFT_PATH) -lft
 
@@ -44,18 +44,15 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) -DHEIGHT=$(HEIGHT) -DLENGTH=$(WIDTH) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(FLAGSMLX) $(FLAGLIBFT)
+	$(CC) $(FLAGS)  -o $(NAME) $(OBJS) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
+	
 
-libft_make:
+$(LIBFT): 
 	$(MAKE) -C $(LIBFT_PATH)
 
-mlx_make:
+$(MLX): 
 	$(MAKE) -C $(MLX_PATH)
-
-$(LIBFT): libft_make
-
-$(MLX): mlx_make
 
 clean:
 	rm -rf $(OBJ_DIR)
