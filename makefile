@@ -15,6 +15,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 FILES = main \
 		errors/print_errors \
 		free_malloc/free_parsing_data \
+		free_malloc/free_exit \
 		parsing/00-parsing \
 		parsing/01-check_cub_filename \
 		parsing/02-parse_cub_file \
