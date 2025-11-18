@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:43:32 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 11:04:02 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/11 16:03:33 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/libft.h"
+#include "libft.h"
 #include "messages.h"
 #include "stdlib.h"
 

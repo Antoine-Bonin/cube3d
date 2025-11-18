@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   01-check_cub_filename.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:16:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 18:04:57 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:34:49 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/includes/libft.h"
+#include "libft.h"
 #include "messages.h"
 #include "mlx.h"
 #include "parsing.h"
