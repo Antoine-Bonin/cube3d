@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   09-check_char_map_validity.c                       :+:      :+:    :+:   */
+/*   08-check_char_map_validity.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:07:04 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 16:39:28 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:14:03 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ int	is_different_char_from(char c)
 		&& c != '1' && c != '\0' && c != '\n');
 }
 
-int	find_invalid_char(t_parsing_data *data)
+int	find_invalid_char(t_parsing_data *parsing_data)
 {
 	int	y;
 	int	x;
 
 	y = 0;
 	x = 0;
-	if (data->map)
+	if (parsing_data->map)
 	{
-		while (data->map[x])
+		while (parsing_data->map[x])
 		{
 			y = 0;
-			while (data->map[x][y])
+			while (parsing_data->map[x][y])
 			{
-				if (is_different_char_from(data->map[x][y]))
+				if (is_different_char_from(parsing_data->map[x][y]))
 					return (1);
 				y++;
 			}

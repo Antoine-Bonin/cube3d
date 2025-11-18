@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:14:59 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 18:04:22 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:20:44 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "window.h"
 
-static int	init_textures(t_parsing_data *data, t_mlx_data *mlx_data)
+static int	init_textures(t_parsing_data *parsing_data, t_mlx_data *mlx_data)
 {
 	int	width;
 	int	height;
@@ -23,16 +23,16 @@ static int	init_textures(t_parsing_data *data, t_mlx_data *mlx_data)
 	width = 80;
 	height = 80;
 	mlx_data->north_mlx_ptr = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			data->north_texture_path, &mlx_data->img_width,
+			parsing_data->north_texture_path, &mlx_data->img_width,
 			&mlx_data->img_height);
 	mlx_data->south_mlx_ptr = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			data->south_texture_path, &mlx_data->img_width,
+			parsing_data->south_texture_path, &mlx_data->img_width,
 			&mlx_data->img_height);
 	mlx_data->west_mlx_ptr = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			data->west_texture_path, &mlx_data->img_width,
+			parsing_data->west_texture_path, &mlx_data->img_width,
 			&mlx_data->img_height);
 	mlx_data->east_mlx_ptr = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			data->east_texture_path, &mlx_data->img_width,
+			parsing_data->east_texture_path, &mlx_data->img_width,
 			&mlx_data->img_height);
 	if (!mlx_data->north_mlx_ptr || !mlx_data->south_mlx_ptr
 		|| !mlx_data->west_mlx_ptr || !mlx_data->east_mlx_ptr)

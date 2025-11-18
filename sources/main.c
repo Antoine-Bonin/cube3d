@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/06 18:00:41 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:15:51 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,31 @@
 
 t_parsing_data	*init_parsing_data(void)
 {
-	t_parsing_data	*data;
+	t_parsing_data	*parsing_data;
 	int				i;
 
-	data = (t_parsing_data *)malloc(sizeof(t_parsing_data));
-	if (!data)
+	parsing_data = (t_parsing_data *)malloc(sizeof(t_parsing_data));
+	if (!parsing_data)
 		return (NULL);
-	data->north_texture_path = NULL;
-	data->south_texture_path = NULL;
-	data->south_texture_path = NULL;
-	data->west_texture_path = NULL;
-	data->east_texture_path = NULL;
-	data->map = NULL;
+	parsing_data->north_texture_path = NULL;
+	parsing_data->south_texture_path = NULL;
+	parsing_data->south_texture_path = NULL;
+	parsing_data->west_texture_path = NULL;
+	parsing_data->east_texture_path = NULL;
+	parsing_data->map = NULL;
 	i = -1;
 	while (++i < 3)
 	{
-		data->ceiling_color[i] = -1;
-		data->floor_color[i] = -1;
+		parsing_data->ceiling_color[i] = -1;
+		parsing_data->floor_color[i] = -1;
 	}
-	data->map_height = 0;
-	data->player_x = 0;
-	data->player_y = 0;
-	data->player_direction = '\0';
-	data->textures_complete = false;
-	data->dup_found = false;
-	return (data);
+	parsing_data->map_height = 0;
+	parsing_data->player_x = 0;
+	parsing_data->player_y = 0;
+	parsing_data->player_direction = '\0';
+	parsing_data->textures_complete = false;
+	parsing_data->dup_found = false;
+	return (parsing_data);
 }
 
 t_mlx_data	*init_mlx(void)
@@ -67,45 +67,49 @@ t_mlx_data	*init_mlx(void)
 
 int	main(int ac, char **av)
 {
-	t_parsing_data	*data;
+	t_parsing_data	*parsing_data;
 	t_mlx_data		*mlx_data;
+	t_game			game;
 
-	data = init_parsing_data();
-	if (!data)
+	parsing_data = init_parsing_data();
+	if (!parsing_data)
 		return (1);
 	mlx_data = init_mlx();
+	game.parsing_data = parsing_data;
+	game.mlx_data = mlx_data;
 	if (!mlx_data)
 		return (1);
 	if (ac > 1)
 	{
-		if (!parsing(av[1], data))
-			return (error_cleanup(data, 1, mlx_data));
-		if (!init_window_and_textures(data, mlx_data))
-			return (error_cleanup(data, 1, mlx_data));
-		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, NULL);
-		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask, (int (*)())handle_keypress, NULL);
+		if (!parsing(av[1], parsing_data))
+			return (error_cleanup(parsing_data, 1, mlx_data));
+		if (!init_window_and_textures(parsing_data, mlx_data))
+			return (error_cleanup(parsing_data, 1, mlx_data));
+		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, &game);
+		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask,
+			(int (*)())handle_keypress, &game);
 		mlx_loop(mlx_data->mlx_ptr);
 	}
-	return (error_cleanup(data, 0, mlx_data));
+	return (error_cleanup(parsing_data, 0, mlx_data));
 }
 
 // int i = 0;
-// if (data->map)
+// if (parsing_data->map)
 // {
-// 	while (data->map[i])
+// 	while (parsing_data->map[i])
 // 	{
-// 		printf("%s", data->map[i]);
+// 		printf("%s", parsing_data->map[i]);
 // 		i++;
 // 	}
-// 	printf("\n%s\n", data->north_texture_path);
-// 	printf("%s\n", data->east_texture_path);
-// 	printf("%s\n", data->south_texture_path);
-// 	printf("%s\n", data->west_texture_path);
-// 	printf("floor color : %d,%d,%d\n", data->floor_color[0],
-// 		data->floor_color[1], data->floor_color[2]);
-// 	printf("ceiling color : %d,%d,%d\n", data->ceiling_color[0],
-// 		data->ceiling_color[1], data->ceiling_color[2]);
-// 	printf("player direction : %c\n", data->player_direction);
-// 	printf("player x : %d\n", data->player_x);
-// 	printf("player y : %d\n", data->player_y);
+// 	printf("\n%s\n", parsing_data->north_texture_path);
+// 	printf("%s\n", parsing_data->east_texture_path);
+// 	printf("%s\n", parsing_data->south_texture_path);
+// 	printf("%s\n", parsing_data->west_texture_path);
+// 	printf("floor color : %d,%d,%d\n", parsing_data->floor_color[0],
+// 		parsing_data->floor_color[1], parsing_data->floor_color[2]);
+// 	printf("ceiling color : %d,%d,%d\n", parsing_data->ceiling_color[0],
+// 		parsing_data->ceiling_color[1], parsing_data->ceiling_color[2]);
+// 	printf("player direction : %c\n", parsing_data->player_direction);
+// 	printf("player x : %d\n", parsing_data->player_x);
+// 	printf("player y : %d\n", parsing_data->player_y);
 // }
