@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:50:07 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:32:37 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:32:44 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parse_cub_file(char *filename, t_parsing_data *parsing_data)
 		close(fd);
 		return (msg_error(MALLOC_ERR, 0));
 	}
-	if (!parse_cub_file_loop(fd, data, line, &map_started))
+	if (!parse_cub_file_loop(fd, parsing_data, line, &map_started))
 	{
 		close(fd);
 		return (0);
