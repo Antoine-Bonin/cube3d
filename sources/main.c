@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/19 15:20:08 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 16:22:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,19 +90,6 @@ int	main(int ac, char **av)
 			return (error_cleanup(&parsing_data, 1, &mlx_data, &game));
 		if (!parse_game_data(&game, &parsing_data))
 			return (error_cleanup(&parsing_data, 0, &mlx_data, &game));
-		x = 0;
-		y = 0;
-		while (x < game.map_height)
-		{
-			y = 0;
-			while (game.map[x][y].type != '\0')
-			{
-				printf("%c",game.map[x][y].type );
-				y++;
-			}
-			printf("\n");
-			x++;
-		}
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 			(int (*)())handle_keypress, &game);
@@ -111,6 +98,19 @@ int	main(int ac, char **av)
 	return (error_cleanup(NULL, 0, &mlx_data, &game));
 }
 
+// x = 0;
+// y = 0;
+// while (x < game.map_height)
+// {
+// 	y = 0;
+// 	while (game.map[x][y].type != '\0')
+// 	{
+// 		printf("%c",game.map[x][y].type);
+// 		y++;
+// 	}
+// 	printf("\n");
+// 	x++;
+// }
 // int i = 0;
 // if (parsing_data->map)
 // {
