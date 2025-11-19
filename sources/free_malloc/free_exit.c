@@ -6,14 +6,14 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 10:39:48 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:25:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structures.h"
 #include "free_malloc.h"
-#include "stdlib.h"
 #include "mlx.h"
+#include "stdlib.h"
+#include "structures.h"
 
 void	free_mlx(t_mlx_data *mlx_data)
 {
@@ -37,29 +37,33 @@ void	free_mlx(t_mlx_data *mlx_data)
 	}
 }
 
-void    free_parsing(t_parsing_data *parsing_data)
+void	free_parsing(t_parsing_data *parsing_data)
 {
-    free_and_set_null(parsing_data->east_texture_path);
+	free_and_set_null(parsing_data->east_texture_path);
 	free_and_set_null(parsing_data->north_texture_path);
 	free_and_set_null(parsing_data->south_texture_path);
 	free_and_set_null(parsing_data->west_texture_path);
 	ft_free_tab(parsing_data->map);
 }
 
-static void	free_map(t_tile **map, int height)
+t_tile	**free_map_tile(t_tile **map, int height)
 {
 	int	i;
 
 	if (!map)
-		return ;
+		return (NULL);
 	i = 0;
 	while (i < height)
 	{
 		if (map[i])
+		{
 			free(map[i]);
+			map[i] = NULL;
+		}
 		i++;
 	}
 	free(map);
+	return (NULL);
 }
 
 void	free_game(t_game *game)
@@ -73,7 +77,7 @@ void	free_game(t_game *game)
 	}
 	if (game->map)
 	{
-		free_map(game->map, game->map_height);
+		free_map_tile(game->map, game->map_height);
 		game->map = NULL;
 	}
 }

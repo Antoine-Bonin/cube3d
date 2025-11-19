@@ -6,13 +6,19 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:50:07 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:32:44 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:29:59 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
 #include "libft.h"
 #include "messages.h"
+#include "parsing.h"
+
+int	close_fd_and_return(int fd, int error)
+{
+	close(fd);
+	return (error);
+}
 
 int	parse_cub_file(char *filename, t_parsing_data *parsing_data)
 {
@@ -31,10 +37,7 @@ int	parse_cub_file(char *filename, t_parsing_data *parsing_data)
 		return (msg_error(MALLOC_ERR, 0));
 	}
 	if (!parse_cub_file_loop(fd, parsing_data, line, &map_started))
-	{
-		close(fd);
-		return (0);
-	}
+		return (close_fd_and_return(fd, 0));
 	close(fd);
 	if (parsing_data->textures_complete == false && !map_started)
 		return (msg_error(MISSING_ALL, 0));
@@ -44,4 +47,3 @@ int	parse_cub_file(char *filename, t_parsing_data *parsing_data)
 		return (msg_error(MISSING_MAP, 0));
 	return (1);
 }
-

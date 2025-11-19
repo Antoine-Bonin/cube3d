@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 10:19:46 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 13:52:54 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef enum e_direction
 typedef struct s_tile
 {
 	char		type;
+	bool		is_player;
 	bool		is_solid;
 	bool		is_transparent;
 	double		floor_height;

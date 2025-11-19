@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:50:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:14:03 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:04:25 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ int	parse_map_line(char *line, t_parsing_data *parsing_data)
 	free(parsing_data->map);
 	parsing_data->map = new_map;
 	parsing_data->map_height++;
+	if ((int)ft_strlen(line) > parsing_data->map_width)
+		parsing_data->map_width = (int)ft_strlen(line);
 	return (1);
 }
