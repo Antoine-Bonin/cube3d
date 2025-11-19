@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:20:22 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/18 13:59:38 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,15 @@ char	**copy_map(char **map, int height)
 	copy = (char **)malloc(sizeof(char *) * (height + 1));
 	if (!copy)
 		return (NULL);
-	i = 0;
-	while (i < height)
+	i = -1;
+	while (++i < height)
 	{
-		copy[i] = ft_strdup(map[i]);
+		if (ft_strlen(map[i]) >= 500 && height >= 500)
+		{
+			msg_error_and_free(MAP_TOO_BIG, 0, copy);
+			return (NULL);
+		}
+			copy[i] = ft_strdup(map[i]);
 		if (!copy[i])
 		{
 			while (i > 0)
@@ -84,7 +89,6 @@ char	**copy_map(char **map, int height)
 			free(copy);
 			return (NULL);
 		}
-		i++;
 	}
 	copy[height] = NULL;
 	return (copy);

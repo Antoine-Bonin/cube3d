@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:19:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:19:49 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 10:52:18 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	parse_cub_file_loop(int fd, t_parsing_data *parsing_data, char *line,
 {
 	while (line)
 	{
-		if (ft_strlen(line) > 1000)
-			return (msg_error_and_free(MAP_TOO_BIG, 0, line));
 		if (is_whitespace_str(line) && !*map_started)
 		{
 			line = next_line(fd, line);
@@ -66,11 +64,14 @@ int	parse_cub_file_loop(int fd, t_parsing_data *parsing_data, char *line,
 			continue ;
 		}
 		if (parsing_data->dup_found == true)
+		{
+			free(line);
 			return (0);
+		}
 		if (parsing_data->textures_complete == false)
 			return (msg_error_and_free(MISSING_TEXTURE, 0, line));
 		if (!handle_map_line(parsing_data, line, map_started))
-			return (error_cleanup(parsing_data, 0, NULL));
+			return (error_cleanup(parsing_data, 0, NULL, NULL));
 		line = next_line(fd, line);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:30:25 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 10:39:34 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 
 int	close_window(t_game *game)
 {
-	free_data_mlx_parsing(game);
+	free_mlx(game->mlx_data);
+	free_game(game);
 	exit(1);
 }
 
