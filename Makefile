@@ -45,7 +45,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) -DHEIGHT=$(HEIGHT) -DLENGTH=$(WIDTH) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
-	$(CC) $(FLAGS)  -o $(NAME) $(OBJS) $(FLAGSMLX) $(FLAGLIBFT)
+	$(CC) $(FLAGS) -g3 -o $(NAME) $(OBJS) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
 	
 

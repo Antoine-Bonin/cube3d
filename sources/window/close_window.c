@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_window.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:30:25 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:11:48 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@
 
 #define ESC_KEY 65307
 
-int	close_window(t_game *game)
+int	close_window(t_mlx_data *data)
 {
-	free_data_mlx_parsing(game);
-	exit(1);
+	
+	data->exit = 1;
+	mlx_loop_end(data->mlx_ptr);
+	return 0;
 }
 
-int	handle_keypress(int keycode, t_game *game)
+int	handle_keypress(int keycode, t_mlx_data *data)
 {
 	if (keycode == ESC_KEY)
-		close_window(game);
+		return close_window(data);
 	return (0);
 }

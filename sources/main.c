@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/18 13:15:51 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:22:47 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 
-t_parsing_data	*init_parsing_data(void)
+t_parsing_data *init_parsing_data(void)
 {
-	t_parsing_data	*parsing_data;
-	int				i;
+	t_parsing_data *parsing_data;
+	int i;
 
 	parsing_data = (t_parsing_data *)malloc(sizeof(t_parsing_data));
 	if (!parsing_data)
@@ -49,9 +49,10 @@ t_parsing_data	*init_parsing_data(void)
 	return (parsing_data);
 }
 
-t_mlx_data	*init_mlx(void)
+t_mlx_data *init_mlx(void)
 {
-	t_mlx_data	*data;
+	t_mlx_data *data;
+	
 
 	data = (t_mlx_data *)malloc(sizeof(t_mlx_data));
 	data->east_mlx_ptr = NULL;
@@ -62,14 +63,15 @@ t_mlx_data	*init_mlx(void)
 	data->win_ptr = NULL;
 	data->img_height = 0;
 	data->img_width = 0;
+	data->exit = 0;
 	return (data);
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_parsing_data	*parsing_data;
-	t_mlx_data		*mlx_data;
-	t_game			game;
+	t_parsing_data *parsing_data;
+	t_mlx_data *mlx_data;
+	t_game game;
 
 	parsing_data = init_parsing_data();
 	if (!parsing_data)
@@ -83,13 +85,14 @@ int	main(int ac, char **av)
 	{
 		if (!parsing(av[1], parsing_data))
 			return (error_cleanup(parsing_data, 1, mlx_data));
-		if (!init_window_and_textures(parsing_data, mlx_data))
+		if (!init_wdwimg_and_textures(parsing_data, mlx_data))
 			return (error_cleanup(parsing_data, 1, mlx_data));
-		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, &game);
+		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, mlx_data);
 		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask,
-			(int (*)())handle_keypress, &game);
+				 (int (*)())handle_keypress, mlx_data);
 		mlx_loop(mlx_data->mlx_ptr);
 	}
+
 	return (error_cleanup(parsing_data, 0, mlx_data));
 }
 
