@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   03-parse_cub_file_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:19:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:19:49 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:36:56 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include "free_malloc.h"
 #include "messages.h"
 #include "parsing.h"
@@ -70,7 +70,7 @@ int	parse_cub_file_loop(int fd, t_parsing_data *parsing_data, char *line,
 		if (parsing_data->textures_complete == false)
 			return (msg_error_and_free(MISSING_TEXTURE, 0, line));
 		if (!handle_map_line(parsing_data, line, map_started))
-			return (error_cleanup(parsing_data, 0, NULL));
+			return (cleanup(parsing_data, 0, NULL));
 		line = next_line(fd, line);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/26 16:22:47 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:43:15 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,17 @@ int main(int ac, char **av)
 	if (ac > 1)
 	{
 		if (!parsing(av[1], parsing_data))
-			return (error_cleanup(parsing_data, 1, mlx_data));
+			return (cleanup(parsing_data, 1, mlx_data));
 		if (!init_wdwimg_and_textures(parsing_data, mlx_data))
-			return (error_cleanup(parsing_data, 1, mlx_data));
+			return (cleanup(parsing_data, 1, mlx_data));
 		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, mlx_data);
 		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask,
 				 (int (*)())handle_keypress, mlx_data);
+		draw(game);				 
 		mlx_loop(mlx_data->mlx_ptr);
 	}
 
-	return (error_cleanup(parsing_data, 0, mlx_data));
+	return (cleanup(parsing_data, 0, mlx_data));
 }
 
 // int i = 0;

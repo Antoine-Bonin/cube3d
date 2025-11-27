@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_malloc.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:21:31 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:22:33 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:42:30 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "structures.h"
 
-int		error_cleanup(t_parsing_data *parsing_data, int error,
+int		cleanup(t_parsing_data *parsing_data, int error,
 			t_mlx_data *mlx_data);
 void	ft_free_tab(char **map);
 int		malloc_error_in_parsing_exit(t_parsing_data *parsing_data);
