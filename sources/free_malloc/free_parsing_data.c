@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:06 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 14:42:30 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:59:18 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	ft_free_tab(char **map)
 	}
 }
 
-int	cleanup(t_parsing_data *parsing_data, int error, t_mlx_data *mlx_data)
+int	cleanup(t_parsing_data *parsing_data, int error, t_game *game)
 {
-	free_parsing(parsing_data);
-	free_mlx(mlx_data);
+	if (parsing_data)
+		free_parsing(parsing_data);
+	if (game)
+		free_game(game);
 	return (error);
 }
 

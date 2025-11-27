@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 15:19:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 15:36:56 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:48:51 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static bool	all_textures_parsed(t_parsing_data *parsing_data)
 {
 	return (parsing_data->north_texture_path && parsing_data->south_texture_path
 		&& parsing_data->west_texture_path && parsing_data->east_texture_path
-		&& parsing_data->floor_color[0] != -1 && parsing_data->ceiling_color[0] != -1);
+		&& parsing_data->floor_color[0] != -1
+		&& parsing_data->ceiling_color[0] != -1);
 }
 
 static char	*next_line(int fd, char *current)
@@ -40,7 +41,8 @@ static int	handle_texture_line(t_parsing_data *parsing_data, char *line)
 	return (1);
 }
 
-static int	handle_map_line(t_parsing_data *parsing_data, char *line, bool *started)
+static int	handle_map_line(t_parsing_data *parsing_data, char *line,
+		bool *started)
 {
 	if (is_whitespace_str(line) && !*started)
 		return (1);
@@ -53,20 +55,22 @@ int	parse_cub_file_loop(int fd, t_parsing_data *parsing_data, char *line,
 {
 	while (line)
 	{
-		if (ft_strlen(line) > 1000)
-			return (msg_error_and_free(MAP_TOO_BIG, 0, line));
 		if (is_whitespace_str(line) && !*map_started)
 		{
 			line = next_line(fd, line);
 			continue ;
 		}
-		if (parsing_data->textures_complete == false && handle_texture_line(parsing_data, line))
+		if (parsing_data->textures_complete == false
+			&& handle_texture_line(parsing_data, line))
 		{
 			line = next_line(fd, line);
 			continue ;
 		}
 		if (parsing_data->dup_found == true)
+		{
+			free(line);
 			return (0);
+		}
 		if (parsing_data->textures_complete == false)
 			return (msg_error_and_free(MISSING_TEXTURE, 0, line));
 		if (!handle_map_line(parsing_data, line, map_started))

@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/27 14:43:15 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/11/27 15:48:23 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,10 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 
-t_parsing_data *init_parsing_data(void)
+void	init_parsing_data(t_parsing_data *parsing_data)
 {
-	t_parsing_data *parsing_data;
-	int i;
+	int	i;
 
-	parsing_data = (t_parsing_data *)malloc(sizeof(t_parsing_data));
-	if (!parsing_data)
-		return (NULL);
 	parsing_data->north_texture_path = NULL;
 	parsing_data->south_texture_path = NULL;
 	parsing_data->south_texture_path = NULL;
@@ -41,62 +37,79 @@ t_parsing_data *init_parsing_data(void)
 		parsing_data->floor_color[i] = -1;
 	}
 	parsing_data->map_height = 0;
+	parsing_data->map_width = 0;
 	parsing_data->player_x = 0;
 	parsing_data->player_y = 0;
 	parsing_data->player_direction = '\0';
 	parsing_data->textures_complete = false;
 	parsing_data->dup_found = false;
-	return (parsing_data);
 }
 
-t_mlx_data *init_mlx(void)
+void	init_mlx(t_mlx_data *mlx_data)
 {
-	t_mlx_data *data;
-	
+	int	i;
 
-	data = (t_mlx_data *)malloc(sizeof(t_mlx_data));
-	data->east_mlx_ptr = NULL;
-	data->south_mlx_ptr = NULL;
-	data->north_mlx_ptr = NULL;
-	data->west_mlx_ptr = NULL;
-	data->mlx_ptr = NULL;
-	data->win_ptr = NULL;
-	data->img_height = 0;
-	data->img_width = 0;
-	data->exit = 0;
-	return (data);
+	i = 0;
+	while (i < 4)
+	{
+		mlx_data->textures[i++] = NULL;
+	}
+	mlx_data->mlx_ptr = NULL;
+	mlx_data->win_ptr = NULL;
+	mlx_data->img_height = 64;
+	mlx_data->img_width = 64;
+}
+
+void	init_game(t_game *game, t_mlx_data *data)
+{
+	game->mlx_data = data;
+	game->ceiling_color = 0;
+	game->floor_color = 0;
+	game->map = NULL;
+	game->map_height = 0;
+	game->map_width = 0;
+	game->player = NULL;
 }
 
 int main(int ac, char **av)
 {
-	t_parsing_data *parsing_data;
-	t_mlx_data *mlx_data;
-	t_game game;
+	t_parsing_data	parsing_data;
+	t_mlx_data		mlx_data;
+	t_game			game;
 
-	parsing_data = init_parsing_data();
-	if (!parsing_data)
-		return (1);
-	mlx_data = init_mlx();
-	game.parsing_data = parsing_data;
-	game.mlx_data = mlx_data;
-	if (!mlx_data)
-		return (1);
+	init_parsing_data(&parsing_data);
+	init_mlx(&mlx_data);
+	init_game(&game, &mlx_data);
 	if (ac > 1)
 	{
-		if (!parsing(av[1], parsing_data))
-			return (cleanup(parsing_data, 1, mlx_data));
-		if (!init_wdwimg_and_textures(parsing_data, mlx_data))
-			return (cleanup(parsing_data, 1, mlx_data));
-		mlx_hook(mlx_data->win_ptr, 17, 0, (int (*)())close_window, mlx_data);
-		mlx_hook(mlx_data->win_ptr, KeyPress, KeyPressMask,
-				 (int (*)())handle_keypress, mlx_data);
-		draw(game);				 
-		mlx_loop(mlx_data->mlx_ptr);
+		if (!parsing(av[1], &parsing_data))
+			return (cleanup(&parsing_data, 1, &game));
+		if (!init_wdwimg_and_textures(&parsing_data, &mlx_data))
+			return (cleanup(&parsing_data, 1, &game));
+		if (!parse_game_data(&game, &parsing_data))
+			return (cleanup(&parsing_data, 0, &game));
+		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
+		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
+				 (int (*)())handle_keypress, &game);
+		// draw(game);				 
+		mlx_loop(mlx_data.mlx_ptr);
 	}
-
-	return (cleanup(parsing_data, 0, mlx_data));
+	return (cleanup(NULL, 0, &game));
 }
 
+// x = 0;
+// y = 0;
+// while (x < game.map_height)
+// {
+// 	y = 0;
+// 	while (game.map[x][y].type != '\0')
+// 	{
+// 		printf("%c",game.map[x][y].type);
+// 		y++;
+// 	}
+// 	printf("\n");
+// 	x++;
+// }
 // int i = 0;
 // if (parsing_data->map)
 // {

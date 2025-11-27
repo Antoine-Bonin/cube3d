@@ -26,6 +26,9 @@ FILES = main \
 		parsing/07-check_floor_ceiling_color \
 		parsing/08-check_char_map_validity \
 		parsing/09-check_map_validity \
+		parsing/010-parse_game_data \
+		parsing/011-parse_game_tile \
+		parsing/012-parse_game_tile_utils \
 		window/init_window_and_textures \
 		window/close_window
 

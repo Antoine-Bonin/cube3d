@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:57:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/18 13:22:33 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:25:19 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,17 @@ int	get_texture(char **texture_ptr, char *trimmed, int offset,
 int	parse_textures(char *trimmed, t_parsing_data *parsing_data)
 {
 	if (ft_strncmp(trimmed, "NO ", 3) == 0)
-		return (get_texture(&parsing_data->north_texture_path, trimmed, 3, parsing_data));
+		return (get_texture(&parsing_data->north_texture_path, trimmed, 3,
+				parsing_data));
 	else if (ft_strncmp(trimmed, "SO ", 3) == 0)
-		return (get_texture(&parsing_data->south_texture_path, trimmed, 3, parsing_data));
+		return (get_texture(&parsing_data->south_texture_path, trimmed, 3,
+				parsing_data));
 	else if (ft_strncmp(trimmed, "WE ", 3) == 0)
-		return (get_texture(&parsing_data->west_texture_path, trimmed, 3, parsing_data));
+		return (get_texture(&parsing_data->west_texture_path, trimmed, 3,
+				parsing_data));
 	else if (ft_strncmp(trimmed, "EA ", 3) == 0)
-		return (get_texture(&parsing_data->east_texture_path, trimmed, 3, parsing_data));
+		return (get_texture(&parsing_data->east_texture_path, trimmed, 3,
+				parsing_data));
 	return (0);
 }
 
