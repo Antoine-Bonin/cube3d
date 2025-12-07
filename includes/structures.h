@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 15:49:40 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/07 19:55:31 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define STRUCTURES_H
 # include "stdbool.h"
 
-typedef struct	s_data {
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+typedef struct s_data
+{
+	void		*img_ptr;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
 }				t_data;
-
 
 typedef struct s_parsing_data
 {
@@ -49,6 +49,11 @@ typedef struct s_mlx_data
 	void		*textures[4];
 	int			img_width;
 	int			img_height;
+	void		*minimap_wall_img;
+	void		*minimap_floor_img;
+	void		*minimap_empty_img;
+	void		*minimap_player_img;
+	int			minimap_tile_size;
 }				t_mlx_data;
 
 typedef enum e_direction
@@ -70,28 +75,6 @@ typedef struct s_tile
 	int			map_x;
 	int			map_y;
 }				t_tile;
-/*
-t_tile mur =
-{
-	type = '1',
-	is_solid = true,
-	is_transparent = false,
-	is_door = false,
-	floor_height = 0.0,
-	ceiling_height = 1.0,
-};
-
-// Trou traversable (on voit le vide)
-t_tile			trou = {
-	type = ' ',
-	is_solid = false,
-	is_transparent = true,
-	is_door = false,
-	floor_height = -1.0,  // Très bas
-	ceiling_height = 0.0,
-};
-
-*/
 
 typedef struct s_player
 {

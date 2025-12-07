@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/11/27 15:48:23 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/07 19:43:56 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_malloc.h"
 #include "init.h"
+#include "minimap.h"
 #include "mlx.h"
 #include "parsing.h"
 #include "stdio.h"
@@ -58,6 +59,15 @@ void	init_mlx(t_mlx_data *mlx_data)
 	mlx_data->win_ptr = NULL;
 	mlx_data->img_height = 64;
 	mlx_data->img_width = 64;
+	mlx_data->minimap_wall_img = NULL;
+	mlx_data->minimap_floor_img = NULL;
+	mlx_data->minimap_empty_img = NULL;
+	mlx_data->minimap_player_img = NULL;
+	mlx_data->minimap_wall_img = NULL;
+	mlx_data->minimap_floor_img = NULL;
+	mlx_data->minimap_empty_img = NULL;
+	mlx_data->minimap_player_img = NULL;
+	mlx_data->minimap_tile_size = 0;
 }
 
 void	init_game(t_game *game, t_mlx_data *data)
@@ -71,7 +81,7 @@ void	init_game(t_game *game, t_mlx_data *data)
 	game->player = NULL;
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_parsing_data	parsing_data;
 	t_mlx_data		mlx_data;
@@ -89,44 +99,10 @@ int main(int ac, char **av)
 		if (!parse_game_data(&game, &parsing_data))
 			return (cleanup(&parsing_data, 0, &game));
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
+		draw_map(&game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
-				 (int (*)())handle_keypress, &game);
-		// draw(game);				 
+			(int (*)())handle_keypress, &game);
 		mlx_loop(mlx_data.mlx_ptr);
 	}
 	return (cleanup(NULL, 0, &game));
 }
-
-// x = 0;
-// y = 0;
-// while (x < game.map_height)
-// {
-// 	y = 0;
-// 	while (game.map[x][y].type != '\0')
-// 	{
-// 		printf("%c",game.map[x][y].type);
-// 		y++;
-// 	}
-// 	printf("\n");
-// 	x++;
-// }
-// int i = 0;
-// if (parsing_data->map)
-// {
-// 	while (parsing_data->map[i])
-// 	{
-// 		printf("%s", parsing_data->map[i]);
-// 		i++;
-// 	}
-// 	printf("\n%s\n", parsing_data->north_texture_path);
-// 	printf("%s\n", parsing_data->east_texture_path);
-// 	printf("%s\n", parsing_data->south_texture_path);
-// 	printf("%s\n", parsing_data->west_texture_path);
-// 	printf("floor color : %d,%d,%d\n", parsing_data->floor_color[0],
-// 		parsing_data->floor_color[1], parsing_data->floor_color[2]);
-// 	printf("ceiling color : %d,%d,%d\n", parsing_data->ceiling_color[0],
-// 		parsing_data->ceiling_color[1], parsing_data->ceiling_color[2]);
-// 	printf("player direction : %c\n", parsing_data->player_direction);
-// 	printf("player x : %d\n", parsing_data->player_x);
-// 	printf("player y : %d\n", parsing_data->player_y);
-// }

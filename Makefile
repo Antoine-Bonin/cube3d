@@ -30,9 +30,11 @@ FILES = main \
 		parsing/011-parse_game_tile \
 		parsing/012-parse_game_tile_utils \
 		window/init_window_and_textures \
-		window/close_window
+		window/close_window \
+		minimap/draw_minimap \
+		minimap/init_minimap
 
-HEIGHT = 900
+HEIGHT = 1080
 WIDTH = 1920
 
 OBJ_DIR = build/

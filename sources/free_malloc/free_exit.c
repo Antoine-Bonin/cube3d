@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 16:01:50 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/07 18:06:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ void	free_mlx(t_mlx_data *mlx_data)
 	}
 	if (mlx_data->win_ptr)
 		mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
-	
+	if (mlx_data->minimap_empty_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->minimap_empty_img);
+	if (mlx_data->minimap_floor_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->minimap_floor_img);
+	if (mlx_data->minimap_player_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->minimap_player_img);
+	if (mlx_data->minimap_wall_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->minimap_wall_img);
 	if (mlx_data->img.img_ptr)
 	{
 		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->img.img_ptr);
