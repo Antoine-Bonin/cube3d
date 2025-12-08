@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/12/07 19:43:56 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:31:04 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	main(int ac, char **av)
 		if (!init_wdwimg_and_textures(&parsing_data, &mlx_data))
 			return (cleanup(&parsing_data, 1, &game));
 		if (!parse_game_data(&game, &parsing_data))
-			return (cleanup(&parsing_data, 0, &game));
+			return (cleanup(&parsing_data, 1, &game));
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
-		draw_map(&game);
+		draw_minimap(&game, 5);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 			(int (*)())handle_keypress, &game);
 		mlx_loop(mlx_data.mlx_ptr);

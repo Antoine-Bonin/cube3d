@@ -6,13 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:46:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/07 19:55:31 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:30:49 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "init.h"
 #include "minimap.h"
 #include "mlx.h"
-#include "init.h"
 
 // void	draw_cell(t_game *game, int x, int y, int cell_size)
 // {
@@ -35,10 +35,16 @@
 // 	}
 // }
 
-void	draw_tile(t_game *game, int map_x, int map_y, int screen_x, int screen_y)
+void	draw_tile(t_game *game, t_minimap_render *render, int map_x, int map_y)
 {
 	void	*img;
+	int		screen_x;
+	int		screen_y;
 
+	screen_x = render->offset_x + ((map_x - (render->player_x
+					- render->view_range)) * render->pixel);
+	screen_y = render->offset_y + ((map_y - (render->player_y
+					- render->view_range)) * render->pixel);
 	if (game->map[map_y][map_x].type == '1')
 		img = game->mlx_data->minimap_wall_img;
 	else if (game->map[map_y][map_x].type == '0')
@@ -47,15 +53,17 @@ void	draw_tile(t_game *game, int map_x, int map_y, int screen_x, int screen_y)
 		img = game->mlx_data->minimap_empty_img;
 	else
 		return ;
-	mlx_put_image_to_window(game->mlx_data->mlx_ptr,
-		game->mlx_data->win_ptr, img, screen_x, screen_y);
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
+		img, screen_x, screen_y);
 }
 
-void	draw_background(t_game *game, int size, int pixel)
+void	draw_background(t_game *game, t_minimap_render *render)
 {
 	int	x;
 	int	y;
+	int	size;
 
+	size = render->view_range * 2 + 1;
 	y = 0;
 	while (y < size)
 	{
@@ -64,52 +72,53 @@ void	draw_background(t_game *game, int size, int pixel)
 		{
 			mlx_put_image_to_window(game->mlx_data->mlx_ptr,
 				game->mlx_data->win_ptr, game->mlx_data->minimap_floor_img,
-				10 + x * pixel, 10 + y * pixel);
+				render->offset_x + x * render->pixel, render->offset_y + y
+				* render->pixel);
 			x++;
 		}
 		y++;
 	}
 }
 
-void	draw_map(t_game *game)
+void	init_minimap_render(t_minimap_render *render, t_game *game,
+		int view_range)
 {
-	int	pixel;
-	int	map_x;
-	int	map_y;
-	int	screen_idx;
-	int	view_range;
-	int	screen_x;
-	int	screen_y;
-	int	minimap_size;
-
-	view_range = 5;
+	render->view_range = view_range;
+	render->offset_x = 0;
+	render->offset_y = 0;
+	render->player_x = (int)game->player->pos_x;
+	render->player_y = (int)game->player->pos_y;
 	if (LENGTH < HEIGHT)
-		minimap_size = LENGTH / 4;
+		render->pixel = (LENGTH / 4) / (view_range * 2 + 1);
 	else
-		minimap_size = HEIGHT / 4;
-	pixel = minimap_size / (view_range * 2 + 1);
-	if (game->mlx_data->minimap_tile_size != pixel)
-		recreate_minimap_images(game, pixel);
-	draw_background(game, view_range * 2 + 1, pixel);
-	map_y = (int)game->player->pos_y - view_range;
-	screen_idx = 0;
-	while (map_y <= (int)game->player->pos_y + view_range)
+		render->pixel = (HEIGHT / 4) / (view_range * 2 + 1);
+}
+
+void	draw_minimap(t_game *game, int view_range)
+{
+	t_minimap_render	render;
+	int					map_x;
+	int					map_y;
+
+	init_minimap_render(&render, game, view_range);
+	if (game->mlx_data->minimap_tile_size != render.pixel)
+		recreate_minimap_images(game, render.pixel);
+	draw_background(game, &render);
+	map_y = render.player_y - view_range;
+	while (map_y <= render.player_y + view_range)
 	{
-		map_x = (int)game->player->pos_x - view_range;
-		while (map_x <= (int)game->player->pos_x + view_range)
+		map_x = render.player_x - view_range;
+		while (map_x <= render.player_x + view_range)
 		{
-			screen_x = 10 + ((map_x - ((int)game->player->pos_x - view_range))
-					* pixel);
-			screen_y = 10 + ((map_y - ((int)game->player->pos_y - view_range))
-					* pixel);
 			if (map_x >= 0 && map_x < game->map_width && map_y >= 0
 				&& map_y < game->map_height)
-				draw_tile(game, map_x, map_y, screen_x, screen_y);
+				draw_tile(game, &render, map_x, map_y);
 			map_x++;
 		}
 		map_y++;
 	}
 	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
-		game->mlx_data->minimap_player_img, 10 + (view_range * pixel)
-		+ pixel / 4, 10 + (view_range * pixel) + pixel / 4);
+		game->mlx_data->minimap_player_img, render.offset_x + (view_range
+			* render.pixel) + render.pixel / 4, render.offset_y + (view_range
+			* render.pixel) + render.pixel / 4);
 }
