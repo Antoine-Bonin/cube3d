@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/12/08 11:31:04 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:25:28 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,16 @@ void	init_mlx(t_mlx_data *mlx_data)
 {
 	int	i;
 
-	i = 0;
-	while (i < 4)
-	{
-		mlx_data->textures[i++] = NULL;
-	}
+	i = -1;
+	while (++i < 4)
+		mlx_data->textures[i] = NULL;
+	i = -1;
+	while (++i < MAX)
+		mlx_data->minimap_img[i] = NULL;
 	mlx_data->mlx_ptr = NULL;
 	mlx_data->win_ptr = NULL;
 	mlx_data->img_height = 64;
 	mlx_data->img_width = 64;
-	mlx_data->minimap_wall_img = NULL;
-	mlx_data->minimap_floor_img = NULL;
-	mlx_data->minimap_empty_img = NULL;
-	mlx_data->minimap_player_img = NULL;
-	mlx_data->minimap_wall_img = NULL;
-	mlx_data->minimap_floor_img = NULL;
-	mlx_data->minimap_empty_img = NULL;
-	mlx_data->minimap_player_img = NULL;
 	mlx_data->minimap_tile_size = 0;
 }
 
@@ -79,6 +72,8 @@ void	init_game(t_game *game, t_mlx_data *data)
 	game->map_height = 0;
 	game->map_width = 0;
 	game->player = NULL;
+	game->show_minimap = false;
+	game->size_minimap = 5;
 }
 
 int	main(int ac, char **av)
@@ -98,8 +93,8 @@ int	main(int ac, char **av)
 			return (cleanup(&parsing_data, 1, &game));
 		if (!parse_game_data(&game, &parsing_data))
 			return (cleanup(&parsing_data, 1, &game));
+		draw_minimap(&game, game.size_minimap);
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
-		draw_minimap(&game, 5);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 			(int (*)())handle_keypress, &game);
 		mlx_loop(mlx_data.mlx_ptr);

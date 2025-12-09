@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.h                                          :+:      :+:    :+:   */
+/*   tile.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:39:57 by antbonin         ###   ########.fr       */
+/*   Created: 2025/12/08 18:18:10 by antbonin          #+#    #+#             */
+/*   Updated: 2025/12/09 10:39:16 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIMAP_H
-# define MINIMAP_H
+#ifndef TILE_H
+# define TILE_H
 
-# define CONTRAST 255
-
-# include "structures.h"
-
-typedef struct s_minimap_render
+typedef enum s_type
 {
-	int	pixel;
-	int	view_range;
-	int	offset_x;
-	int	offset_y;
-	int	player_x;
-	int	player_y;
-}		t_minimap_render;
+	FLOOR,
+	WALL,
+	HOLE,
+	PLAYER,
+	END,
+	MAX
+}	t_type;
 
-void	draw_minimap(t_game *game, int view_range);
-void	draw_big_minimap(t_game *game, int view_range);
-void	recreate_minimap_images(t_game *game, int size, int i);
+int	find_index(char s);
 
 #endif

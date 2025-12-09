@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_minimap.c                                     :+:      :+:    :+:   */
+/*   draw_big_minimap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 16:46:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:32:46 by antbonin         ###   ########.fr       */
+/*   Created: 2025/12/08 14:38:42 by antbonin          #+#    #+#             */
+/*   Updated: 2025/12/09 10:52:29 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void	draw_tile(t_game *game, t_minimap_render *render, int map_x,
 	screen_y = render->offset_y + ((map_y - (render->player_y
 					- render->view_range)) * render->pixel);
 	index = find_index(game->map[map_y][map_x].type);
-	if (index == PLAYER)
-		return ;
 	if (index < 0 || index >= END)
+		return ;
+	if (index == PLAYER)
 		return ;
 	img = game->mlx_data->minimap_img[index];
 	if (!img)
@@ -64,18 +64,21 @@ static void	draw_background(t_game *game, t_minimap_render *render)
 static void	init_minimap_render(t_minimap_render *render, t_game *game,
 		int view_range)
 {
+	int	minimap_size;
+
 	render->view_range = view_range;
-	render->offset_x = 0;
-	render->offset_y = 0;
 	render->player_x = (int)game->player->pos_x;
 	render->player_y = (int)game->player->pos_y;
 	if (LENGTH < HEIGHT)
-		render->pixel = (LENGTH / 4) / (view_range * 2 + 1);
+		minimap_size = LENGTH * 3 / 3.5;
 	else
-		render->pixel = (HEIGHT / 4) / (view_range * 2 + 1);
+		minimap_size = HEIGHT * 3 / 3.5;
+	render->pixel = minimap_size / (view_range * 2 + 1);
+	render->offset_x = (LENGTH - minimap_size) / 2;
+	render->offset_y = (HEIGHT - minimap_size) / 2;
 }
 
-void	draw_minimap(t_game *game, int view_range)
+void	draw_big_minimap(t_game *game, int view_range)
 {
 	t_minimap_render	render;
 	int					map_x;
@@ -103,20 +106,3 @@ void	draw_minimap(t_game *game, int view_range)
 			* render.pixel) + render.pixel / 4, render.offset_y + (view_range
 			* render.pixel) + render.pixel / 4);
 }
-
-/*
- /2 character
-
-For y dived by 16 = to the left,
- and by 2 to the right, 4 in the middle
-
-for X divided by 16 = to the top
- and by 2 to the bottom, 4 in the middle
-
- /4 character :
-
- divided per 3 for the middle
- for x divided by 1.3 to the bottom and 30 for top
- for y dived by 30 for left and 1.3 to the right
-
- */

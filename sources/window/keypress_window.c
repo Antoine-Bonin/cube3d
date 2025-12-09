@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_window.c                                     :+:      :+:    :+:   */
+/*   keypress_window.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/08 11:33:26 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:53:05 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	close_window(t_game *game)
 
 static int	check_collision(t_game *game, int x, int y)
 {
-	if (game->map[y][x].type == '1' || game->map[y][x].type == ' ')
+	if (game->map[y][x].is_solid)
 		return (1);
 	return (0);
 }
@@ -65,8 +65,21 @@ int	handle_keypress(int keycode, t_game *game)
 	if (keycode == ESC_KEY)
 		return (close_window(game));
 	if (keycode == 65289)
-		draw_minimap(game, 5);
+	{
+		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+		game->show_minimap = !game->show_minimap;
+		if (game->show_minimap)
+			draw_big_minimap(game, game->size_minimap + 5);
+		else
+			draw_minimap(game, game->size_minimap);
+	}
 	if (move_player(keycode, game) == 0)
-		draw_minimap(game, 5);
+	{
+		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+		if (game->show_minimap)
+			draw_big_minimap(game, game->size_minimap + 5);
+		else
+			draw_minimap(game, game->size_minimap);
+	}
 	return (0);
 }

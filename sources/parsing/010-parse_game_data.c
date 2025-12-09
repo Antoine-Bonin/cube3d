@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/08 11:35:49 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:48:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "messages.h"
 #include "parsing.h"
 #include "stdlib.h"
+#include "utils.h"
 
 void	get_player_direction_data(t_player *player, t_parsing_data *parsing)
 {
@@ -53,24 +54,25 @@ void	get_player_data(t_player *player, t_parsing_data *parsing)
 	}
 	get_player_direction_data(player, parsing);
 	player->jumping = false;
-	player->move_speed = 0.4;
+	player->move_speed = 0.1;
 }
 
-int	parse_game_data(t_game *game, t_parsing_data *parsing)
+int	parse_game_data(t_game *game, t_parsing_data *pars)
 {
-	game->map = parse_map_tile(parsing->map, parsing->map_height, -1, -1);
+	game->map = parse_map_tile(pars->map, pars->map_height, -1,
+			pars->map_width);
 	if (!game->map)
 		return (msg_error(MALLOC_ERR, 0));
 	game->player = (t_player *)malloc(sizeof(t_player));
 	if (!game->player)
 		return (msg_error(MALLOC_ERR, 0));
-	get_player_data(game->player, parsing);
-	game->map_height = parsing->map_height;
-	game->map_width = parsing->map_width;
-	game->floor_color = (parsing->floor_color[0] * 65536)
-		+ (parsing->floor_color[1] * 256) + parsing->floor_color[2];
-	game->ceiling_color = (parsing->ceiling_color[0] * 65536)
-		+ (parsing->ceiling_color[1] * 256) + parsing->ceiling_color[2];
-	free_parsing(parsing);
+	get_player_data(game->player, pars);
+	game->map_height = pars->map_height;
+	game->map_width = pars->map_width;
+	game->floor_color = color_argb(0, pars->ceiling_color[0],
+			pars->ceiling_color[1], pars->ceiling_color[2]);
+	game->ceiling_color = color_argb(0, pars->ceiling_color[0],
+			pars->ceiling_color[1], pars->ceiling_color[2]);
+	free_parsing(pars);
 	return (1);
 }
