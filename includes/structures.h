@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 15:49:40 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/08 13:45:20 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,7 @@ typedef struct s_mlx_data
 	int			img_height;
 }				t_mlx_data;
 
-typedef enum e_direction
-{
-	NORTH = 0,
-	WEST = 1,
-	EAST = 2,
-	SOUTH = 3
-}				t_direction;
+
 
 typedef struct s_tile
 {
@@ -92,17 +86,30 @@ t_tile			trou = {
 };
 
 */
+typedef enum s_dir 
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST,
+} t_dir;
+
+typedef struct s_vec
+{
+	int pos_x;
+	int pos_y;
+} t_vec;
 
 typedef struct s_player
 {
 	double		pos_x;
 	double		pos_y;
-	double		dir_x;
-	double		dir_y;
-	double		fov_x;
-	double		fov_y;
+	t_dir		direction;
+	t_vec		ray_limit;
 	double		move_speed;
 	bool		jumping;
+	int			nb_ray;
+	double 		deg;
 }				t_player;
 
 typedef struct s_game
