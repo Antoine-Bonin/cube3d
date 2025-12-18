@@ -6,13 +6,14 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/08 13:45:20 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/18 17:52:34 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 # include "stdbool.h"
+# include <stdint.h>
 
 typedef struct	s_data {
 	void	*img_ptr;
@@ -86,12 +87,29 @@ t_tile			trou = {
 };
 
 */
-typedef enum s_dir 
+typedef enum s_compass 
 {
 	NORTH,
 	SOUTH,
 	EAST,
 	WEST,
+	FOG,
+} t_compass;
+
+typedef struct s_ray
+{
+	double raydir;
+	double delta_dist;
+} t_ray;
+
+typedef struct s_dir
+{
+	t_ray ray;
+	int steps;
+	char x_or_y;
+	bool positif;
+	double side_dist;
+	t_compass texture_use;
 } t_dir;
 
 typedef struct s_vec
@@ -104,7 +122,9 @@ typedef struct s_player
 {
 	double		pos_x;
 	double		pos_y;
-	t_dir		direction;
+	int			pos_x_int;
+	int			pos_y_int;
+	t_compass		direction;
 	t_vec		ray_limit;
 	double		move_speed;
 	bool		jumping;
@@ -121,6 +141,8 @@ typedef struct s_game
 	int			map_width;
 	int			floor_color;
 	int			ceiling_color;
+	int			x_pixel;
+	double			rad_for_col;
 }				t_game;
 
 #endif

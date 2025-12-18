@@ -6,11 +6,11 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/12/09 13:39:21 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/18 19:36:51 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define FOV_DEG 60
+#define FOV_DEG 90
 #define Ray 30
 #define SIZE_BLOCK 1
 #include <draw.h>
@@ -18,242 +18,239 @@
 #include "init.h"
 #include "float.h"
 
-static const int deg_dir[] = {90, 270, 360, 180};
-
+static const int deg_dir[] = {270, 90, 360, 180}; 
 double deg_to_rad(double deg)
 {
-    return (deg * (2 * M_PI)) / 360;
+    return deg * M_PI / 180;
 }
 
-static void calc_rayon(double deg, t_vec *result)
+
+
+bool check_if_after_limit(int point, int size_max)
 {
-    result->pos_x = (cos(deg_to_rad(deg)));
-    result->pos_y = (sin(deg_to_rad(deg)));
-}
-static double calc_straight_equ_a(double dest_x, double begin_x, double dest_y, double begin_y)
-{
-    double delta_x = dest_x - begin_x;
-
-    // eviter si x dep == x arrive sinon ca va tout casssey
-    if (fabs(delta_x) < 0.00001)
-        return (999999.0);
-
-    return ((dest_y - begin_y) / delta_x);
-}
-static double calc_straight_equ_b(double a, double pos_x, double pos_y)
-{
-    return (-a * pos_x + pos_y);
+    if (point >= 0 || point <= size_max)
+        return true;
+    return false;
 }
 
-static double compare_vec(t_vec *vec_a, t_vec *vec_b)
-{
-    int result;
-    result = 0;
-    if (!vec_a || !vec_b)
-        return 0;
-    if (vec_a->pos_x == vec_b->pos_x)
-        result += 1;
-    if (vec_a->pos_y == vec_b->pos_y)
-        result += 1;
-    if (result == 2)
-        return 1;
-    return 0;
-}
-
-int check_in_my_map(t_vec point, t_game game)
-{
-    if (game.map_width < point.pos_x)
-        return 0;
-    if (game.map_height < point.pos_y)
-        return 0;
-    return 1;
-}
-
-double delta_dist(ray_dir)
+double delta_dist(double ray_dir)
 {
     if (fabs(ray_dir) < 1e-5)
         return (DBL_MAX);
     return fabs(1.00 / ray_dir);
 }
 
-static int raycasting(t_player *player, double deg_a, double deg_b, t_game *game)
+#include <stdint.h>
+
+// typedef struct rgb
+// {
+// 	uint8_t a;
+// 	uint8_t r;
+// 	uint8_t b;
+// 	uint8_t g;
+// } t_rgb;
+
+
+// typedef union u_argb
+// {
+// 	uint8_t			channels[4];
+// 	unsigned int	value;
+// 	t_rgb			argb;
+// }   t_argb; // 4 octet
+
+void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	// t_argb test;
+	// test.argb = (t_rgb){0, 255, 255, 0};
+	// test.value = 0x00000;
+
+	// t_argb *dst;
+
+	// *(data->addr + (y * data->width + x)) = test;
+
+    char *dst;
+
+    dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel >> 3));
+    *(unsigned int *)dst = color;
+}
+
+t_dir calc_side_dist(t_dir value, int pos, double pos_in_double)
+{
+
+    if (value.ray.raydir > 0 && value.ray.raydir != DBL_MAX)
+    {
+
+        value.positif = true;
+        value.side_dist = (pos + 1 - pos_in_double) * value.ray.delta_dist;
+    }
+    else if (value.ray.raydir != DBL_MAX)
+    {
+        value.positif = false;
+        value.side_dist = (pos_in_double - pos) * value.ray.delta_dist;
+    }
+    else
+
+        value.side_dist = DBL_MAX;
+    return value;
+}
+
+t_dir calc_direction(t_dir value, t_game *game, char x_or_y)
+{
+    value.x_or_y = x_or_y; 
+    value.steps = 1;
+    if (x_or_y == 'x')
+    {
+       
+        value = calc_side_dist(value, game->player->pos_x_int, game->player->pos_x);
+        if (value.positif == 1)
+            value.texture_use = EAST;
+        else
+            value.texture_use = WEST;
+    }
+    else
+    {
+        value = calc_side_dist(value, game->player->pos_y_int, game->player->pos_y);
+        if (value.positif == 1)
+            value.texture_use = SOUTH;
+        else
+            value.texture_use = NORTH;
+    }
+    if (value.positif != 1)
+        value.steps = -1;
+    return value;
+}
+
+bool block_is_solid(t_tile block)
+{
+    if (block.is_solid == true)
+        return true;
+    return false;
+}
+
+int size_block_in_height(double proj_to_screen, t_dir dda, t_game game)
+{
+	// return (dda.side_dist/proj_to_screen *dda.side_dist); $$Distance_{Perpendiculaire} = Distance_{Brute} \times \cos(\text{AngleRayon} - \text{AngleJoueur})$$ distance brut *
+	// double side_dist_recalc = dda.side_dist * cos(game.rad_for_col -le degres en rad du player );
+ return ((1 * proj_to_screen / dda.side_dist));
+}
+
+int resize_height(int value)
+{
+    if (value < 0)
+        value = 0;
+    if (value > HEIGHT)
+        value = HEIGHT - 1;
+    return value;
+}
+
+void  draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_screen)
+{
+    int size_block;
+    int pixel_min;
+    int pixel_max;
+    int i;
+    i = 0;
+
+    size_block = size_block_in_height(proj_to_screen, dda, *game);
+	
+    pixel_min = resize_height(HEIGHT >> 1) - (size_block >> 1);
+    pixel_max = resize_height(HEIGHT >> 1) + (size_block >> 1);
+    while (i <= HEIGHT)
+    {
+        if (i >= pixel_min && i <= pixel_max)
+        {
+            if (compass_or_fog != FOG)
+                my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
+            else
+                my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
+        }
+           
+        i++;
+    }
+    
+}
+
+void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, double proj_to_screen)
+{
+    t_dir *choice;
+    while (1)
+    {
+        if (for_x.side_dist <= for_y.side_dist)
+        {
+            choice = &for_x;
+            game->player->pos_x_int+= for_x.steps;
+        }
+            
+        else
+        {
+            choice = &for_y;
+            game->player->pos_y_int+= for_y.steps;
+        }
+            
+        if (choice->side_dist > 30 || block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]) == true)
+        {
+            break;
+        }
+        choice->side_dist += choice->ray.delta_dist;
+    }
+    if (block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]))
+        draw(game, *choice, choice->texture_use, proj_to_screen);
+    else
+        draw(game, *choice, FOG, proj_to_screen);
+}
+
+void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, double proj_to_screen)
+{
+    for_x = calc_direction(for_x, game, 'x');
+    for_y = calc_direction(for_y, game, 'y');
+    check_block_by_block(for_x, for_y, game, proj_to_screen);
+}
+
+void calc_derivative_and_delta_dist(double rad, double proj_to_screen, t_game *game)
+{
+    // double raydirY;
+    // double raydirX;
+    // double delta_dist_x;
+    // double delta_dist_y;
+    t_dir for_x;
+    t_dir for_y;
+
+
+    for_x.ray.raydir = cos(rad);
+    for_y.ray.raydir = sin(rad);
+
+    for_x.ray.delta_dist = delta_dist(for_x.ray.raydir);
+    for_y.ray.delta_dist = delta_dist(for_y.ray.raydir);
+
+    return calc_player_to_intersection_x_or_y(for_x, for_y, game, proj_to_screen);
+}
+
+void calc_init_for_ray(t_player *player, double deg_a, double deg_b, t_game *game)
 {
     // mettre les points s
     // printf("%f de a et %f de b \n", perso->fov.vec_a.a, perso->fov.vec_b.a);
     // printf("%f de a et %f de b \n", perso->fov.vec_a.b, perso->fov.vec_b.b);
-    double steps;
-    steps = FOV_DEG / LENGTH;
-    double a;
-    double b;
-    t_vec trace;
-    int mapX = (int)player->pos_x;
-    int mapY = (int)player->pos_y;
-    t_vec trace;
-    t_vec temp_x;
-    t_vec temp_y;
-    int steps_x;
-    int steps_y;
-    double sideDistX;
-    double sideDistY;
-    double hypothenuse;
-    int pixels_to_draw;
-    int mapX;
-    int mapY;
-    int side;
-    double total_dist;
-    total_dist = 0.00;
+    static double steps  = (double)FOV_DEG / (double)LENGTH;
+    static bool init = false;
+    static double proj_to_screen;
+
+    // etape 2
+    if (!init)
+	{
+        proj_to_screen = (double)(LENGTH >> 1) / tan(deg_to_rad(FOV_DEG >> 1));
+		init = true;
+	}
+    game->x_pixel = 0;
 
     while (deg_b <= deg_a)
     {
-
-        // recommencer
-        // dabord faire le cos et le sin de langle ce qui me permet de trouver le point
-        stepHeight = 
-        double rayDirX = (cos(deg_to_rad(deg_b)));
-        double rayDirY = (sin(deg_to_rad(deg_b)));
-        double deltaDistX = delta_dist(rayDirX);
-        double deltaDistY = delta_dist(rayDirY);
-        mapX = (int)player->pos_x;
-        mapY = (int)player->pos_y;
-        if (rayDirX >= 0 && deltaDistX != DBL_MAX)
-        {
-
-            steps_x = 1;
-            sideDistX = (mapX + 1.0 - player->pos_x) * deltaDistX;
-        }
-        else if (deltaDistX > 0)
-        {
-
-            steps_x = -1;
-            sideDistX = (player->pos_x - mapX) * deltaDistX;
-        }
-        if (rayDirY >= 0 && deltaDistY != DBL_MAX)
-        {
-
-            steps_y = 1;
-            sideDistY = (mapY + 1.0 - player->pos_y) * deltaDistY;
-        }
-        else if (deltaDistY != DBL_MAX)
-        {
-            steps_y = -1;
-            sideDistY = (player->pos_y - mapY) * deltaDistY;
-        }
-        while (1)
-        {
-            if (sideDistX < sideDistY)
-            {
-                sideDistX += deltaDistX;
-                mapX += steps_x;
-                side = 0;
-                if (total_dist == 0.00)
-                    total_dist += fabs(sideDistX);
-                total_dist += fabs(deltaDistY);
-            }
-            else
-            {
-                sideDistY += deltaDistY;
-                total_dist += fabs(deltaDistY);
-                if (total_dist == 0.00)
-                    total_dist += fabs(sideDistY);
-                mapY += steps_y;
-                side = 1;
-                total_dist += fabs(deltaDistY);
-            }
-                if (total_dist > Ray || check_in_my_map((t_vec){mapX, mapY}, *game) == 1 || game->map[mapY][mapX].is_solid == 1) 
-                    break;
-            
-        }
-
-        // hypothenuse = hypo(rayDirX, rayDirY);
-        // steps_x = deltaX / hypothenuse;
-        // steps_y = deltaY / hypothenuse;
-        // pixels_to_draw = (int)hypo;
-
-        // calc_pos_to_circle(player->pos_x, player->pos_y, deg_b, &player->ray_limit);
-        // a = calc_straight_equ_a(player->pos_x, player->ray_limit.pos_x, player->pos_y, player->ray_limit.pos_y);
-        // b = calc_straight_equ_b(player->ray_limit.a, player->ray_limit.pos_x, player->ray_limit.pos_y);
-        // t_vec trace;
-        // t_vec temp_x;
-        // t_vec temp_y;
-        // double distX;
-        // double distY;
-        // trace.pos_x = player->pos_x;
-        // trace.pos_y = player->pos_y;
-        // double dist_parc;
-        // dist_parc = 0;
-        // char type = 0;
-        // int steps_x;
-        // int steps_y;
-
-        // if (trace.pos_x + player->ray_limit.pos_x > trace.pos_x)
-        // {
-        //     temp_x.pos_x = round(trace.pos_x);
-        //     steps_x = 1;
-        // }
-        // else
-        // {
-        //     temp_x.pos_x = floor(trace.pos_x);
-        //     steps_x = -1;
-        // }
-        // if (trace.pos_y + player->ray_limit.pos_y > trace.pos_y)
-        // {
-        //     temp_y.pos_y = round(trace.pos_y);
-        //     steps_y = 1;
-        // }
-        // else
-        // {
-        //     temp_y.pos_y = floor(trace.pos_y);
-        //     steps_y = -1;
-        // }
-        // temp_x.pos_y = a * temp_x.pos_x + b;
-        // temp_y.pos_x = (-b + temp_y.pos_y) / a;
-        // distX = hypot(temp_x.pos_x - trace.pos_x, temp_x.pos_y - trace.pos_y);
-        // distY = hypot(temp_y.pos_x - trace.pos_x, temp_y.pos_y - trace.pos_y);
-        // while (dist_parc <= Ray)
-        // {
-
-        //     // connaitre la direction de x et de y
-
-        //     // connaitre les y et x respectif grace a leq dun inconnude
-
-        //     if (distX > distY)
-        //     {
-        //         if (check_in_my_map(temp_y, *game))
-        //         {
-        //             if (draw(distY, temp_y, game, a, b) == 1)
-        //                 break;
-        //             else
-        //             {
-        //                 trace = temp_y;
-        //                 temp_y.pos_y += steps_y;
-        //                 temp_y.pos_x = (-b + temp_y.pos_y) / a;
-        //                 dist_parc += distY;
-        //                 distY = sqrt(temp_y.pos_x - trace.pos_x + temp_y.pos_y - trace.pos_y);
-        //             }
-        //         }
-        //         else
-        //             break;
-        //     }
-        //     else
-        //     {
-        //         if (check_in_my_map(temp_x, *game))
-        //         {
-        //             if (draw(distY, temp_x, game, a, b) == 1)
-        //                 break;
-        //             else
-        //             {
-        //                 trace = temp_x;
-        //                 temp_x.pos_x += steps_x;
-        //                 temp_x.pos_y = a * temp_x.pos_x + b;
-        //                 dist_parc += distX;
-        //                 distX = sqrt(temp_x.pos_x - trace.pos_x + temp_x.pos_y - trace.pos_y);
-        //             }
-        //         }
-        //         else
-        //             break;
-        //     }
-        // }
+        // etape 3 calculer la dérivé
+        player->pos_x_int = (int)player->pos_x;
+        player->pos_y_int = (int)player->pos_y;
+		game->rad_for_col = deg_to_rad(deg_b);
+        calc_derivative_and_delta_dist(game->rad_for_col, proj_to_screen, game);
         deg_b += steps;
+        game->x_pixel++;
     }
 }
 
@@ -264,14 +261,14 @@ int calc_trigo_for_draw(t_game *game)
     if (init == 0)
     {
         init++;
-        perso->deg = deg_dir[game->player->direction];
+        perso->deg = deg_to_rad(deg_dir[game->player->direction]);
     }
     // printf("%f value player x && %f value player y\n", perso->dir_x, perso->dir_y);
     // printf("\n%f value deg_to_rad = %f\n", cos(deg_to_rad(perso->fov.deg+30)), sin(deg_to_rad(perso->fov.deg+30)));
     // printf("\n%f value deg_to_rad = %f\n", cos(deg_to_rad(perso->fov.deg-30)), sin(deg_to_rad(perso->fov.deg-30)));
     // la jai le vecteur des points du perso aux points des extremites de a et b
-    long deg_a = perso->deg + 30;
-    long deg_b = perso->deg - 30;
-
+    long deg_a = perso->deg + (FOV_DEG >> 1);
+    long deg_b = perso->deg - (FOV_DEG >> 1);
+    calc_init_for_ray(perso, deg_a,  deg_b,  game);
     return 0;
 }

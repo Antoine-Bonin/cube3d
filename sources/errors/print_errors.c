@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:43:32 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 19:51:01 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/15 22:10:58 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	msg_error(char *str, int error)
 
 int	msg_error_and_free(char *str, int error, void *to_free)
 {
-	ft_printf(ANSI_BLACK "dfdsf" ANSI_RESET)
 	ft_printf_fd(2, str);
 	free(to_free);
 	return (error);

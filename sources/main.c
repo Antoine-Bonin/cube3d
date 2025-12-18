@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/12/04 14:33:01 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/15 22:51:55 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int main(int ac, char **av)
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 				 (int (*)())handle_keypress, &game);
-		calc_trigo_for_draw(&game);				 
+		calc_trigo_for_draw(&game);		
+		mlx_put_image_to_window(mlx_data.mlx_ptr, mlx_data.win_ptr, mlx_data.img.img_ptr, 0, 0);		 
 		mlx_loop(mlx_data.mlx_ptr);
 	}
 	return (cleanup(NULL, 0, &game));
