@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2025/12/15 22:51:55 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:09:16 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 
-void	init_parsing_data(t_parsing_data *parsing_data)
+#define SENSITIVITY 0.020
+
+void init_parsing_data(t_parsing_data *parsing_data)
 {
-	int	i;
+	int i;
 
 	parsing_data->north_texture_path = NULL;
 	parsing_data->south_texture_path = NULL;
@@ -46,9 +48,9 @@ void	init_parsing_data(t_parsing_data *parsing_data)
 	parsing_data->dup_found = false;
 }
 
-void	init_mlx(t_mlx_data *mlx_data)
+void init_mlx(t_mlx_data *mlx_data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < 4)
@@ -61,7 +63,7 @@ void	init_mlx(t_mlx_data *mlx_data)
 	mlx_data->img_width = 64;
 }
 
-void	init_game(t_game *game, t_mlx_data *data)
+void init_game(t_game *game, t_mlx_data *data)
 {
 	game->mlx_data = data;
 	game->ceiling_color = 0;
@@ -72,11 +74,31 @@ void	init_game(t_game *game, t_mlx_data *data)
 	game->player = NULL;
 }
 
+int mouse_handler(int x, int y, t_game *game)
+{
+	int delta_x;
+	int center_x = LENGTH / 2;
+	(void)y;
+	if (x == center_x)
+		return (0);
+	delta_x = x - center_x;
+	game->player->deg += delta_x * SENSITIVITY;
+	mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, center_x, HEIGHT / 2);
+	return 0;
+}
+
+int environment(t_game *game)
+{
+	calc_trigo_for_draw(game);
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, game->mlx_data->img.img_ptr, 0, 0);
+	return 0;
+}
+
 int main(int ac, char **av)
 {
-	t_parsing_data	parsing_data;
-	t_mlx_data		mlx_data;
-	t_game			game;
+	t_parsing_data parsing_data;
+	t_mlx_data mlx_data;
+	t_game game;
 
 	init_parsing_data(&parsing_data);
 	init_mlx(&mlx_data);
@@ -90,10 +112,11 @@ int main(int ac, char **av)
 		if (!parse_game_data(&game, &parsing_data))
 			return (cleanup(&parsing_data, 0, &game));
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
+		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask, mouse_handler, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 				 (int (*)())handle_keypress, &game);
-		calc_trigo_for_draw(&game);		
-		mlx_put_image_to_window(mlx_data.mlx_ptr, mlx_data.win_ptr, mlx_data.img.img_ptr, 0, 0);		 
+		mlx_loop_hook(mlx_data.mlx_ptr, environment, &game);
+
 		mlx_loop(mlx_data.mlx_ptr);
 	}
 	return (cleanup(NULL, 0, &game));

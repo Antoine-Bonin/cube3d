@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/05 16:54:48 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:06:00 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,7 @@ double delta_dist(double ray_dir)
     return fabs(1.00 / ray_dir);
 }
 
-#include <stdint.h>
 
-// typedef struct rgb
-// {
-// 	uint8_t a;
-// 	uint8_t r;
-// 	uint8_t b;
-// 	uint8_t g;
-// } t_rgb;
-
-// typedef union u_argb
-// {
-// 	uint8_t			channels[4];
-// 	unsigned int	value;
-// 	t_rgb			argb;
-// }   t_argb; // 4 octet
 
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -144,6 +129,9 @@ int resize_height(int value)
     return value;
 }
 
+
+
+
 void draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_screen)
 {
     int size_block;
@@ -158,6 +146,8 @@ void draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_scre
     pixel_max = resize_height(HEIGHT >> 1) + (size_block >> 1);
     while (i <= HEIGHT)
     {
+        if (i < pixel_min)
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0x000000);
         if (i >= pixel_min && i <= pixel_max)
         {
             if (compass_or_fog != FOG)
@@ -165,6 +155,8 @@ void draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_scre
             else
                 my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
         }
+        if (i > pixel_max)
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFFFFFF);
 
         i++;
     }
