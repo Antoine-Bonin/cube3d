@@ -6,24 +6,24 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 16:04:37 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/06 16:08:00 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include "stdbool.h"
-# include "tile.h"
+#include "tile.h"
 #include <stdint.h>
 
 typedef struct s_data
 {
-	void		*img_ptr;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
-}				t_data;
+	void *img_ptr;
+	char *addr;
+	int bits_per_pixel;
+	int line_length;
+	int endian;
+} t_data;
 
 typedef struct s_parsing_data
 {
@@ -45,14 +45,14 @@ typedef struct s_parsing_data
 
 typedef struct s_mlx_data
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_data		img;
-	void		*textures[4];
-	int			img_width;
-	int			img_height;
-	void		*minimap_img[MAX];
-	int			minimap_tile_size;
+	void *mlx_ptr;
+	void *win_ptr;
+	t_data img;
+	void *textures[4];
+	int img_width;
+	int img_height;
+	void *minimap_img[MAX];
+	int minimap_tile_size;
 } t_mlx_data;
 
 #include <stdint.h>
@@ -74,16 +74,16 @@ typedef union u_argb
 
 typedef struct s_tile
 {
-	char		type;
-	bool		is_player;
-	bool		is_solid;
-	bool		is_transparent;
-	double		floor_height;
-	double		ceiling_height;
-	int			map_x;
-	int			map_y;
-	int			color_mini_map[3];
-}				t_tile;
+	char type;
+	bool is_player;
+	bool is_solid;
+	bool is_transparent;
+	double floor_height;
+	double ceiling_height;
+	int map_x;
+	int map_y;
+	int color_mini_map[3];
+} t_tile;
 
 typedef enum s_compass
 {
@@ -92,60 +92,60 @@ typedef enum s_compass
 	EAST,
 	WEST,
 	FOG,
-}				t_compass;
+} t_compass;
 
 typedef struct s_ray
 {
-	double		raydir;
-	double		delta_dist;
-}				t_ray;
+	double raydir;
+	double delta_dist;
+} t_ray;
 
 typedef struct s_dir
 {
-	t_ray		ray;
-	int			steps;
-	char		x_or_y;
-	bool		positif;
-	double		side_dist;
-	t_compass	texture_use;
-}				t_dir;
+	t_ray ray;
+	int steps;
+	char x_or_y;
+	bool positif;
+	double side_dist;
+	t_compass texture_use;
+} t_dir;
 
 typedef struct s_vec
 {
-	int			pos_x;
-	int			pos_y;
-}				t_vec;
+	int pos_x;
+	int pos_y;
+} t_vec;
 
 typedef struct s_player
 {
-	double		pos_x;
-	double		pos_y;
-	int			pos_x_int;
-	int			pos_y_int;
-	t_compass	direction;
-	t_vec		ray_limit;
-	double		move_speed;
-	bool		jumping;
-	int			nb_ray;
-	double		deg;
+	double pos_x;
+	double pos_y;
+	int pos_x_int;
+	int pos_y_int;
+	t_compass direction;
+	t_vec ray_limit;
+	double move_speed;
+	bool jumping;
+	int nb_ray;
+	double deg;
 } t_player;
 
 typedef struct s_game
 {
-	t_mlx_data	*mlx_data;
-	t_player	*player;
-	t_tile		**map;
-	int			map_height;
-	int			map_width;
-	int			floor_color;
-	int			ceiling_color;
-	int			x_pixel;
-	double		rad_for_col;
-	bool		show_minimap;
-	int			size_minimap;
-}				t_game;
+	t_mlx_data *mlx_data;
+	t_player *player;
+	t_tile **map;
+	int map_height;
+	int map_width;
+	t_argb floor_color;
+	t_argb ceiling_color;
+	int x_pixel;
+	double rad_for_col;
+	bool show_minimap;
+	int size_minimap;
+} t_game;
 
-extern const char	type_index[];
-extern const t_tile	type_block[];
+extern const char type_index[];
+extern const t_tile type_block[];
 
 #endif
