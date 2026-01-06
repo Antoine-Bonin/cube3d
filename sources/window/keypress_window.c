@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:53:05 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/06 11:39:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include "stdlib.h"
 #include "window.h"
 #include <X11/keysym.h>
+#define W_KEY 16779592
+#define A_KEY 16779595
+#define S_KEY 16779591
+#define D_KEY 16779597
 
 #define ESC_KEY 65307
 
@@ -26,38 +30,17 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-static int	check_collision(t_game *game, int x, int y)
-{
-	if (game->map[y][x].is_solid)
-		return (1);
-	return (0);
-}
-
 int	move_player(int keysym, t_game *game)
 {
-	double	old_x;
-	double	old_y;
-
-	old_x = game->player->pos_x;
-	old_y = game->player->pos_y;
-	if (keysym == 16779592 || keysym == XK_Up)
-		game->player->pos_y--;
-	else if (keysym == 16779591 || keysym == XK_Down)
-		game->player->pos_y++;
-	else if (keysym == 16779595 || keysym == XK_Left)
-		game->player->pos_x--;
-	else if (keysym == 16779597 || keysym == XK_Right)
-		game->player->pos_x++;
-	else
-		return (1);
-	if (check_collision(game, (int)game->player->pos_x,
-			(int)game->player->pos_y))
-	{
-		game->player->pos_x = old_x;
-		game->player->pos_y = old_y;
-		return (1);
-	}
-	return (0);
+    if (keysym == W_KEY || keysym == XK_Up)
+        return (move_forward(game));
+    else if (keysym == S_KEY || keysym == XK_Down)
+        return (move_backward(game));
+    else if (keysym == A_KEY || keysym == XK_Left)
+        return (strafe_left(game));
+    else if (keysym == D_KEY || keysym == XK_Right)
+        return (strafe_right(game));
+    return (1);
 }
 
 int	handle_keypress(int keycode, t_game *game)
@@ -65,21 +48,7 @@ int	handle_keypress(int keycode, t_game *game)
 	if (keycode == ESC_KEY)
 		return (close_window(game));
 	if (keycode == 65289)
-	{
-		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
 		game->show_minimap = !game->show_minimap;
-		if (game->show_minimap)
-			draw_big_minimap(game, game->size_minimap + 5);
-		else
-			draw_minimap(game, game->size_minimap);
-	}
-	if (move_player(keycode, game) == 0)
-	{
-		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
-		if (game->show_minimap)
-			draw_big_minimap(game, game->size_minimap + 5);
-		else
-			draw_minimap(game, game->size_minimap);
-	}
+	move_player(keycode, game);
 	return (0);
 }

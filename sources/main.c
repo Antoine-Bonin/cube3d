@@ -6,28 +6,28 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2026/01/06 10:14:13 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:41:15 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#include "free_malloc.h"
 #include "draw.h"
+#include "free_malloc.h"
 #include "init.h"
 #include "minimap.h"
 #include "mlx.h"
 #include "parsing.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "tile.h"
 #include "window.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
 
 #define SENSITIVITY 0.020
 
-void init_parsing_data(t_parsing_data *parsing_data)
+void	init_parsing_data(t_parsing_data *parsing_data)
 {
-	int i;
+	int	i;
 
 	parsing_data->north_texture_path = NULL;
 	parsing_data->south_texture_path = NULL;
@@ -50,9 +50,9 @@ void init_parsing_data(t_parsing_data *parsing_data)
 	parsing_data->dup_found = false;
 }
 
-void init_mlx(t_mlx_data *mlx_data)
+void	init_mlx(t_mlx_data *mlx_data)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < 4)
@@ -67,7 +67,7 @@ void init_mlx(t_mlx_data *mlx_data)
 	mlx_data->minimap_tile_size = 0;
 }
 
-void init_game(t_game *game, t_mlx_data *data)
+void	init_game(t_game *game, t_mlx_data *data)
 {
 	game->mlx_data = data;
 	game->ceiling_color = 0;
@@ -80,51 +80,39 @@ void init_game(t_game *game, t_mlx_data *data)
 	game->size_minimap = 5;
 }
 
-int mouse_handler(int x, int y, t_game *game)
+int	mouse_handler(int x, int y, t_game *game)
 {
-	int delta_x;
-	int center_x = LENGTH / 2;
+	int	delta_x;
+	int	center_x;
+
+	center_x = LENGTH / 2;
 	(void)y;
 	if (x == center_x)
 		return (0);
 	delta_x = x - center_x;
 	game->player->deg += delta_x * SENSITIVITY;
-	mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, center_x, HEIGHT / 2);
-	return 0;
+	mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, center_x,
+		HEIGHT / 2);
+	return (0);
 }
 
-int environment(t_game *game)
+int	environment(t_game *game)
 {
 	calc_trigo_for_draw(game);
-	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, game->mlx_data->img.img_ptr, 0, 0);
-	return 0;
-}
-
-int mouse_handler(int x, int y, t_game *game)
-{
-	int delta_x;
-	int center_x = LENGTH / 2;
-	(void)y;
-	if (x == center_x)
-		return (0);
-	delta_x = x - center_x;
-	game->player->deg += delta_x * SENSITIVITY;
-	mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, center_x, HEIGHT / 2);
-	return 0;
-}
-
-int environment(t_game *game)
-{
-	calc_trigo_for_draw(game);
-	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, game->mlx_data->img.img_ptr, 0, 0);
-	return 0;
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
+		game->mlx_data->img.img_ptr, 0, 0);
+	if (game->show_minimap)
+		draw_minimap(game, game->size_minimap + 5);
+	else
+		draw_minimap(game, game->size_minimap);
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	t_parsing_data parsing_data;
-	t_mlx_data mlx_data;
-	t_game game;
+	t_parsing_data	parsing_data;
+	t_mlx_data		mlx_data;
+	t_game			game;
 
 	init_parsing_data(&parsing_data);
 	init_mlx(&mlx_data);
@@ -137,13 +125,12 @@ int	main(int ac, char **av)
 			return (cleanup(&parsing_data, 1, &game));
 		if (!parse_game_data(&game, &parsing_data))
 			return (cleanup(&parsing_data, 1, &game));
-		draw_minimap(&game, game.size_minimap);
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
-		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask, mouse_handler, &game);
+		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask,
+			mouse_handler, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
-				 (int (*)())handle_keypress, &game);
+			(int (*)())handle_keypress, &game);
 		mlx_loop_hook(mlx_data.mlx_ptr, environment, &game);
-
 		mlx_loop(mlx_data.mlx_ptr);
 	}
 	return (cleanup(NULL, 0, &game));

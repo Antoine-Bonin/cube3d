@@ -31,6 +31,7 @@ FILES = main \
 		parsing/011-parse_game_tile \
 		window/init_window_and_textures \
 		window/keypress_window \
+		window/move_player \
 		minimap/draw_minimap \
 		minimap/init_minimap \
 		minimap/draw_big_minimap \

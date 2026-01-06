@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 10:16:07 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:36:12 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,6 @@
 #include "parsing.h"
 #include "stdlib.h"
 #include "utils.h"
-
-void	get_player_direction_data(t_player *player, t_parsing_data *parsing)
-{
-	if (parsing->player_direction == 'N')
-	{
-		player->dir_x = 0.0;
-		player->dir_y = -1.0;
-		player->fov_x = 0.66;
-		player->fov_y = 0.0;
-	}
-	if (parsing->player_direction == 'S')
-	{
-		player->dir_x = 0.0;
-		player->dir_y = 1.0;
-		player->fov_x = -0.66;
-		player->fov_y = 0.0;
-	}
-}
 
 void get_player_data(t_player *player, t_parsing_data *parsing)
 {
@@ -50,7 +32,7 @@ void get_player_data(t_player *player, t_parsing_data *parsing)
 	player->move_speed = 0.1;
 }
 
-int parse_game_data(t_game *game, t_parsing_data *parsing)
+int parse_game_data(t_game *game, t_parsing_data *pars)
 {
 	game->map = parse_map_tile(pars->map, pars->map_height, -1,
 			pars->map_width);
