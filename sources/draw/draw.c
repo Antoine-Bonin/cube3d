@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/05 19:06:00 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:38:36 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ double delta_dist(double ray_dir)
         return (DBL_MAX);
     return fabs(1.00 / ray_dir);
 }
-
-
 
 void my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -129,16 +127,14 @@ int resize_height(int value)
     return value;
 }
 
-
-
-
-void draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_screen)
+void draw(t_game *game, t_dir dda, t_compass compass, double proj_to_screen)
 {
     int size_block;
     int pixel_min;
     int pixel_max;
     int i;
     i = 0;
+    (void)compass;
 
     size_block = size_block_in_height(proj_to_screen, dda, game);
 
@@ -147,16 +143,13 @@ void draw(t_game *game, t_dir dda, t_compass compass_or_fog, double proj_to_scre
     while (i <= HEIGHT)
     {
         if (i < pixel_min)
-            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0x000000);
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->ceiling_color.value);
         if (i >= pixel_min && i <= pixel_max)
         {
-            if (compass_or_fog != FOG)
-                my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
-            else
-                my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
         }
         if (i > pixel_max)
-            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFFFFFF);
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->floor_color.value);
 
         i++;
     }
@@ -179,16 +172,11 @@ void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, double proj_to
             game->player->pos_y_int += for_y.steps;
         }
 
-        if (choice->side_dist > 30 || block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]) == true)
-        {
+        if (block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]) == true)
             break;
-        }
         choice->side_dist += choice->ray.delta_dist;
     }
-    if (block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]))
-        draw(game, *choice, choice->texture_use, proj_to_screen);
-    else
-        draw(game, *choice, FOG, proj_to_screen);
+    draw(game, *choice, choice->texture_use, proj_to_screen);
 }
 
 void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, double proj_to_screen)

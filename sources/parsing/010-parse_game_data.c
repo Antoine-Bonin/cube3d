@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/04 14:27:09 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:22:11 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int parse_game_data(t_game *game, t_parsing_data *parsing)
 	get_player_data(game->player, parsing);
 	game->map_height = parsing->map_height;
 	game->map_width = parsing->map_width;
-	game->floor_color = (parsing->floor_color[0] << 16) | (parsing->floor_color[1] << 8) | parsing->floor_color[2];
-	game->ceiling_color = (parsing->ceiling_color[0] << 16) | (parsing->ceiling_color[1] << 8) | parsing->ceiling_color[2];
+	game->floor_color.value = (parsing->floor_color[0] << 16) | (parsing->floor_color[1] << 8) | parsing->floor_color[2];
+	game->ceiling_color.value = (parsing->ceiling_color[0] << 16) | (parsing->ceiling_color[1] << 8) | parsing->ceiling_color[2];
 	free_parsing(parsing);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/05 19:09:16 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:21:58 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void init_mlx(t_mlx_data *mlx_data)
 void init_game(t_game *game, t_mlx_data *data)
 {
 	game->mlx_data = data;
-	game->ceiling_color = 0;
-	game->floor_color = 0;
+	game->ceiling_color.value = 0;
+	game->floor_color.value = 0;
 	game->map = NULL;
 	game->map_height = 0;
 	game->map_width = 0;
