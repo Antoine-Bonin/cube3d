@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:07:15 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 15:16:21 by antbonin         ###   ########.fr       */
+/*   Updated: 2025/12/09 10:38:17 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,38 @@
 #include "libft.h"
 #include "parsing.h"
 #include "stdlib.h"
+#include "utils.h"
 
-void	init_null_tile(t_tile *tile)
-{
-	tile->type = '\0';
-	tile->is_player = false;
-	tile->is_solid = false;
-	tile->is_transparent = true;
-	tile->floor_height = 0.0;
-	tile->ceiling_height = 0.0;
-	tile->map_x = -1;
-	tile->map_y = -1;
-}
-
-static void	parse_tile_line(t_tile *tiles, char *line, int y)
+static void	parse_tile_line(t_tile *tiles, char *line, int y, int max_len)
 {
 	int	x;
 	int	line_len;
+	int	result;
 
 	line_len = (int)ft_strlen(line);
 	x = -1;
-	while (++x <= line_len)
-		init_null_tile(&tiles[x]);
-	x = -1;
-	while (++x < line_len)
+	while (++x < max_len)
 	{
-		if (line[x] == '1')
-			is_wall(&tiles[x], line[x], x, y);
-		else if (line[x] == '0')
-			is_floor(&tiles[x], line[x], x, y);
-		else if (line[x] == ' ')
-			is_hole(&tiles[x], line[x], x, y);
-		else if (line[x] == 'E' || line[x] == 'N' || line[x] == 'W'
-			|| line[x] == 'S')
-			is_player(&tiles[x], line[x], x, y);
+		if (x < line_len && line[x] != '\0' && line[x] != '\n')
+		{
+			result = find_index(line[x]);
+			if (result < 0 || result >= MAX)
+				tiles[x] = type_block[HOLE];
+			else
+				tiles[x] = type_block[result];
+		}
+		else
+			tiles[x] = type_block[END];
+		tiles[x].map_x = x;
+		tiles[x].map_y = y;
 	}
 }
 
-t_tile	**parse_map_tile(char **map, int height, int y, int x)
+t_tile	**parse_map_tile(char **map, int height, int y, int width)
 {
 	t_tile	**tiles;
 	int		i;
-	int		line_len;
 
-	(void)x;
 	tiles = (t_tile **)malloc(sizeof(t_tile *) * height);
 	if (!tiles)
 		return (NULL);
@@ -66,11 +54,10 @@ t_tile	**parse_map_tile(char **map, int height, int y, int x)
 		tiles[i] = NULL;
 	while (++y < height && tiles)
 	{
-		line_len = (int)ft_strlen(map[y]);
-		tiles[y] = (t_tile *)malloc(sizeof(t_tile) * (line_len + 1));
+		tiles[y] = (t_tile *)malloc(sizeof(t_tile) * width);
 		if (!tiles[y])
 			return (free_map_tile(tiles, height));
-		parse_tile_line(tiles[y], map[y], y);
+		parse_tile_line(tiles[y], map[y], y, width);
 	}
 	return (tiles);
 }

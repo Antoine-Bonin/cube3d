@@ -14,6 +14,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 FILES = main \
 		errors/print_errors \
+		utils/utils \
 		free_malloc/free_parsing_data \
 		free_malloc/free_exit \
 		parsing/00-parsing \
@@ -28,9 +29,12 @@ FILES = main \
 		parsing/09-check_map_validity \
 		parsing/010-parse_game_data \
 		parsing/011-parse_game_tile \
-		parsing/012-parse_game_tile_utils \
 		window/init_window_and_textures \
-		window/close_window \
+		window/keypress_window \
+		window/move_player \
+		minimap/draw_minimap \
+		minimap/init_minimap \
+		minimap/draw_big_minimap \
 		draw/draw 
 
 HEIGHT = 900

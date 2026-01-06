@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.h                                           :+:      :+:    :+:   */
+/*   minimap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/06 17:15:48 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:37:04 by antbonin         ###   ########.fr       */
+/*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
+/*   Updated: 2025/12/09 10:39:57 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WINDOW_H
-# define WINDOW_H
+#ifndef MINIMAP_H
+# define MINIMAP_H
+
+# define CONTRAST 255
 
 # include "structures.h"
 
-int	init_wdwimg_and_textures(t_parsing_data *game, t_mlx_data *mlx_data);
+typedef struct s_minimap_render
+{
+	int	pixel;
+	int	view_range;
+	int	offset_x;
+	int	offset_y;
+	int	player_x;
+	int	player_y;
+}		t_minimap_render;
 
-int	close_window(t_game *data);
-
-int	handle_keypress(int keycode, t_game *data);
-int	move_forward(t_game *game);
-int	move_backward(t_game *game);
-int	strafe_left(t_game *game);
-int	strafe_right(t_game *game);
+void	draw_minimap(t_game *game, int view_range);
+void	draw_big_minimap(t_game *game, int view_range);
+void	recreate_minimap_images(t_game *game, int size, int i);
 
 #endif
