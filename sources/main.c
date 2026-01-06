@@ -5,14 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/06 10:12:20 by antbonin         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2026/01/06 10:14:13 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "free_malloc.h"
 #include "draw.h"
 #include "init.h"
+#include "minimap.h"
 #include "mlx.h"
 #include "parsing.h"
 #include "stdio.h"
@@ -52,15 +54,17 @@ void init_mlx(t_mlx_data *mlx_data)
 {
 	int i;
 
-	i = 0;
-	while (i < 4)
-	{
-		mlx_data->textures[i++] = NULL;
-	}
+	i = -1;
+	while (++i < 4)
+		mlx_data->textures[i] = NULL;
+	i = -1;
+	while (++i < MAX)
+		mlx_data->minimap_img[i] = NULL;
 	mlx_data->mlx_ptr = NULL;
 	mlx_data->win_ptr = NULL;
 	mlx_data->img_height = 64;
 	mlx_data->img_width = 64;
+	mlx_data->minimap_tile_size = 0;
 }
 
 void init_game(t_game *game, t_mlx_data *data)
@@ -72,6 +76,8 @@ void init_game(t_game *game, t_mlx_data *data)
 	game->map_height = 0;
 	game->map_width = 0;
 	game->player = NULL;
+	game->show_minimap = false;
+	game->size_minimap = 5;
 }
 
 int mouse_handler(int x, int y, t_game *game)
@@ -94,7 +100,27 @@ int environment(t_game *game)
 	return 0;
 }
 
-int main(int ac, char **av)
+int mouse_handler(int x, int y, t_game *game)
+{
+	int delta_x;
+	int center_x = LENGTH / 2;
+	(void)y;
+	if (x == center_x)
+		return (0);
+	delta_x = x - center_x;
+	game->player->deg += delta_x * SENSITIVITY;
+	mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, center_x, HEIGHT / 2);
+	return 0;
+}
+
+int environment(t_game *game)
+{
+	calc_trigo_for_draw(game);
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, game->mlx_data->img.img_ptr, 0, 0);
+	return 0;
+}
+
+int	main(int ac, char **av)
 {
 	t_parsing_data parsing_data;
 	t_mlx_data mlx_data;
@@ -110,7 +136,8 @@ int main(int ac, char **av)
 		if (!init_wdwimg_and_textures(&parsing_data, &mlx_data))
 			return (cleanup(&parsing_data, 1, &game));
 		if (!parse_game_data(&game, &parsing_data))
-			return (cleanup(&parsing_data, 0, &game));
+			return (cleanup(&parsing_data, 1, &game));
+		draw_minimap(&game, game.size_minimap);
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
 		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask, mouse_handler, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
@@ -141,36 +168,21 @@ int main(int ac, char **av)
 // 	}
 // 	return (0);
 
-// x = 0;
-// y = 0;
-// while (x < game.map_height)
-// {
-// 	y = 0;
-// 	while (game.map[x][y].type != '\0')
+// if (keycode == 65289)
 // 	{
-// 		printf("%c",game.map[x][y].type);
-// 		y++;
+// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+// 		game->show_minimap = !game->show_minimap;
+// 		if (game->show_minimap)
+// 			draw_big_minimap(game, game->size_minimap + 5);
+// 		else
+// 			draw_minimap(game, game->size_minimap);
 // 	}
-// 	printf("\n");
-// 	x++;
-// }
-// int i = 0;
-// if (parsing_data->map)
-// {
-// 	while (parsing_data->map[i])
+// 	if (move_player(keycode, game) == 0)
 // 	{
-// 		printf("%s", parsing_data->map[i]);
-// 		i++;
+// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+// 		if (game->show_minimap)
+// 			draw_big_minimap(game, game->size_minimap + 5);
+// 		else
+// 			draw_minimap(game, game->size_minimap);
 // 	}
-// 	printf("\n%s\n", parsing_data->north_texture_path);
-// 	printf("%s\n", parsing_data->east_texture_path);
-// 	printf("%s\n", parsing_data->south_texture_path);
-// 	printf("%s\n", parsing_data->west_texture_path);
-// 	printf("floor color : %d,%d,%d\n", parsing_data->floor_color[0],
-// 		parsing_data->floor_color[1], parsing_data->floor_color[2]);
-// 	printf("ceiling color : %d,%d,%d\n", parsing_data->ceiling_color[0],
-// 		parsing_data->ceiling_color[1], parsing_data->ceiling_color[2]);
-// 	printf("player direction : %c\n", parsing_data->player_direction);
-// 	printf("player x : %d\n", parsing_data->player_x);
-// 	printf("player y : %d\n", parsing_data->player_y);
-// }
+// 	return (0);

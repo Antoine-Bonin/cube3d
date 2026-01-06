@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/18 17:52:34 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:15:28 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,44 @@
 # include "stdbool.h"
 # include <stdint.h>
 
-typedef struct	s_data {
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
+typedef struct s_data
+{
+	void			*img_ptr;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+}					t_data;
 
 typedef struct s_parsing_data
 {
-	char		*north_texture_path;
-	char		*south_texture_path;
-	char		*west_texture_path;
-	char		*east_texture_path;
-	int			floor_color[3];
-	int			ceiling_color[3];
-	char		**map;
-	int			map_height;
-	int			map_width;
-	bool		textures_complete;
-	int			player_x;
-	int			player_y;
-	char		player_direction;
-	bool		dup_found;
-}				t_parsing_data;
+	char			*north_texture_path;
+	char			*south_texture_path;
+	char			*west_texture_path;
+	char			*east_texture_path;
+	int				floor_color[3];
+	int				ceiling_color[3];
+	char			**map;
+	int				map_height;
+	int				map_width;
+	bool			textures_complete;
+	int				player_x;
+	int				player_y;
+	char			player_direction;
+	bool			dup_found;
+}					t_parsing_data;
 
 typedef struct s_mlx_data
 {
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_data		img;
-	void		*textures[4];
-	int			img_width;
-	int			img_height;
-}				t_mlx_data;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_data			img;
+	void			*textures[4];
+	int				img_width;
+	int				img_height;
+	void			*minimap_img[MAX];
+	int				minimap_tile_size;
+}					t_mlx_data;
 
 
 

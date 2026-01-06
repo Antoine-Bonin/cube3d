@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   010-parse_game_data.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/04 14:27:09 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:16:07 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,25 @@
 #include "messages.h"
 #include "parsing.h"
 #include "stdlib.h"
+#include "utils.h"
+
+void	get_player_direction_data(t_player *player, t_parsing_data *parsing)
+{
+	if (parsing->player_direction == 'N')
+	{
+		player->dir_x = 0.0;
+		player->dir_y = -1.0;
+		player->fov_x = 0.66;
+		player->fov_y = 0.0;
+	}
+	if (parsing->player_direction == 'S')
+	{
+		player->dir_x = 0.0;
+		player->dir_y = 1.0;
+		player->fov_x = -0.66;
+		player->fov_y = 0.0;
+	}
+}
 
 void get_player_data(t_player *player, t_parsing_data *parsing)
 {
@@ -28,22 +47,25 @@ void get_player_data(t_player *player, t_parsing_data *parsing)
 	else if (parsing->player_direction == 'S')
 		player->direction = SOUTH;
 	player->jumping = false;
-	player->move_speed = 0.4;
+	player->move_speed = 0.1;
 }
 
 int parse_game_data(t_game *game, t_parsing_data *parsing)
 {
-	game->map = parse_map_tile(parsing->map, parsing->map_height, -1, -1);
+	game->map = parse_map_tile(pars->map, pars->map_height, -1,
+			pars->map_width);
 	if (!game->map)
 		return (msg_error(MALLOC_ERR, 0));
 	game->player = (t_player *)malloc(sizeof(t_player));
 	if (!game->player)
 		return (msg_error(MALLOC_ERR, 0));
-	get_player_data(game->player, parsing);
-	game->map_height = parsing->map_height;
-	game->map_width = parsing->map_width;
-	game->floor_color = (parsing->floor_color[0] << 16) | (parsing->floor_color[1] << 8) | parsing->floor_color[2];
-	game->ceiling_color = (parsing->ceiling_color[0] << 16) | (parsing->ceiling_color[1] << 8) | parsing->ceiling_color[2];
-	free_parsing(parsing);
+	get_player_data(game->player, pars);
+	game->map_height = pars->map_height;
+	game->map_width = pars->map_width;
+	game->floor_color = color_argb(0, pars->ceiling_color[0],
+			pars->ceiling_color[1], pars->ceiling_color[2]);
+	game->ceiling_color = color_argb(0, pars->ceiling_color[0],
+			pars->ceiling_color[1], pars->ceiling_color[2]);
+	free_parsing(pars);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 16:01:50 by pde-petr         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:06:37 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 #include "mlx.h"
 #include "stdlib.h"
 #include "structures.h"
+
+void	free_mlx_image(t_mlx_data *mlx_data)
+{
+	int	i;
+
+	i = 0;
+	if (mlx_data->win_ptr)
+		mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
+	while (i != MAX)
+	{
+		if (mlx_data->minimap_img[i])
+			mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->minimap_img[i]);
+		i++;
+	}
+}
 
 void	free_mlx(t_mlx_data *mlx_data)
 {
@@ -28,9 +43,7 @@ void	free_mlx(t_mlx_data *mlx_data)
 			mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->textures[i]);
 		i++;
 	}
-	if (mlx_data->win_ptr)
-		mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
-	
+	free_mlx_image(mlx_data);
 	if (mlx_data->img.img_ptr)
 	{
 		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->img.img_ptr);
