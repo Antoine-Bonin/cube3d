@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/05 19:09:16 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/06 10:12:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,25 @@ int main(int ac, char **av)
 	}
 	return (cleanup(NULL, 0, &game));
 }
+
+// if (keycode == 65289)
+// 	{
+// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+// 		game->show_minimap = !game->show_minimap;
+// 		if (game->show_minimap)
+// 			draw_big_minimap(game, game->size_minimap + 5);
+// 		else
+// 			draw_minimap(game, game->size_minimap);
+// 	}
+// 	if (move_player(keycode, game) == 0)
+// 	{
+// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
+// 		if (game->show_minimap)
+// 			draw_big_minimap(game, game->size_minimap + 5);
+// 		else
+// 			draw_minimap(game, game->size_minimap);
+// 	}
+// 	return (0);
 
 // x = 0;
 // y = 0;
