@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/06 16:04:52 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/07 21:19:23 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 
-#define SENSITIVITY 0.020
+#define SENSITIVITY 0.02
 
 void	init_parsing_data(t_parsing_data *parsing_data)
 {
@@ -56,12 +56,13 @@ void	init_mlx(t_mlx_data *mlx_data)
 
 	i = -1;
 	while (++i < 4)
-		mlx_data->textures[i] = NULL;
+		mlx_data->textures[i].img_ptr = NULL;
 	i = -1;
 	while (++i < MAX)
 		mlx_data->minimap_img[i] = NULL;
 	mlx_data->mlx_ptr = NULL;
 	mlx_data->win_ptr = NULL;
+	mlx_data->img.img_ptr = NULL;
 	mlx_data->img_height = 64;
 	mlx_data->img_width = 64;
 	mlx_data->minimap_tile_size = 0;

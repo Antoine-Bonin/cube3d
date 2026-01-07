@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 16:08:00 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:35:50 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ typedef struct s_data
 	int bits_per_pixel;
 	int line_length;
 	int endian;
-} t_data;
+	int img_width;
+	int img_height;
+} t_img;
 
 typedef struct s_parsing_data
 {
@@ -47,8 +49,8 @@ typedef struct s_mlx_data
 {
 	void *mlx_ptr;
 	void *win_ptr;
-	t_data img;
-	void *textures[4];
+	t_img img;
+	t_img textures[4];
 	int img_width;
 	int img_height;
 	void *minimap_img[MAX];
@@ -107,7 +109,9 @@ typedef struct s_dir
 	char x_or_y;
 	bool positif;
 	double side_dist;
+	double offset_player_grid;
 	t_compass texture_use;
+	struct s_dir *for_inverse_point;
 } t_dir;
 
 typedef struct s_vec
@@ -130,6 +134,14 @@ typedef struct s_player
 	double deg;
 } t_player;
 
+typedef struct s_param_draw
+{
+	int size_wall;
+	int y_in_wall;
+	int x_pixel;
+	double rad_for_col;
+} t_param_draw;
+
 typedef struct s_game
 {
 	t_mlx_data *mlx_data;
@@ -143,6 +155,7 @@ typedef struct s_game
 	double rad_for_col;
 	bool show_minimap;
 	int size_minimap;
+	t_param_draw param_draw;
 } t_game;
 
 extern const char type_index[];

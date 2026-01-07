@@ -6,7 +6,7 @@
 /*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/06 19:48:41 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/07 21:19:50 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ float delta_dist(float ray_dir)
     return fabs(1.00 / ray_dir);
 }
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
     // t_argb test;
     // test.argb = (t_rgb){0, 255, 255, 0};
@@ -61,7 +61,7 @@ t_dir calc_side_dist(t_dir value, int pos, float pos_in_double)
     {
 
         value.positif = true;
-        value.side_dist = (pos + 1 - pos_in_double) * value.ray.delta_dist;
+        value.side_dist = value.offset_player_grid * value.ray.delta_dist;
     }
     else if (value.ray.raydir != DBL_MAX)
     {
@@ -69,7 +69,6 @@ t_dir calc_side_dist(t_dir value, int pos, float pos_in_double)
         value.side_dist = (pos_in_double - pos) * value.ray.delta_dist;
     }
     else
-
         value.side_dist = DBL_MAX;
     return value;
 }
@@ -83,17 +82,17 @@ t_dir calc_direction(t_dir value, t_game *game, char x_or_y)
 
         value = calc_side_dist(value, game->player->pos_x_int, game->player->pos_x);
         if (value.positif == 1)
-            value.texture_use = EAST;
+            value.texture_use = NORTH;
         else
-            value.texture_use = WEST;
+            value.texture_use = SOUTH;
     }
     else
     {
         value = calc_side_dist(value, game->player->pos_y_int, game->player->pos_y);
         if (value.positif == 1)
-            value.texture_use = SOUTH;
+            value.texture_use = EAST;
         else
-            value.texture_use = NORTH;
+            value.texture_use = WEST;
     }
     if (value.positif != 1)
         value.steps = -1;
@@ -127,28 +126,117 @@ int resize_height(int value)
     return value;
 }
 
+// int calc_oppose_for_pytha(double pos_first, double pos_last)
+// {
+//     if (pos_last > pos_first)
+//         return pos_last - pos_first;
+//     else
+//         return pos_first - pos_last;
+// }
+
+int x_find_pixel_for_img(t_game *game, t_dir dda_point, int length)
+{
+    // double oppose;
+    // double adj;
+    // double x_find;
+    // if (dda_point.x_or_y == 'x')
+    //     oppose = calc_oppose_for_pytha(game->player->pos_x, game->player->pos_x_int);
+    // else
+    //     oppose = calc_oppose_for_pytha(game->player->pos_y, game->player->pos_y_int);
+    // adj = sqrt(dda_point.side_dist) - sqrt(oppose);
+    // if (dda_point.for_inverse_point->side_dist != DBL_MAX)
+    // {
+    //     x_find = adj - dda_point.for_inverse_point->offset_player_grid;
+    // }
+    // else
+    // {
+    //     if (dda_point.x_or_y == 'x')
+    //         x_find = game->player->pos_y;
+    //     else
+    //         x_find = game->player->pos_x;
+    // }
+    // return (x_find - (int)x_find) * 100;
+    double x_find;
+
+    if (dda_point.x_or_y == 'x')
+        x_find = game->player->pos_y + (dda_point.side_dist * dda_point.for_inverse_point->ray.raydir);
+    else
+        x_find = game->player->pos_x + (dda_point.side_dist * dda_point.for_inverse_point->ray.raydir);
+
+    x_find = x_find - (int)x_find;
+
+    if ((dda_point.x_or_y == 'x' && dda_point.ray.raydir > 0) ||
+        (dda_point.x_or_y == 'y' && dda_point.ray.raydir < 0))
+    {
+        x_find = 1.0 - x_find;
+    }
+
+    return x_find * length;
+}
+
+void mlx_put_pixel_by_img(t_game *game, int *x, int y, t_img *img)
+{
+    int y_img;
+    char *dst;
+    char *src;
+    (void)img;
+
+    if (y < 0 || y >= HEIGHT || x[1] < 0 || x[1] >= LENGTH)
+        return;
+
+    y_img = (img->img_height * game->param_draw.y_in_wall) / game->param_draw.size_wall;
+    
+    if (y_img <= 0)
+        y_img = 0;
+    if (y_img > (img->img_height -1))
+        y_img = (img->img_height -1);
+    if (x[0] < 0)
+        x[0] = 0;
+    if (x[0] > (img->img_width -1))
+        x[0] = (img->img_width -1);
+
+    // printf("ddd %d\n", x[0]);
+    dst = game->mlx_data->img.addr + (y * game->mlx_data->img.line_length + x[1] * (game->mlx_data->img.bits_per_pixel >> 3));
+    src = img->addr + (y_img * img->line_length + x[0] * ((img->bits_per_pixel >> 3)));
+    // if (!img->img.addr)
+    //     return;
+    *(unsigned int *)dst = *(unsigned int *)src;
+}
+
 void draw(t_game *game, t_dir dda, t_compass compass, float proj_to_screen)
 {
     int size_block;
-    int pixel_min;
-    int pixel_max;
+    int pixel_min[2];
+    int pixel_max[2];
     int i;
     i = 0;
+    int choice_x_pixel_for_img;
     (void)compass;
 
     size_block = size_block_in_height(proj_to_screen, dda, game);
-
-    pixel_min = resize_height(HEIGHT >> 1) - (size_block >> 1);
-    pixel_max = resize_height(HEIGHT >> 1) + (size_block >> 1);
-    while (i <= HEIGHT)
+    pixel_min[1] = (HEIGHT >> 1) - (size_block >> 1);
+    pixel_min[0] = resize_height(pixel_min[1]);
+    
+    pixel_max[1] = (HEIGHT >> 1) + (size_block >> 1);
+    pixel_max[0] = resize_height(pixel_max[1]);
+    choice_x_pixel_for_img = x_find_pixel_for_img(game, dda, game->mlx_data->textures[compass].img_width);
+    game->param_draw.size_wall = size_block;
+    
+    
+    game->param_draw.y_in_wall = -1;
+    while (i < HEIGHT)
     {
-        if (i < pixel_min)
+        if (i < pixel_min[0])
             my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->ceiling_color.value);
-        if (i >= pixel_min && i <= pixel_max)
+        if (i >= pixel_min[0] && i < pixel_max[0])
         {
-            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0xFF91D2FF);
+            game->param_draw.y_in_wall  = i - pixel_min[1];
+            // printf("compass value = %d\n", compass);
+            mlx_put_pixel_by_img(game, (int []){choice_x_pixel_for_img,game->x_pixel}, i, &game->mlx_data->textures[compass]);
+            // my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0x0000FF);
         }
-        if (i > pixel_max)
+            
+        if (i >= pixel_max[0])
             my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->floor_color.value);
 
         i++;
@@ -176,6 +264,8 @@ void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, float proj_to_
             break;
         choice->side_dist += choice->ray.delta_dist;
     }
+    for_x.for_inverse_point = &for_y;
+    for_y.for_inverse_point = &for_x;
     draw(game, *choice, choice->texture_use, proj_to_screen);
 }
 
@@ -183,6 +273,7 @@ void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, 
 {
     for_x = calc_direction(for_x, game, 'x');
     for_y = calc_direction(for_y, game, 'y');
+
     check_block_by_block(for_x, for_y, game, proj_to_screen);
 }
 
@@ -225,7 +316,7 @@ void calc_init_for_ray(t_player *player, t_game *game)
     while (game->x_pixel < LENGTH)
     {
         // etape 3 calculer la dérivé
-        position_x_to_center = game->x_pixel - (LENGTH >> 1); 
+        position_x_to_center = game->x_pixel - (LENGTH >> 1);
         player->pos_x_int = (int)player->pos_x;
         player->pos_y_int = (int)player->pos_y;
         game->rad_for_col = rad_player + atan(position_x_to_center / proj_to_screen);
@@ -233,8 +324,6 @@ void calc_init_for_ray(t_player *player, t_game *game)
         game->x_pixel++;
     }
 }
-
-
 
 int calc_trigo_for_draw(t_game *game)
 {
