@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/07 20:35:50 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:42:41 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "stdbool.h"
 #include "tile.h"
 #include <stdint.h>
+#include <time.h>
 
 typedef struct s_data
 {
@@ -142,6 +143,18 @@ typedef struct s_param_draw
 	double rad_for_col;
 } t_param_draw;
 
+typedef struct s_keys
+{
+	bool w;
+	bool a;
+	bool s;
+	bool d;
+	bool up;
+	bool down;
+	bool left;
+	bool right;
+} t_keys;
+
 typedef struct s_game
 {
 	t_mlx_data *mlx_data;
@@ -156,6 +169,10 @@ typedef struct s_game
 	bool show_minimap;
 	int size_minimap;
 	t_param_draw param_draw;
+	t_keys keys;
+	int frame_count;
+	time_t last_time;
+	int fps;
 } t_game;
 
 extern const char type_index[];

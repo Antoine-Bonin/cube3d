@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/07 21:19:23 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:55:55 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "window.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
+#include "libft.h"
 
 #define SENSITIVITY 0.02
 
@@ -79,6 +80,17 @@ void	init_game(t_game *game, t_mlx_data *data)
 	game->player = NULL;
 	game->show_minimap = false;
 	game->size_minimap = 5;
+	game->keys.w = false;
+	game->keys.a = false;
+	game->keys.s = false;
+	game->keys.d = false;
+	game->keys.up = false;
+	game->keys.down = false;
+	game->keys.left = false;
+	game->keys.right = false;
+	game->frame_count = 0;
+	game->last_time = time(NULL);
+	game->fps = 0;
 }
 
 int	mouse_handler(int x, int y, t_game *game)
@@ -97,8 +109,49 @@ int	mouse_handler(int x, int y, t_game *game)
 	return (0);
 }
 
+void	draw_fps(t_game *game)
+{
+	char	*fps_str;
+	char	*fps_num;
+
+	fps_num = ft_itoa(game->fps);
+	fps_str = ft_strjoin("FPS: ", fps_num);
+	mlx_string_put(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr, LENGTH -100, 20,
+		0xFFFFFF, fps_str);
+	free(fps_num);
+	free(fps_str);
+}
+
+void	count_fps(t_game *game)
+{
+	time_t	current_time;
+	game->frame_count++;
+	current_time = time(NULL);
+	if (current_time != game->last_time)
+	{
+		game->fps = game->frame_count;
+		game->frame_count = 0;
+		game->last_time = current_time;
+	}
+}
+
+static void move_player(t_game *game)
+{
+	if (game->keys.w || game->keys.up)
+		move_forward(game);
+	if (game->keys.s || game->keys.down)
+		move_backward(game);
+	if (game->keys.a || game->keys.left)
+		strafe_left(game);
+	if (game->keys.d || game->keys.right)
+		strafe_right(game);
+}
+
 int	environment(t_game *game)
 {
+
+	move_player(game);
+	count_fps(game);
 	calc_trigo_for_draw(game);
 	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
 		game->mlx_data->img.img_ptr, 0, 0);
@@ -106,6 +159,7 @@ int	environment(t_game *game)
 		draw_minimap(game, game->size_minimap + 5);
 	else
 		draw_minimap(game, game->size_minimap);
+	draw_fps(game);
 	return (0);
 }
 
@@ -127,50 +181,14 @@ int	main(int ac, char **av)
 		if (!parse_game_data(&game, &parsing_data))
 			return (cleanup(&parsing_data, 1, &game));
 		mlx_hook(mlx_data.win_ptr, 17, 0, (int (*)())close_window, &game);
-		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask,
-			mouse_handler, &game);
 		mlx_hook(mlx_data.win_ptr, KeyPress, KeyPressMask,
 			(int (*)())handle_keypress, &game);
+		mlx_hook(mlx_data.win_ptr, KeyRelease, KeyReleaseMask,
+			(int (*)())handle_keyrelease, &game);
+		mlx_hook(mlx_data.win_ptr, MotionNotify, PointerMotionMask,
+			mouse_handler, &game);
 		mlx_loop_hook(mlx_data.mlx_ptr, environment, &game);
 		mlx_loop(mlx_data.mlx_ptr);
 	}
 	return (cleanup(NULL, 0, &game));
 }
-
-// if (keycode == 65289)
-// 	{
-// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
-// 		game->show_minimap = !game->show_minimap;
-// 		if (game->show_minimap)
-// 			draw_big_minimap(game, game->size_minimap + 5);
-// 		else
-// 			draw_minimap(game, game->size_minimap);
-// 	}
-// 	if (move_player(keycode, game) == 0)
-// 	{
-// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
-// 		if (game->show_minimap)
-// 			draw_big_minimap(game, game->size_minimap + 5);
-// 		else
-// 			draw_minimap(game, game->size_minimap);
-// 	}
-// 	return (0);
-
-// if (keycode == 65289)
-// 	{
-// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
-// 		game->show_minimap = !game->show_minimap;
-// 		if (game->show_minimap)
-// 			draw_big_minimap(game, game->size_minimap + 5);
-// 		else
-// 			draw_minimap(game, game->size_minimap);
-// 	}
-// 	if (move_player(keycode, game) == 0)
-// 	{
-// 		mlx_clear_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr);
-// 		if (game->show_minimap)
-// 			draw_big_minimap(game, game->size_minimap + 5);
-// 		else
-// 			draw_minimap(game, game->size_minimap);
-// 	}
-// 	return (0);
