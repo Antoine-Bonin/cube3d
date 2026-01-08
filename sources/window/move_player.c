@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:33:59 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:35:41 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:27:09 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	strafe_left(t_game *game)
     double	new_y;
     double	rad;
 
-    rad = (game->player->deg - 90) * (M_PI / 180.0);  // 90° à gauche
+    rad = (game->player->deg - 90) * (M_PI / 180.0);
     new_x = game->player->pos_x + cos(rad) * game->player->move_speed;
     new_y = game->player->pos_y + sin(rad) * game->player->move_speed;
     
@@ -83,7 +83,7 @@ int	strafe_right(t_game *game)
     double	new_y;
     double	rad;
 
-    rad = (game->player->deg + 90) * (M_PI / 180.0);  // 90° à droite
+    rad = (game->player->deg + 90) * (M_PI / 180.0);
     new_x = game->player->pos_x + cos(rad) * game->player->move_speed;
     new_y = game->player->pos_y + sin(rad) * game->player->move_speed;
     
