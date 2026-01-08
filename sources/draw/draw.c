@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/07 21:19:50 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/08 13:36:17 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ t_dir calc_side_dist(t_dir value, int pos, float pos_in_double)
     {
 
         value.positif = true;
-        value.side_dist = value.offset_player_grid * value.ray.delta_dist;
+        
+        value.side_dist = ((1 + pos) - pos_in_double) * value.ray.delta_dist;
     }
     else if (value.ray.raydir != DBL_MAX)
     {
@@ -331,7 +332,7 @@ int calc_trigo_for_draw(t_game *game)
     t_player *perso = game->player;
     if (init == 0)
     {
-        init++;
+        init = true;
         perso->deg = deg_dir[game->player->direction];
     }
     // printf("%f value player x && %f value player y\n", perso->dir_x, perso->dir_y);
