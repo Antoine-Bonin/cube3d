@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/08 13:36:17 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/09 20:43:03 by pde-petr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "float.h"
 
 static const int deg_dir[] = {270, 90, 360, 180};
-float deg_to_rad(float deg)
+double  deg_to_rad(double  deg)
 {
     return deg * M_PI / 180;
 }
@@ -31,7 +31,7 @@ bool check_if_after_limit(int point, int size_max)
     return false;
 }
 
-float delta_dist(float ray_dir)
+double  delta_dist(double  ray_dir)
 {
     if (fabs(ray_dir) < 1e-5)
         return (DBL_MAX);
@@ -54,7 +54,7 @@ void my_mlx_pixel_put(t_img *data, int x, int y, int color)
     *(unsigned int *)dst = color;
 }
 
-t_dir calc_side_dist(t_dir value, int pos, float pos_in_double)
+t_dir calc_side_dist(t_dir value, int pos, double  pos_in_double)
 {
 
     if (value.ray.raydir > 0 && value.ray.raydir != DBL_MAX)
@@ -107,15 +107,15 @@ bool block_is_solid(t_tile block)
     return false;
 }
 
-int size_block_in_height(float proj_to_screen, t_dir dda, t_game *game)
+int size_block_in_height(double  proj_to_screen, t_dir dda, t_game *game)
 {
     // return (dda.side_dist/proj_to_screen *dda.side_dist); $$Distance_{Perpendiculaire} = Distance_{Brute} \times \cos(\text{AngleRayon} - \text{AngleJoueur})$$ distance brut *
-    float side_dist_recalc;
+    double  side_dist_recalc;
 
     side_dist_recalc = dda.side_dist * cos(game->rad_for_col - deg_to_rad(game->player->deg));
     if (side_dist_recalc == 0)
         side_dist_recalc = DBL_MIN;
-    return ((1 * proj_to_screen / side_dist_recalc));
+    return (proj_to_screen / side_dist_recalc);
 }
 
 int resize_height(int value)
@@ -182,19 +182,19 @@ void mlx_put_pixel_by_img(t_game *game, int *x, int y, t_img *img)
     char *src;
     (void)img;
 
-    if (y < 0 || y >= HEIGHT || x[1] < 0 || x[1] >= LENGTH)
-        return;
+    // if (y < 0 || y >= HEIGHT || x[1] < 0 || x[1] >= LENGTH)
+    //     return;
 
     y_img = (img->img_height * game->param_draw.y_in_wall) / game->param_draw.size_wall;
     
-    if (y_img <= 0)
-        y_img = 0;
-    if (y_img > (img->img_height -1))
-        y_img = (img->img_height -1);
-    if (x[0] < 0)
-        x[0] = 0;
-    if (x[0] > (img->img_width -1))
-        x[0] = (img->img_width -1);
+    // if (y_img <= 0)
+    //     y_img = 0;
+    // if (y_img > (img->img_height -1))
+    //     y_img = (img->img_height -1);
+    // if (x[0] < 0)
+    //     x[0] = 0;
+    // if (x[0] > (img->img_width -1))
+    //     x[0] = (img->img_width -1);
 
     // printf("ddd %d\n", x[0]);
     dst = game->mlx_data->img.addr + (y * game->mlx_data->img.line_length + x[1] * (game->mlx_data->img.bits_per_pixel >> 3));
@@ -204,7 +204,7 @@ void mlx_put_pixel_by_img(t_game *game, int *x, int y, t_img *img)
     *(unsigned int *)dst = *(unsigned int *)src;
 }
 
-void draw(t_game *game, t_dir dda, t_compass compass, float proj_to_screen)
+void draw(t_game *game, t_dir dda, t_compass compass, double  proj_to_screen)
 {
     int size_block;
     int pixel_min[2];
@@ -212,13 +212,12 @@ void draw(t_game *game, t_dir dda, t_compass compass, float proj_to_screen)
     int i;
     i = 0;
     int choice_x_pixel_for_img;
-    (void)compass;
 
     size_block = size_block_in_height(proj_to_screen, dda, game);
-    pixel_min[1] = (HEIGHT >> 1) - (size_block >> 1);
+    pixel_min[1] = ((HEIGHT+game->param_draw.orientation_vert) >> 1) - (size_block >> 1);
     pixel_min[0] = resize_height(pixel_min[1]);
     
-    pixel_max[1] = (HEIGHT >> 1) + (size_block >> 1);
+    pixel_max[1] = ((HEIGHT+game->param_draw.orientation_vert) >> 1) + (size_block >> 1);
     pixel_max[0] = resize_height(pixel_max[1]);
     choice_x_pixel_for_img = x_find_pixel_for_img(game, dda, game->mlx_data->textures[compass].img_width);
     game->param_draw.size_wall = size_block;
@@ -227,8 +226,6 @@ void draw(t_game *game, t_dir dda, t_compass compass, float proj_to_screen)
     game->param_draw.y_in_wall = -1;
     while (i < HEIGHT)
     {
-        if (i < pixel_min[0])
-            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->ceiling_color.value);
         if (i >= pixel_min[0] && i < pixel_max[0])
         {
             game->param_draw.y_in_wall  = i - pixel_min[1];
@@ -236,15 +233,15 @@ void draw(t_game *game, t_dir dda, t_compass compass, float proj_to_screen)
             mlx_put_pixel_by_img(game, (int []){choice_x_pixel_for_img,game->x_pixel}, i, &game->mlx_data->textures[compass]);
             // my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, 0x0000FF);
         }
-            
-        if (i >= pixel_max[0])
+        else if (i < pixel_min[0])
+            my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->ceiling_color.value);
+        else if (i >= pixel_max[0])
             my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i, game->floor_color.value);
-
         i++;
     }
 }
 
-void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, float proj_to_screen)
+void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, double  proj_to_screen)
 {
     t_dir *choice;
     while (1)
@@ -270,7 +267,7 @@ void check_block_by_block(t_dir for_x, t_dir for_y, t_game *game, float proj_to_
     draw(game, *choice, choice->texture_use, proj_to_screen);
 }
 
-void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, float proj_to_screen)
+void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, double  proj_to_screen)
 {
     for_x = calc_direction(for_x, game, 'x');
     for_y = calc_direction(for_y, game, 'y');
@@ -278,12 +275,12 @@ void calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y, t_game *game, 
     check_block_by_block(for_x, for_y, game, proj_to_screen);
 }
 
-void calc_derivative_and_delta_dist(float rad, float proj_to_screen, t_game *game)
+void calc_derivative_and_delta_dist(double  rad, double  proj_to_screen, t_game *game)
 {
-    // float raydirY;
-    // float raydirX;
-    // float delta_dist_x;
-    // float delta_dist_y;
+    // double  raydirY;
+    // double  raydirX;
+    // double  delta_dist_x;
+    // double  delta_dist_y;
     t_dir for_x;
     t_dir for_y;
 
@@ -302,8 +299,8 @@ void calc_init_for_ray(t_player *player, t_game *game)
     // printf("%f de a et %f de b \n", perso->fov.vec_a.a, perso->fov.vec_b.a);
     // printf("%f de a et %f de b \n", perso->fov.vec_a.b, perso->fov.vec_b.b);
     static bool init = false;
-    static float proj_to_screen;
-    float rad_player;
+    static double  proj_to_screen;
+    double  rad_player;
     int position_x_to_center;
 
     // etape 2

@@ -37,8 +37,8 @@ FILES = main \
 		minimap/draw_big_minimap \
 		draw/draw 
 
-HEIGHT = 2160
-WIDTH = 3840
+HEIGHT = 800
+WIDTH = 800
 OBJ_DIR = build/
 SRC_DIR = sources/
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
