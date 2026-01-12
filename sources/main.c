@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/09 21:09:56 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:16:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,12 @@ void init_game(t_game *game, t_mlx_data *data)
 	game->keys.a = false;
 	game->keys.s = false;
 	game->keys.d = false;
-	game->keys.up = false;
-	game->keys.down = false;
 	game->keys.left = false;
 	game->keys.right = false;
 	game->frame_count = 0;
 	game->last_time = time(NULL);
 	game->fps = 0;
+	game->param_draw.orientation_vert = 0;
 }
 
 int mouse_handler(int x, int y, t_game *game)
@@ -152,14 +151,18 @@ void count_fps(t_game *game)
 
 static void move_player(t_game *game)
 {
-	if (game->keys.w || game->keys.up)
+	if (game->keys.w )
 		move_forward(game);
-	if (game->keys.s || game->keys.down)
+	if (game->keys.s)
 		move_backward(game);
-	if (game->keys.a || game->keys.left)
+	if (game->keys.a)
 		strafe_left(game);
-	if (game->keys.d || game->keys.right)
+	if (game->keys.d)
 		strafe_right(game);
+	// if (game->keys.right)
+	// 	move_camera(game);
+	// if (game->keys.left)
+	// 	move_camera(game);
 }
 
 int environment(t_game *game)

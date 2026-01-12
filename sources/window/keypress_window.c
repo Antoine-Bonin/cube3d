@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/08 15:36:29 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:38:10 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ static void	set_key_state(int keycode, t_game *game, bool state)
 		game->keys.s = state;
 	else if (keycode == D_KEY || keycode == XK_d)
 		game->keys.d = state;
-	else if (keycode == XK_Up)
-		game->keys.up = state;
-	else if (keycode == XK_Down)
-		game->keys.down = state;
 	else if (keycode == XK_Left)
 		game->keys.left = state;
 	else if (keycode == XK_Right)

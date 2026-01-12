@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/09 20:11:52 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:39:37 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,6 @@ typedef struct s_keys
 	bool a;
 	bool s;
 	bool d;
-	bool up;
-	bool down;
 	bool left;
 	bool right;
 } t_keys;

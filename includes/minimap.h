@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:54:32 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/11 17:28:52 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ typedef struct s_minimap_render
 	int	view_range;
 	int	offset_x;
 	int	offset_y;
-	int	player_x;
-	int	player_y;
-	double player_x_double;
-	double player_y_double;
 }		t_minimap_render;
 
 void	draw_minimap(t_game *game, int view_range);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/09 20:43:03 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/12 13:31:58 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,8 @@ int x_find_pixel_for_img(t_game *game, t_dir dda_point, int length)
 
     x_find = x_find - (int)x_find;
 
-    if ((dda_point.x_or_y == 'x' && dda_point.ray.raydir > 0) ||
-        (dda_point.x_or_y == 'y' && dda_point.ray.raydir < 0))
+    if ((dda_point.x_or_y == 'x' && dda_point.ray.raydir < 0) ||
+        (dda_point.x_or_y == 'y' && dda_point.ray.raydir > 0))
     {
         x_find = 1.0 - x_find;
     }
