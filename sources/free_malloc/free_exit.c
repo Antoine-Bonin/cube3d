@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_exit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/07 21:12:11 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/13 16:59:29 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,23 @@ void	free_mlx(t_mlx_data *mlx_data)
 {
 	int	i;
 
-	if (!mlx_data)
-		return ;
-	i = 0;
-	while (i < 4)
+	i = -1;
+	while (++i < 4)
 	{
 		if (mlx_data->textures[i].img_ptr)
 			mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->textures[i].img_ptr);
 		mlx_data->textures[i].img_ptr = NULL;
-		// if (mlx_data->textures[i].addr)
-		// 	free(mlx_data->textures[i].addr)
-		i++;
 	}
 	free_mlx_image(mlx_data);
 	if (mlx_data->img.img_ptr)
 	{
 		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->img.img_ptr);
 		mlx_data->img.img_ptr = NULL;
+	}
+	if (mlx_data->minimap_buffer_created && mlx_data->map_buf.img_ptr)
+	{
+		mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->map_buf.img_ptr);
+		mlx_data->map_buf.img_ptr = NULL;
 	}
 	if (mlx_data->mlx_ptr)
 	{

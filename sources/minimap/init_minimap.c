@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:51:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:38:01 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/13 14:56:44 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	create_new_images(t_game *game, int size)
 		if (i == PLAYER)
 		{
 			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr,
-					size / 2, color_argb(CONTRAST,
+					size / 1.5, color_argb(CONTRAST,
 						type_block[i].color_mini_map[0],
 						type_block[i].color_mini_map[1],
 						type_block[i].color_mini_map[2]));
@@ -88,11 +88,10 @@ static void	destroy_old_images(void **temp, void *mlx_ptr)
 	}
 }
 
-void	recreate_minimap_images(t_game *game, int size, int i)
+void	recreate_minimap_images(t_game *game, int size)
 {
 	void	*temp[MAX];
 
-	(void)i;
 	save_old_images(temp, game->mlx_data);
 	create_new_images(game, size);
 	destroy_old_images(temp, game->mlx_data->mlx_ptr);

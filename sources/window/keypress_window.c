@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/12 12:38:10 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:12:40 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #define A_KEY 16779595
 #define S_KEY 16779591
 #define D_KEY 16779597
-
+#define Q_KEY 16779596
 #define ESC_KEY 65307
 
 int	close_window(t_game *game)
@@ -32,14 +32,16 @@ int	close_window(t_game *game)
 
 static void	set_key_state(int keycode, t_game *game, bool state)
 {
-	if (keycode == W_KEY || keycode == XK_w)
+	if (keycode == W_KEY)
 		game->keys.w = state;
-	else if (keycode == A_KEY || keycode == XK_a)
+	else if (keycode == A_KEY)
 		game->keys.a = state;
-	else if (keycode == S_KEY || keycode == XK_s)
+	else if (keycode == S_KEY)
 		game->keys.s = state;
-	else if (keycode == D_KEY || keycode == XK_d)
+	else if (keycode == D_KEY)
 		game->keys.d = state;
+	else if (keycode == Q_KEY)
+		game->keys.q = state;
 	else if (keycode == XK_Left)
 		game->keys.left = state;
 	else if (keycode == XK_Right)
@@ -48,7 +50,7 @@ static void	set_key_state(int keycode, t_game *game, bool state)
 
 int	handle_keypress(int keycode, t_game *game)
 {
-	if (keycode == ESC_KEY || keycode == XK_Escape)
+	if (keycode == ESC_KEY)
 		return (close_window(game));
 	if (keycode == 65289)
 		game->show_minimap = !game->show_minimap;
@@ -60,4 +62,17 @@ int	handle_keyrelease(int keycode, t_game *game)
 {
 	set_key_state(keycode, game, false);
 	return (0);
+}
+
+void	move_player(t_game *game)
+{
+	sprint(game);
+	if (game->keys.w)
+		move_forward(game);
+	if (game->keys.s)
+		move_backward(game);
+	if (game->keys.a)
+		strafe_left(game);
+	if (game->keys.d)
+		strafe_right(game);
 }

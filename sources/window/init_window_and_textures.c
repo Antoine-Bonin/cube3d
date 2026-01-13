@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:14:59 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/08 12:31:47 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/13 17:03:52 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static int	init_textures(t_parsing_data *parsing_data, t_mlx_data *mlx_data)
 				&mlx_data->textures[i].img_height);
 		if (!mlx_data->textures[i].img_ptr)
 			return (msg_error(TEXTURE_PATH, 0));
-		mlx_data->textures[i].addr = mlx_get_data_addr(mlx_data->textures[i].img_ptr,
+		mlx_data->textures[i].addr
+			= mlx_get_data_addr(mlx_data->textures[i].img_ptr,
 				&mlx_data->textures[i].bits_per_pixel,
 				&mlx_data->textures[i].line_length,
 				&mlx_data->textures[i].endian);

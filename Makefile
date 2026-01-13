@@ -32,13 +32,18 @@ FILES = main \
 		window/init_window_and_textures \
 		window/keypress_window \
 		window/move_player \
+		window/move_mouse \
+		window/count_fps \
+		window/sprint \
 		minimap/draw_minimap \
 		minimap/init_minimap \
-		minimap/draw_big_minimap \
-		draw/draw 
+		draw/draw \
+		draw/calc_for_dda \
+		draw/calc_for_draw \
+		draw/dda 
 
-WIDTH = 1200
-HEIGHT = 720
+WIDTH = 2560
+HEIGHT = 1440
 OBJ_DIR = build/
 SRC_DIR = sources/
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))

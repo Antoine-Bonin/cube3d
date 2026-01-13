@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 16:46:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 11:59:25 by antbonin         ###   ########.fr       */
+/*   Created: 2026/01/13 13:36:58 by antbonin          #+#    #+#             */
+/*   Updated: 2026/01/13 17:01:04 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,109 +14,115 @@
 #include "minimap.h"
 #include "mlx.h"
 
-static void	draw_tile(t_game *game, t_minimap_render *render, int map_x,
-		int map_y)
-{
-	void	*img;
-	int		screen_x;
-	int		screen_y;
-	int		index;
+#define MIN_TILE_SIZE 8
+#define MAX_MINIMAP_SIZE 200
 
-	screen_x = render->offset_x + ((map_x - (render->player_x
-					- render->view_range)) * render->pixel);
-	screen_y = render->offset_y + ((map_y - (render->player_y
-					- render->view_range)) * render->pixel);
-	index = find_index(game->map[map_y][map_x].type);
-	if (index == PLAYER)
-		return ;
-	if (index < 0 || index >= END)
-		return ;
-	img = game->mlx_data->minimap_img[index];
-	if (!img)
-		return ;
-	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
-		img, screen_x, screen_y);
+static int	calculate_tile_size(t_game *game)
+{
+	int	pixel_width;
+	int	pixel_height;
+	int	tile_size;
+
+	pixel_width = MAX_MINIMAP_SIZE / (game->map_width - 1);
+	pixel_height = MAX_MINIMAP_SIZE / game->map_height;
+	if (pixel_width < pixel_height)
+		tile_size = pixel_width;
+	else
+		tile_size = pixel_height;
+	if (tile_size < MIN_TILE_SIZE)
+		tile_size = MIN_TILE_SIZE;
+	return (tile_size);
 }
 
-static void	draw_background(t_game *game, t_minimap_render *render)
+static void	copy_tile_to_buffer(char *dest, char *src, int pixel, t_img *buffer)
 {
-	int	x;
-	int	y;
-	int	size;
+	int				y;
+	int				x;
+	unsigned int	*dst_pixel;
+	unsigned int	*src_pixel;
 
-	size = render->view_range * 2 + 1;
 	y = 0;
-	while (y < size)
+	while (y < pixel)
 	{
 		x = 0;
-		while (x < size)
+		while (x < pixel)
 		{
-			mlx_put_image_to_window(game->mlx_data->mlx_ptr,
-				game->mlx_data->win_ptr, game->mlx_data->minimap_img[FLOOR],
-				render->offset_x + x * render->pixel, render->offset_y + y
-				* render->pixel);
+			dst_pixel = (unsigned int *)(dest + (y * buffer->line_length + x
+						* (buffer->bits_per_pixel / 8)));
+			src_pixel = (unsigned int *)(src + (y * pixel * 4 + x * 4));
+			*dst_pixel = *src_pixel;
 			x++;
 		}
 		y++;
 	}
 }
 
-static void	init_minimap_render(t_minimap_render *render, t_game *game,
-		int view_range)
+static void	draw_tile_to_buffer(t_game *game, int map_x, int map_y, int pixel)
 {
-	render->view_range = view_range;
-	render->offset_x = 0;
-	render->offset_y = 0;
-	render->player_x = (int)game->player->pos_x;
-	render->player_y = (int)game->player->pos_y;
-	if (LENGTH < HEIGHT)
-		render->pixel = (LENGTH / 4) / (view_range * 2 + 1);
-	else
-		render->pixel = (HEIGHT / 4) / (view_range * 2 + 1);
+	int		index;
+	void	*tile_img;
+	char	*tile_data;
+	char	*buffer_pos;
+	int		info[3];
+
+	index = find_index(game->map[map_y][map_x].type);
+	if (index < 0 || index >= END)
+		return ;
+	if (index == PLAYER)
+		index = FLOOR;
+	tile_img = game->mlx_data->minimap_img[index];
+	if (!tile_img)
+		return ;
+	tile_data = mlx_get_data_addr(tile_img, &info[1], &info[0], &info[2]);
+	buffer_pos = game->mlx_data->map_buf.addr + (map_y * pixel
+			* game->mlx_data->map_buf.line_length) + (map_x * pixel
+			* (game->mlx_data->map_buf.bits_per_pixel / 8));
+	copy_tile_to_buffer(buffer_pos, tile_data, pixel, &game->mlx_data->map_buf);
 }
 
-void	draw_minimap(t_game *game, int view_range)
+void	create_minimap_buffer(t_game *g)
 {
-	t_minimap_render	render;
-	int					map_x;
-	int					map_y;
+	int	pixel;
+	int	map_x;
+	int	map_y;
 
-	init_minimap_render(&render, game, view_range);
-	if (game->mlx_data->minimap_tile_size != render.pixel)
-		recreate_minimap_images(game, render.pixel, -1);
-	draw_background(game, &render);
-	map_y = render.player_y - view_range;
-	while (map_y <= render.player_y + view_range)
+	pixel = calculate_tile_size(g);
+	if (g->mlx_data->minimap_tile_size != pixel)
+		recreate_minimap_images(g, pixel);
+	if (g->mlx_data->minimap_buffer_created)
+		mlx_destroy_image(g->mlx_data->mlx_ptr,
+			g->mlx_data->map_buf.img_ptr);
+	g->mlx_data->map_buf.img_ptr = mlx_new_image(g->mlx_data->mlx_ptr,
+			(g->map_width - 1) * pixel, g->map_height * pixel);
+	g->mlx_data->map_buf.addr = mlx_get_data_addr(g->mlx_data->map_buf.img_ptr,
+			&g->mlx_data->map_buf.bits_per_pixel,
+			&g->mlx_data->map_buf.line_length,
+			&g->mlx_data->map_buf.endian);
+	map_y = -1;
+	while (++map_y < g->map_height)
 	{
-		map_x = render.player_x - view_range;
-		while (map_x <= render.player_x + view_range)
-		{
-			if (map_x >= 0 && map_x < game->map_width && map_y >= 0
-				&& map_y < game->map_height)
-				draw_tile(game, &render, map_x, map_y);
-			map_x++;
-		}
-		map_y++;
+		map_x = -1;
+		while (++map_x < g->map_width - 1)
+			draw_tile_to_buffer(g, map_x, map_y, pixel);
 	}
-	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
-		game->mlx_data->minimap_img[PLAYER], render.offset_x + (view_range
-			* render.pixel) + render.pixel / 4, render.offset_y + (view_range
-			* render.pixel) + render.pixel / 4);
+	g->mlx_data->minimap_buffer_created = true;
 }
 
-/*
- /2 character
+void	draw_minimap(t_game *game)
+{
+	int	player_x;
+	int	player_y;
+	int	tile_size;
+	int	player_img_size;
 
-For y dived by 16 = to the left,
- and by 2 to the right, 4 in the middle
-
-for X divided by 16 = to the top
- and by 2 to the bottom, 4 in the middle
-
- /4 character :
-
- divided per 3 for the middle
- for x divided by 1.3 to the bottom and 30 for top
- for y dived by 30 for left and 1.3 to the right
-
- */
+	tile_size = calculate_tile_size(game);
+	player_img_size = tile_size / 3;
+	player_x = 18 + (game->player->pos_x * tile_size) - (player_img_size / 2);
+	player_y = 18 + (game->player->pos_y * tile_size) - (player_img_size / 2);
+	if (!game->mlx_data->minimap_buffer_created)
+		create_minimap_buffer(game);
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
+		game->mlx_data->map_buf.img_ptr, 20, 20);
+	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
+		game->mlx_data->minimap_img[PLAYER], player_x, player_y);
+}
