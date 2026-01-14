@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.h                                          :+:      :+:    :+:   */
+/*   move_vision.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:54:38 by antbonin         ###   ########.fr       */
+/*   Created: 2026/01/13 18:16:47 by antbonin          #+#    #+#             */
+/*   Updated: 2026/01/14 17:43:33 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIMAP_H
-# define MINIMAP_H
+#include "init.h"
+#include "window.h"
 
-# define CONTRAST 255
+void	see_to_the_left(t_game *game)
+{
+	game->player->deg -= SENSITIVITY * 50;
+}
 
-# include "structures.h"
-
-void	draw_minimap(t_game *game);
-void	recreate_minimap_images(t_game *game, int size);
-void	create_minimap_buffer(t_game *game);
-void	draw_minimap_big_map(t_game *game);
-void	choose_wich_minimap_to_draw(t_game *game);
-#endif
+void	see_to_the_right(t_game *game)
+{
+	game->player->deg += SENSITIVITY * 50;
+}

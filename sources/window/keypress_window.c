@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:12:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:19:34 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,8 @@ void	move_player(t_game *game)
 		strafe_left(game);
 	if (game->keys.d)
 		strafe_right(game);
+	if (game->keys.right)
+		see_to_the_right(game);
+	if (game->keys.left)
+		see_to_the_left(game);
 }

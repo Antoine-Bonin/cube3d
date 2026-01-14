@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/13 17:22:16 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:52:43 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,11 @@ void	init_game(t_game *game, t_mlx_data *data)
 int	environment(t_game *game)
 {
 	move_player(game);
-	count_fps(game);
 	calc_trigo_for_draw(game);
 	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
 		game->mlx_data->img.img_ptr, 0, 0);
-	if (game->show_minimap)
-		draw_minimap(game);
+	choose_wich_minimap_to_draw(game);
+	count_fps(game);
 	draw_fps(game);
 	return (0);
 }

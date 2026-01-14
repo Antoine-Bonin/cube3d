@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 16:40:30 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:02:37 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 13:59:39 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ const t_tile	type_block[] = {
 	.is_transparent = 1, .type = 'V'},
 [WALL] = {.color_mini_map = {255, 255, 255}, .is_player = 0, .is_solid = 1,
 	.is_transparent = 0, .type = '1'},
-[HOLE] = {.color_mini_map = {100, 100, 255}, .is_player = 0, .is_solid = 1,
+[HOLE] = {.color_mini_map = {255, 255, 255}, .is_player = 0, .is_solid = 1,
 	.is_transparent = 0, .type = ' '},
 [PLAYER] = {.color_mini_map = {255, 0, 0}, .is_player = 1, .is_solid = 0,
 	.is_transparent = 0, .type = 'P'},

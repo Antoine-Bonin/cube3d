@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 13:36:58 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:01:04 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:41:48 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minimap.h"
 #include "mlx.h"
 
-#define MIN_TILE_SIZE 8
+#define MIN_TILE_SIZE 6
 #define MAX_MINIMAP_SIZE 200
 
 static int	calculate_tile_size(t_game *game)

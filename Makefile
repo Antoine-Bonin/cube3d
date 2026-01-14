@@ -15,6 +15,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 FILES = main \
 		errors/print_errors \
 		utils/utils \
+		utils/flood_fill \
 		free_malloc/free_parsing_data \
 		free_malloc/free_exit \
 		parsing/00-parsing \
@@ -35,15 +36,18 @@ FILES = main \
 		window/move_mouse \
 		window/count_fps \
 		window/sprint \
+		window/move_vision \
+		minimap/choose_wich_minimap_to_use \
 		minimap/draw_minimap \
 		minimap/init_minimap \
+		minimap/draw_minimap_big_map \
 		draw/draw \
 		draw/calc_for_dda \
 		draw/calc_for_draw \
 		draw/dda 
 
-WIDTH = 2560
-HEIGHT = 1440
+WIDTH = 1920
+HEIGHT = 1080
 OBJ_DIR = build/
 SRC_DIR = sources/
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))

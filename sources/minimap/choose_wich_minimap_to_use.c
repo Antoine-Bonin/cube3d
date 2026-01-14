@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minimap.h                                          :+:      :+:    :+:   */
+/*   choose_wich_minimap_to_use.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:54:38 by antbonin         ###   ########.fr       */
+/*   Created: 2026/01/14 17:52:56 by antbonin          #+#    #+#             */
+/*   Updated: 2026/01/14 17:54:23 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIMAP_H
-# define MINIMAP_H
+#include "minimap.h"
 
-# define CONTRAST 255
-
-# include "structures.h"
-
-void	draw_minimap(t_game *game);
-void	recreate_minimap_images(t_game *game, int size);
-void	create_minimap_buffer(t_game *game);
-void	draw_minimap_big_map(t_game *game);
-void	choose_wich_minimap_to_draw(t_game *game);
-#endif
+void	choose_wich_minimap_to_draw(t_game *game)
+{
+	if (game->show_minimap && (game->map_width >= 80 || game->map_height >= 80))
+		draw_minimap_big_map(game);
+	else if (game->show_minimap && (game->map_width < 80
+			&& game->map_height < 80))
+		draw_minimap(game);
+}

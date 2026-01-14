@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 16:54:50 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:45:46 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_player_data(t_player *player, t_parsing_data *parsing)
 		player->direction = SOUTH;
 	player->jumping = false;
 	player->base_speed = 0.07;
-	player->sprint_speed = 0.20;
+	player->sprint_speed = 0.25;
 	player->move_speed = player->base_speed;
 }
 

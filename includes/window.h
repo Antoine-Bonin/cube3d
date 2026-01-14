@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:15:48 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:13:19 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:54:42 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ void	count_fps(t_game *game);
 void	sprint(t_game *game);
 void	move_player(t_game *game);
 void	draw_fps(t_game *game);
+void	see_to_the_left(t_game *game);
+void	see_to_the_right(t_game *game);
 
 #endif

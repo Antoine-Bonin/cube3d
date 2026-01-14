@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:50:20 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/06 16:07:18 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:44:25 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define PARSING_H
 # include "structures.h"
 
+
+int	flood_fill_iterative(char **map, int start_x, int start_y, int front);
 int		parsing(char *fileName, t_parsing_data *parsing_data);
 int		parse_cub_file(char *filename, t_parsing_data *parsing_data);
 int		parse_textures_cub(char *line, t_parsing_data *parsing_data);

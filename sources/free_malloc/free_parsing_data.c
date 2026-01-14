@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsing_data.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:06 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/27 15:59:18 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:17:22 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,12 @@ int	malloc_error_in_parsing_exit(t_parsing_data *parsing_data)
 {
 	free_parsing(parsing_data);
 	exit(1);
+}
+
+int	free_return(void *ptr, int value)
+{
+	if (ptr)
+		free(ptr);
+	ptr = NULL;
+	return (value);
 }

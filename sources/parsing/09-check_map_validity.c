@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 15:26:21 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:44:36 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ char	**copy_map(char **map, int height)
 	char	**copy;
 	int		i;
 
-	copy = (char **)malloc(sizeof(char *) * (height + 1));
+	copy = (char **)ft_calloc(sizeof(char *), (height + 1));
 	if (!copy)
 		return (NULL);
 	i = -1;
 	while (++i < height)
 	{
-		if (ft_strlen(map[i]) >= 500 && height >= 500)
+		if (ft_strlen(map[i]) > 2000)
 		{
 			msg_error_and_free(MAP_TOO_BIG, 0, copy);
 			return (NULL);
@@ -96,28 +96,6 @@ char	**copy_map(char **map, int height)
 	return (copy);
 }
 
-int	flood_fill(char **map, int x, int y, t_parsing_data *parsing_data)
-{
-	if (y < 0 || y >= parsing_data->map_height)
-		return (0);
-	if (x < 0)
-		return (0);
-	if (x >= (int)ft_strlen(map[y]))
-		return (0);
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return (1);
-	map[y][x] = 'V';
-	if (!flood_fill(map, x + 1, y, parsing_data))
-		return (0);
-	if (!flood_fill(map, x - 1, y, parsing_data))
-		return (0);
-	if (!flood_fill(map, x, y + 1, parsing_data))
-		return (0);
-	if (!flood_fill(map, x, y - 1, parsing_data))
-		return (0);
-	return (1);
-}
-
 int	is_map_valid(t_parsing_data *parsing_data)
 {
 	char	**map_copy;
@@ -125,7 +103,7 @@ int	is_map_valid(t_parsing_data *parsing_data)
 
 	if (parsing_data->map_height < 3)
 		return (msg_error(MAP_TOO_SMALL, 0));
-	if (parsing_data->map_height > 1000)
+	if (parsing_data->map_height > 2000)
 		return (msg_error(MAP_TOO_BIG, 0));
 	if (!find_player(parsing_data, &parsing_data->player_x,
 			&parsing_data->player_y))
@@ -137,8 +115,8 @@ int	is_map_valid(t_parsing_data *parsing_data)
 	map_copy = copy_map(parsing_data->map, parsing_data->map_height);
 	if (!map_copy)
 		return (0);
-	result = flood_fill(map_copy, parsing_data->player_x,
-			parsing_data->player_y, parsing_data);
+	result = flood_fill_iterative(map_copy, parsing_data->player_x,
+			parsing_data->player_y, 0);
 	ft_free_tab(map_copy);
 	if (!result)
 		return (msg_error(FLOOD_FILL, 0));

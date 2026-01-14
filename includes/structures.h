@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:04:55 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 17:08:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_parsing_data
 	char			player_direction;
 	bool			dup_found;
 }					t_parsing_data;
+
+typedef struct s_point
+{
+	int				x;
+	int				y;
+}					t_point;
 
 typedef struct s_mlx_data
 {
@@ -179,6 +185,16 @@ typedef struct s_game
 	long			for_speed_last_time_ms;
 	int				fps;
 }					t_game;
+
+typedef struct s_minimap_render
+{
+	int	pixel;
+	int	view_range;
+	int	offset_x;
+	int	offset_y;
+	int	player_x;
+	int	player_y;
+}		t_minimap_render;
 
 extern const char	type_index[];
 extern const t_tile	type_block[];

@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:14:22 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/06 18:11:32 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 13:49:58 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define MISSING_ALL "Error\nEmpty file\n"
 # define MULTI_PLAYER "Error\nCan only have one player per map\n"
 # define FLOOD_FILL "Error\nMap not closed by walls\n"
+# define FLOOD_FILL_MAX "Error\nMaximum flood fill iteration, use a smaller map\n"
 # define MAP_TOO_BIG "Error\nMap is too big\n"
 # define WRONG_RGB "Error\nRGB value must be between 0 and 255\n"
 # define TEXTURE_PATH "Error\nInvalid texture path\n"
