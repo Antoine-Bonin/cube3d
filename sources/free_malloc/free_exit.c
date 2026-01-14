@@ -6,14 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 16:59:29 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:27:09 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_malloc.h"
 #include "mlx.h"
 #include "stdlib.h"
-#include "structures.h"
 
 void	free_mlx_image(t_mlx_data *mlx_data)
 {

@@ -6,11 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:57:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 15:25:19 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:23:05 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include "free_malloc.h"
 #include "messages.h"
 #include "parsing.h"

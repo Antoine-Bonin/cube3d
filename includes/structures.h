@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:08:32 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:10:15 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,13 +188,13 @@ typedef struct s_game
 
 typedef struct s_minimap_render
 {
-	int	pixel;
-	int	view_range;
-	int	offset_x;
-	int	offset_y;
-	int	player_x;
-	int	player_y;
-}		t_minimap_render;
+	int				pixel;
+	int				view_range;
+	int				offset_x;
+	int				offset_y;
+	int				player_x;
+	int				player_y;
+}					t_minimap_render;
 
 extern const char	type_index[];
 extern const t_tile	type_block[];

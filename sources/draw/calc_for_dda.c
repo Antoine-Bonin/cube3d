@@ -6,12 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:40:21 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:59:31 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:27:56 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw.h"
-#include "float.h"
+#include <float.h>
+#include <math.h>
 
 bool	block_is_solid(t_tile block)
 {

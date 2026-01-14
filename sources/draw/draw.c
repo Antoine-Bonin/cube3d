@@ -6,14 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/13 18:11:05 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:29:33 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "float.h"
 #include "init.h"
-#include "mlx.h"
-#include "stdio.h"
 #include <draw.h>
 
 static const int	deg_dir[] = {270, 90, 360, 180};
@@ -74,9 +71,8 @@ void	draw(t_game *game, t_dir dda, t_compass compass, double proj_to_screen)
 		if (i >= pixel_min[0] && i < pixel_max[0])
 		{
 			game->param_draw.y_in_wall = i - pixel_min[1];
-			mlx_put_pixel_by_img(game,
-                (int[]){choice_x_pixel_for_img,game->x_pixel},
-                 i, &game->mlx_data->textures[compass]);
+			mlx_put_pixel_by_img(game, (int[]){choice_x_pixel_for_img,
+				game->x_pixel}, i, &game->mlx_data->textures[compass]);
 		}
 		else if (i < pixel_min[0])
 			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i,

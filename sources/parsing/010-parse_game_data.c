@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 14:45:46 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:25:31 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "messages.h"
 #include "parsing.h"
 #include "stdlib.h"
-#include "utils.h"
 
 void	get_player_data(t_player *player, t_parsing_data *parsing)
 {

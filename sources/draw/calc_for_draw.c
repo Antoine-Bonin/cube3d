@@ -6,11 +6,12 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:40:21 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:50:42 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:28:05 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw.h"
+#include "init.h"
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {

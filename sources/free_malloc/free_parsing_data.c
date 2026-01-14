@@ -6,12 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:06 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 14:17:22 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:27:23 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free_malloc.h"
-#include "messages.h"
 #include "stdlib.h"
 
 void	free_and_set_null(void *ptr)

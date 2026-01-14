@@ -6,11 +6,10 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:08:34 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:14:57 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:19:17 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "init.h"
 #include "libft.h"
 #include "mlx.h"
 #include "stdlib.h"

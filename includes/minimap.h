@@ -6,20 +6,34 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:54:38 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:06:45 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIMAP_H
 # define MINIMAP_H
 
-# define CONTRAST 255
-
 # include "structures.h"
 
+/* ************************************************************************** */
+/*                              CONFIGURATION                                 */
+/* ************************************************************************** */
+
+# define CONTRAST 255
+
+/* ************************************************************************** */
+/*                          MINIMAP RENDERING                                 */
+/* ************************************************************************** */
+
 void	draw_minimap(t_game *game);
-void	recreate_minimap_images(t_game *game, int size);
-void	create_minimap_buffer(t_game *game);
 void	draw_minimap_big_map(t_game *game);
 void	choose_wich_minimap_to_draw(t_game *game);
+
+/* ************************************************************************** */
+/*                          BUFFER MANAGEMENT                                 */
+/* ************************************************************************** */
+
+void	create_minimap_buffer(t_game *game);
+void	recreate_minimap_images(t_game *game, int size);
+
 #endif

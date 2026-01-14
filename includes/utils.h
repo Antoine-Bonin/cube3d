@@ -6,15 +6,25 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 16:50:46 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:39:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:14:12 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "tile.h"
+/* ************************************************************************** */
+/*                          COLOR UTILITIES                                   */
+/* ************************************************************************** */
 
-int	color_argb(int a, int r, int g, int b);
+int		color_argb(int a, int r, int g, int b);
+
+/* ************************************************************************** */
+/*                         INITIALIZE STRUCT                                  */
+/* ************************************************************************** */
+
+void	init_parsing_data(t_parsing_data *parsing_data);
+void	init_mlx(t_mlx_data *mlx_data);
+void	init_game(t_game *game, t_mlx_data *data);
 
 #endif

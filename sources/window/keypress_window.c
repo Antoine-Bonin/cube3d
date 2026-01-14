@@ -6,15 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:00:00 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 18:19:34 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:20:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free_malloc.h"
-#include "minimap.h"
 #include "mlx.h"
-#include "stdio.h"
-#include "stdlib.h"
 #include "window.h"
 #include <X11/keysym.h>
 #define W_KEY 16779592

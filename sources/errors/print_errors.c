@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   print_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pde-petr <pde-petr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:43:32 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/15 22:10:58 by pde-petr         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:27:39 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "messages.h"
 #include "stdlib.h"
 
 int	msg_error(char *str, int error)

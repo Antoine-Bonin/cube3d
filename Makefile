@@ -16,6 +16,7 @@ FILES = main \
 		errors/print_errors \
 		utils/utils \
 		utils/flood_fill \
+		utils/init_main \
 		free_malloc/free_parsing_data \
 		free_malloc/free_exit \
 		parsing/00-parsing \

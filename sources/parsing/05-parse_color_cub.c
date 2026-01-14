@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   03-parse_color_cub.c                               :+:      :+:    :+:   */
+/*   05-parse_color_cub.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:52:29 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/05 16:39:26 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:23:36 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include "free_malloc.h"
-#include "parsing.h"
 #include "stdlib.h"
 #include "messages.h"
 

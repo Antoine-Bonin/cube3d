@@ -6,16 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:51:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 14:56:44 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:26:40 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minimap.h"
 #include "mlx.h"
-#include "parsing.h"
-#include "tile.h"
 #include "utils.h"
-#include <stddef.h>
 
 static void	*cc(void *mlx_ptr, int size, int color)
 {

@@ -6,12 +6,12 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:50:10 by antbonin          #+#    #+#             */
-/*   Updated: 2025/11/19 15:04:25 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:23:56 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include "../libft/includes/libft.h"
+#include "libft.h"
 #include "stdlib.h"
 
 int	parse_map_line(char *line, t_parsing_data *parsing_data)

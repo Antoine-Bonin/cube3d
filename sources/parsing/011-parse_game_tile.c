@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:07:15 by antbonin          #+#    #+#             */
-/*   Updated: 2025/12/09 10:38:17 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:26:03 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "parsing.h"
 #include "stdlib.h"
-#include "utils.h"
 
 static void	parse_tile_line(t_tile *tiles, char *line, int y, int max_len)
 {
@@ -46,7 +45,7 @@ t_tile	**parse_map_tile(char **map, int height, int y, int width)
 	t_tile	**tiles;
 	int		i;
 
-	tiles = (t_tile **)malloc(sizeof(t_tile *) * height);
+	tiles = (t_tile **)ft_calloc(sizeof(t_tile *), height);
 	if (!tiles)
 		return (NULL);
 	i = -1;

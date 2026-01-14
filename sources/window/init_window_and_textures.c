@@ -6,14 +6,13 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 17:14:59 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/13 17:03:52 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:19:49 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "init.h"
 #include "messages.h"
 #include "mlx.h"
-#include "stdio.h"
 #include "window.h"
 
 int	init_img(t_mlx_data *mlx_data)
