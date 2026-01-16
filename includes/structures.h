@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:20:44 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:10:15 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:41:36 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ typedef struct s_point
 	int				x;
 	int				y;
 }					t_point;
+
+typedef struct s_flood_fill_data
+{
+	t_point			*queue;
+	int				front;
+	int				rear;
+	int				max_size;
+}					t_flood_fill_data;
 
 typedef struct s_mlx_data
 {
@@ -120,6 +128,14 @@ typedef struct s_dir
 	t_compass		texture_use;
 	struct s_dir	*for_inverse_point;
 }					t_dir;
+
+typedef struct s_draw_data
+{
+	int				size_block;
+	int				pixel_min[2];
+	int				pixel_max[2];
+	int				current_y;
+}					t_draw_data;
 
 typedef struct s_vec
 {
@@ -196,7 +212,7 @@ typedef struct s_minimap_render
 	int				player_y;
 }					t_minimap_render;
 
-extern const char	type_index[];
-extern const t_tile	type_block[];
+extern const char	g_type_index[];
+extern const t_tile	g_type_block[];
 
 #endif

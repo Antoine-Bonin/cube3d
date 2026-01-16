@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:51:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:26:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:29:32 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,19 @@ static void	create_new_images(t_game *game, int size)
 	{
 		if (i == PLAYER)
 		{
-			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr,
-					size / 1.5, color_argb(CONTRAST,
-						type_block[i].color_mini_map[0],
-						type_block[i].color_mini_map[1],
-						type_block[i].color_mini_map[2]));
+			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr, size
+					/ 1.5, color_argb(CONTRAST,
+						g_type_block[i].color_mini_map[0],
+						g_type_block[i].color_mini_map[1],
+						g_type_block[i].color_mini_map[2]));
 		}
 		else
 		{
-			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr,
-					size, color_argb(CONTRAST, type_block[i].color_mini_map[0],
-						type_block[i].color_mini_map[1],
-						type_block[i].color_mini_map[2]));
+			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr, size,
+					color_argb(CONTRAST,
+						g_type_block[i].color_mini_map[0],
+						g_type_block[i].color_mini_map[1],
+						g_type_block[i].color_mini_map[2]));
 		}
 	}
 }

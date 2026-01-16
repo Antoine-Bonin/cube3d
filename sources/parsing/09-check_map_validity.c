@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:48:47 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:25:11 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:05:21 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,7 @@ int	is_map_valid(t_parsing_data *parsing_data)
 	map_copy = copy_map(parsing_data->map, parsing_data->map_height);
 	if (!map_copy)
 		return (0);
-	result = flood_fill_iterative(map_copy, parsing_data->player_x,
-			parsing_data->player_y, 0);
+	result = flood_fill_iterative(map_copy, parsing_data);
 	ft_free_tab(map_copy);
 	if (!result)
 		return (msg_error(FLOOD_FILL, 0));

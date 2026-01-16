@@ -6,14 +6,14 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 09:52:29 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:23:36 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:30:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "free_malloc.h"
-#include "stdlib.h"
+#include "libft.h"
 #include "messages.h"
+#include "stdlib.h"
 
 static int	count_commas(char *str)
 {
@@ -47,20 +47,40 @@ static int	is_valid_number(char *str)
 	return (1);
 }
 
+int	is_not_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	get_color_in_data_loop(int *i, char **split, char *trimmed, int *color)
 {
 	int	value;
+	int	error;
 
+	error = 0;
 	while (*i < 3 && split[*i])
 	{
 		trimmed = ft_strtrim(split[*i], " \t\n");
-		if (!trimmed || !is_valid_number(trimmed))
+		if (!trimmed || !is_valid_number(trimmed) || is_not_number(trimmed))
 		{
 			free(trimmed);
-			ft_free_tab(split);
 			return (0);
 		}
-		value = ft_atoi(trimmed, 0);
+		value = ft_atoi(trimmed, &error);
+		if (error == -1)
+		{
+			free(trimmed);
+			return (0);
+		}
 		free(trimmed);
 		color[*i] = value;
 		(*i)++;
@@ -82,7 +102,10 @@ int	get_color_in_data(int *color, char *line)
 		return (0);
 	i = 0;
 	if (!get_color_in_data_loop(&i, split, trimmed, color))
+	{
+		ft_free_tab(split);
 		return (0);
+	}
 	if (i != 3 || split[3] != NULL)
 	{
 		ft_free_tab(split);

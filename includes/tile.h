@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:18:10 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:06:51 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:30:58 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 typedef enum s_type
 {
 	FLOOR,
-	VOID,
 	WALL,
 	HOLE,
 	PLAYER,

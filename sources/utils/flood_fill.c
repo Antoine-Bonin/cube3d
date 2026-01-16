@@ -6,56 +6,57 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:44:04 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:18:36 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:12:00 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "free_malloc.h"
 #include "stdlib.h"
-#define MAX_MAP_SIZE 16000000
 
-int	flood_fill_iterative_loop(char **map, int *front, int *rear, t_point *queue)
+int	flood_fill_iterative_loop(char **map, t_flood_fill_data *ff)
 {
 	t_point	p;
 
-	if (*rear + 4 >= MAX_MAP_SIZE)
-		return (free_return(queue, 0));
-	p = queue[(*front)++];
+	if (ff->rear + 4 >= ff->max_size)
+		return (free_return(ff->queue, 0));
+	p = ff->queue[(ff->front)++];
 	if (p.y < 0 || p.x < 0 || !map[p.y] || !map[p.y][p.x])
-		return (free_return(queue, 0));
+		return (free_return(ff->queue, 0));
 	if (map[p.y][p.x] == '1' || map[p.y][p.x] == 'V' || map[p.y][p.x] == ' ')
 		return (1);
 	if (map[p.y][p.x] == '\n' || map[p.y][p.x] == '\0')
-		return (free_return(queue, 0));
+		return (free_return(ff->queue, 0));
 	map[p.y][p.x] = 'V';
-	queue[(*rear)++] = (t_point){p.x + 1, p.y};
-	queue[(*rear)++] = (t_point){p.x - 1, p.y};
-	queue[(*rear)++] = (t_point){p.x, p.y + 1};
-	queue[(*rear)++] = (t_point){p.x, p.y - 1};
+	ff->queue[(ff->rear)++] = (t_point){p.x + 1, p.y};
+	ff->queue[(ff->rear)++] = (t_point){p.x - 1, p.y};
+	ff->queue[(ff->rear)++] = (t_point){p.x, p.y + 1};
+	ff->queue[(ff->rear)++] = (t_point){p.x, p.y - 1};
 	return (2);
 }
 
-int	flood_fill_iterative(char **map, int start_x, int start_y, int front)
+int	flood_fill_iterative(char **map, t_parsing_data *parsing_data)
 {
-	t_point	*queue;
-	int		rear;
-	int		result;
+	t_flood_fill_data	ff;
+	int					result;
 
 	result = 0;
-	queue = ft_calloc(sizeof(t_point), MAX_MAP_SIZE);
-	if (!queue)
+	ff.max_size = (parsing_data->map_height * parsing_data->map_width) * 4;
+	ff.queue = ft_calloc(sizeof(t_point), ff.max_size);
+	if (!ff.queue)
 		return (0);
-	rear = 0;
-	queue[rear++] = (t_point){start_x, start_y};
-	while (front < rear)
+	ff.front = 0;
+	ff.rear = 0;
+	ff.queue[ff.rear++] = (t_point){parsing_data->player_x,
+		parsing_data->player_y};
+	while (ff.front < ff.rear)
 	{
-		result = flood_fill_iterative_loop(map, &front, &rear, queue);
+		result = flood_fill_iterative_loop(map, &ff);
 		if (result == 0)
 			return (0);
 		if (result == 1)
 			continue ;
 	}
-	free(queue);
+	free(ff.queue);
 	return (1);
 }

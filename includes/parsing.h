@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 18:50:20 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:07:45 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:07:59 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		is_different_char_from(char c);
 /*                          FLOOD FILL ALGORITHM                              */
 /* ************************************************************************** */
 
-int		flood_fill_iterative(char **map, int start_x, int start_y, int front);
+int		flood_fill_iterative(char **map, t_parsing_data *parsing_data);
 char	**copy_map(char **map, int height);
 
 /* ************************************************************************** */

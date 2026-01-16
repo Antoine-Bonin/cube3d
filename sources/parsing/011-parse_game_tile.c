@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:07:15 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:26:03 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:28:43 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static void	parse_tile_line(t_tile *tiles, char *line, int y, int max_len)
 		{
 			result = find_index(line[x]);
 			if (result < 0 || result >= MAX)
-				tiles[x] = type_block[HOLE];
+				tiles[x] = g_type_block[HOLE];
 			else
-				tiles[x] = type_block[result];
+				tiles[x] = g_type_block[result];
 		}
 		else
-			tiles[x] = type_block[END];
+			tiles[x] = g_type_block[END];
 		tiles[x].map_x = x;
 		tiles[x].map_y = y;
 	}

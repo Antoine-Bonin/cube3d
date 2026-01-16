@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:16:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:21:50 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:43:18 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ bool	is_file_name_correct(char *map)
 	map_len = ft_strlen(map);
 	if (map_len < 5)
 		return (0);
-	if (map[map_len - 3] == 'c' && map[map_len - 2] == 'u' && map[map_len
-			- 1] == 'b')
+	if (map[map_len - 4] == '.' && map[map_len - 3] == 'c' && map[map_len
+			- 2] == 'u' && map[map_len - 1] == 'b')
 		return (1);
 	return (0);
 }

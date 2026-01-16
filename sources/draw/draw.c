@@ -6,14 +6,14 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/14 18:29:33 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:43:08 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "draw.h"
 #include "init.h"
-#include <draw.h>
 
-static const int	deg_dir[] = {270, 90, 360, 180};
+static const int	g_deg_dir[] = {270, 90, 360, 180};
 
 // if (y < 0 || y >= HEIGHT || x[1] < 0 || x[1] >= LENGTH)
 //     return ;
@@ -46,41 +46,45 @@ void	mlx_put_pixel_by_img(t_game *game, int *x, int y, t_img *img)
 	*(unsigned int *)dst = *(unsigned int *)src;
 }
 
+static void	init_draw_data(t_draw_data *data, t_game *game, t_dir dda,
+		double proj_to_screen)
+{
+	data->size_block = size_block_in_height(proj_to_screen, dda, game);
+	data->pixel_min[1] = ((HEIGHT + game->param_draw.orientation_vert) >> 1)
+		- (data->size_block >> 1);
+	data->pixel_min[0] = resize_height(data->pixel_min[1]);
+	data->pixel_max[1] = ((HEIGHT + game->param_draw.orientation_vert) >> 1)
+		+ (data->size_block >> 1);
+	data->pixel_max[0] = resize_height(data->pixel_max[1]);
+	data->current_y = 0;
+	game->param_draw.size_wall = data->size_block;
+	game->param_draw.y_in_wall = -1;
+}
+
 void	draw(t_game *game, t_dir dda, t_compass compass, double proj_to_screen)
 {
-	int	size_block;
-	int	pixel_min[2];
-	int	pixel_max[2];
-	int	i;
-	int	choice_x_pixel_for_img;
+	t_draw_data	data;
+	int			choice_x_pixel;
 
-	i = 0;
-	size_block = size_block_in_height(proj_to_screen, dda, game);
-	pixel_min[1] = ((HEIGHT + game->param_draw.orientation_vert) >> 1)
-		- (size_block >> 1);
-	pixel_min[0] = resize_height(pixel_min[1]);
-	pixel_max[1] = ((HEIGHT + game->param_draw.orientation_vert) >> 1)
-		+ (size_block >> 1);
-	pixel_max[0] = resize_height(pixel_max[1]);
-	choice_x_pixel_for_img = x_find_pixel_for_img(game, dda,
+	choice_x_pixel = x_find_pixel_for_img(game, dda,
 			game->mlx_data->textures[compass].img_width);
-	game->param_draw.size_wall = size_block;
-	game->param_draw.y_in_wall = -1;
-	while (i < HEIGHT)
+	init_draw_data(&data, game, dda, proj_to_screen);
+	while (data.current_y < HEIGHT)
 	{
-		if (i >= pixel_min[0] && i < pixel_max[0])
+		if (data.current_y >= data.pixel_min[0]
+			&& data.current_y < data.pixel_max[0])
 		{
-			game->param_draw.y_in_wall = i - pixel_min[1];
-			mlx_put_pixel_by_img(game, (int[]){choice_x_pixel_for_img,
-				game->x_pixel}, i, &game->mlx_data->textures[compass]);
+			game->param_draw.y_in_wall = data.current_y - data.pixel_min[1];
+			mlx_put_pixel_by_img(game, (int []){choice_x_pixel, game->x_pixel},
+				data.current_y, &game->mlx_data->textures[compass]);
 		}
-		else if (i < pixel_min[0])
-			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i,
-				game->ceiling_color.value);
-		else if (i >= pixel_max[0])
-			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel, i,
-				game->floor_color.value);
-		i++;
+		else if (data.current_y < data.pixel_min[0])
+			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel,
+				data.current_y, game->ceiling_color.value);
+		else if (data.current_y >= data.pixel_max[0])
+			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel,
+				data.current_y, game->floor_color.value);
+		data.current_y++;
 	}
 }
 
@@ -94,12 +98,14 @@ void	calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y,
 
 int	calc_trigo_for_draw(t_game *game)
 {
-	static bool init = 0;
-	t_player *perso = game->player;
+	static bool	init = 0;
+	t_player	*perso;
+
+	perso = game->player;
 	if (init == 0)
 	{
 		init = true;
-		perso->deg = deg_dir[game->player->direction];
+		perso->deg = g_deg_dir[game->player->direction];
 	}
 	calc_init_for_ray(perso, game);
 	return (0);

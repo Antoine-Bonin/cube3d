@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:36:35 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:29:25 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/16 16:30:03 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ void	check_block_by_block(t_dir for_x, t_dir for_y, t_game *game,
 			choice = &for_y;
 			game->player->pos_y_int += for_y.steps;
 		}
-		if (block_is_solid(game->map[game->player->pos_y_int][game->player->pos_x_int]) == true)
+		if (block_is_solid(game->map[game->player->pos_y_int]\
+[game->player->pos_x_int]) == true)
 			break ;
 		choice->side_dist += choice->ray.delta_dist;
 	}
