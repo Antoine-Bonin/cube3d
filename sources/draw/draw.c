@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:43:33 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/16 16:43:08 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:01:58 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 #include "init.h"
 
 static const int	g_deg_dir[] = {270, 90, 360, 180};
-
-// if (y < 0 || y >= HEIGHT || x[1] < 0 || x[1] >= LENGTH)
-//     return ;
-
-// if (y_img <= 0)
-//     y_img = 0;
-// if (y_img > (img->img_height -1))
-//     y_img = (img->img_height -1);
-// if (x[0] < 0)
-//     x[0] = 0;
-// if (x[0] > (img->img_width -1))
-//     x[0] = (img->img_width -1);
-
-// if (!img->img.addr)
-//     return ;
 
 void	mlx_put_pixel_by_img(t_game *game, int *x, int y, t_img *img)
 {
@@ -75,14 +60,14 @@ void	draw(t_game *game, t_dir dda, t_compass compass, double proj_to_screen)
 			&& data.current_y < data.pixel_max[0])
 		{
 			game->param_draw.y_in_wall = data.current_y - data.pixel_min[1];
-			mlx_put_pixel_by_img(game, (int []){choice_x_pixel, game->x_pixel},
+			mlx_put_pixel_by_img(game, (int []){choice_x_pixel, game->param_draw.x_pixel},
 				data.current_y, &game->mlx_data->textures[compass]);
 		}
 		else if (data.current_y < data.pixel_min[0])
-			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel,
+			my_mlx_pixel_put(&game->mlx_data->img, game->param_draw.x_pixel,
 				data.current_y, game->ceiling_color.value);
 		else if (data.current_y >= data.pixel_max[0])
-			my_mlx_pixel_put(&game->mlx_data->img, game->x_pixel,
+			my_mlx_pixel_put(&game->mlx_data->img, game->param_draw.x_pixel,
 				data.current_y, game->floor_color.value);
 		data.current_y++;
 	}
@@ -99,14 +84,14 @@ void	calc_player_to_intersection_x_or_y(t_dir for_x, t_dir for_y,
 int	calc_trigo_for_draw(t_game *game)
 {
 	static bool	init = 0;
-	t_player	*perso;
+	t_player	*character;
 
-	perso = game->player;
+	character = game->player;
 	if (init == 0)
 	{
 		init = true;
-		perso->deg = g_deg_dir[game->player->direction];
+		character->deg = g_deg_dir[game->player->direction];
 	}
-	calc_init_for_ray(perso, game);
+	calc_init_for_ray(character, game);
 	return (0);
 }

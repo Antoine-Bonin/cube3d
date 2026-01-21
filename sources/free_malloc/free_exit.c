@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:39:40 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:27:09 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:59:40 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ void	free_game(t_game *game)
 {
 	if (!game)
 		return ;
+	if (game->map)
+	{
+		free_map_tile(game->map, game->mlx_data->img.img_height);
+		game->map = NULL;
+	}
 	if (game->mlx_data)
 	{
 		free_mlx(game->mlx_data);
@@ -100,10 +105,5 @@ void	free_game(t_game *game)
 	{
 		free(game->player);
 		game->player = NULL;
-	}
-	if (game->map)
-	{
-		free_map_tile(game->map, game->map_height);
-		game->map = NULL;
 	}
 }

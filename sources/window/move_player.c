@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:33:59 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/16 14:38:47 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:56:25 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_collision(t_game *game, double x, double y)
 	map_x = (int)x;
 	map_y = (int)y;
 	if (map_x < 0 || map_x >= game->map_width || map_y < 0
-		|| map_y >= game->map_height)
+		|| map_y >= game->mlx_data->img.img_height)
 		return (1);
 	if (game->map[map_y][map_x].type == ' ')
 	{

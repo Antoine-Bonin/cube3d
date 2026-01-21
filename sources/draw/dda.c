@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:36:35 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/16 16:30:03 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:51:44 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ t_dir	calc_side_dist(t_dir value, int pos, double pos_in_double)
 {
 	if (value.ray.raydir > 0 && value.ray.raydir != DBL_MAX)
 	{
-		value.positif = true;
+		value.positive = true;
 		value.side_dist = ((1 + pos) - pos_in_double) * value.ray.delta_dist;
 	}
 	else if (value.ray.raydir != DBL_MAX)
 	{
-		value.positif = false;
+		value.positive = false;
 		value.side_dist = (pos_in_double - pos) * value.ray.delta_dist;
 	}
 	else
@@ -40,21 +40,21 @@ t_dir	calc_direction(t_dir value, t_game *game, char x_or_y)
 	{
 		value = calc_side_dist(value, game->player->pos_x_int,
 				game->player->pos_x);
-		if (value.positif == 1)
-			value.texture_use = NORTH;
+		if (value.positive == 1)
+			value.texture_use = EAST;
 		else
-			value.texture_use = SOUTH;
+			value.texture_use = WEST;
 	}
 	else
 	{
 		value = calc_side_dist(value, game->player->pos_y_int,
 				game->player->pos_y);
-		if (value.positif == 1)
-			value.texture_use = EAST;
+		if (value.positive == 1)
+			value.texture_use = NORTH;
 		else
-			value.texture_use = WEST;
+			value.texture_use = SOUTH;
 	}
-	if (value.positif != 1)
+	if (value.positive != 1)
 		value.steps = -1;
 	return (value);
 }
@@ -112,16 +112,16 @@ void	calc_init_for_ray(t_player *player, t_game *game)
 		proj_to_screen = (double)(LENGTH >> 1) / tan(deg_to_rad(FOV_DEG >> 1));
 		init = true;
 	}
-	game->x_pixel = 0;
+	game->param_draw.x_pixel = 0;
 	rad_player = deg_to_rad(player->deg);
-	while (game->x_pixel < LENGTH)
+	while (game->param_draw.x_pixel < LENGTH)
 	{
-		position_x_to_center = game->x_pixel - (LENGTH >> 1);
+		position_x_to_center = game->param_draw.x_pixel - (LENGTH >> 1);
 		player->pos_x_int = (int)player->pos_x;
 		player->pos_y_int = (int)player->pos_y;
-		game->rad_for_col = rad_player + atan(position_x_to_center
+		game->param_draw.rad_for_x = rad_player + atan(position_x_to_center
 				/ proj_to_screen);
-		calc_derivative_and_delta_dist(game->rad_for_col, proj_to_screen, game);
-		game->x_pixel++;
+		calc_derivative_and_delta_dist(game->param_draw.rad_for_x, proj_to_screen, game);
+		game->param_draw.x_pixel++;
 	}
 }

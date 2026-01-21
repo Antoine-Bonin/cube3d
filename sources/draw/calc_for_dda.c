@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:40:21 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:27:56 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:18:34 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	size_block_in_height(double proj_to_screen, t_dir dda, t_game *game)
 {
 	double	side_dist_recalc;
 
-	side_dist_recalc = dda.side_dist * cos(game->rad_for_col
+	side_dist_recalc = dda.side_dist * cos(game->param_draw.rad_for_x
 			- deg_to_rad(game->player->deg));
 	if (side_dist_recalc == 0)
 		side_dist_recalc = DBL_MIN;
@@ -35,13 +35,6 @@ int	size_block_in_height(double proj_to_screen, t_dir dda, t_game *game)
 double	deg_to_rad(double deg)
 {
 	return (deg * M_PI / 180);
-}
-
-bool	check_if_after_limit(int point, int size_max)
-{
-	if (point >= 0 || point <= size_max)
-		return (true);
-	return (false);
 }
 
 double	delta_dist(double ray_dir)

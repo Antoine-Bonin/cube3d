@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:19:20 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:43:27 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:55:13 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	draw_minimap_big_map(t_game *game)
 		while (map_x <= render.player_x + VIEW_RANGE)
 		{
 			if (map_x >= 0 && map_x < game->map_width && map_y >= 0
-				&& map_y < game->map_height)
+				&& map_y < game->mlx_data->img.img_height)
 				draw_tile(game, &render, map_x, map_y);
 			map_x++;
 		}

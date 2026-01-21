@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 18:12:34 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:13:14 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:56:22 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	init_mlx(t_mlx_data *mlx_data)
 	mlx_data->mlx_ptr = NULL;
 	mlx_data->win_ptr = NULL;
 	mlx_data->img.img_ptr = NULL;
-	mlx_data->img_height = 64;
-	mlx_data->img_width = 64;
+	mlx_data->img.img_width = 64;
+	mlx_data->img.img_height = 64;
 	mlx_data->minimap_tile_size = 0;
 	mlx_data->map_buf.img_ptr = NULL;
 	mlx_data->minimap_buffer_created = false;
@@ -64,7 +64,7 @@ void	init_game(t_game *game, t_mlx_data *data)
 	game->ceiling_color.value = 0;
 	game->floor_color.value = 0;
 	game->map = NULL;
-	game->map_height = 0;
+	game->mlx_data->img.img_height = 0;
 	game->map_width = 0;
 	game->player = NULL;
 	game->show_minimap = false;

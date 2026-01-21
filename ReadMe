@@ -1,0 +1,120 @@
+_This project has been created as part of the 42 curriculum by antbonin, pde-petr._
+
+# Cub3D
+
+A 3D raycaster game engine written in C. This project explores the fundamentals of raycasting, graphical rendering, and game development using the MinilibX library.
+
+## Description
+
+Cub3D is a simplified 3D game engine that renders a first-person perspective of a maze using raycasting techniques. The project demonstrates:
+
+- **Raycasting algorithm**: Implementation of the DDA (Digital Differential Analyzer) algorithm to cast rays and detect wall intersections
+- **Texture mapping**: Wall rendering with directional textures (North, South, East, West)
+- **Player controls**: Keyboard and mouse input handling for movement and camera rotation
+
+### The DDA Algorithm
+
+The **Digital Differential Analyzer (DDA)** is the core algorithm used for raycasting. It works by:
+
+1. **Starting point**: The player's position on the 2D grid
+2. **Direction**: The current viewing angle (converted from degrees to radians)
+3. **Ray advancement**: Incrementally stepping through the grid in the ray's direction
+4. **Intersection detection**: Checking each grid cell for walls
+5. **Distance calculation**: Measuring the perpendicular distance to the first wall hit
+
+The algorithm casts one ray per vertical screen column (1920 rays for a 1920px width), creating the illusion of 3D depth through perspective projection.
+
+**Key principle**: The closer the wall, the taller it appears on screen.
+
+
+## Instructions
+
+### Compilation
+
+```bash
+# Compile the mandatory version
+make
+
+# Compile the bonus version
+make bonus
+
+# Clean object files
+make clean
+
+# Full cleanup (removes binaries and libraries)
+make fclean
+
+# Recompile everything
+make re
+```
+
+### Execution
+
+```bash
+# Run with a map file
+./cub3d maps/map.cub
+
+# Bonus version
+./cub3d_bonus maps/map.cub
+```
+
+### Controls
+
+**Mandatory:**
+- `W` `A` `S` `D` : Move forward/left/backward/right
+- `←` `→` : Rotate camera left/right
+- `ESC` : Exit the program
+
+**Bonus:**
+- `Mouse movement` : Look around
+- `Left Shift` : Sprint
+- `Wall Colision` : a Wall is a Wall 
+
+### Map File Format (.cub)
+
+The configuration file must specify:
+- Texture paths for each wall direction (NO, SO, WE, EA)
+- Floor color (F) and ceiling color (C) in RGB format
+- A 2D map using characters: `0` (floor), `1` (wall), ` ` (void), `N/S/E/W` (player start position and orientation)
+
+Example:
+```
+NO ./textures/north.xpm
+SO ./textures/south.xpm
+WE ./textures/west.xpm
+EA ./textures/east.xpm
+
+F 220,100,0
+C 225,30,0
+
+        1111111111111111111111111
+        1000000000110000000000001
+        1011000001110000000000001
+        1001000000000000000000001
+111111111011000001110000000000001
+100000000011000001110111111111111
+11110111111111011100000010001
+11110111111111011101010010001
+11000000110101011100000010001
+10000000000000001100000010001
+10000000000000001101010010001
+11000001110101011111011110N0111
+11110111 1110101 101111010001
+11111111 1111111 111111111111
+```
+
+
+
+
+## Resources
+
+### Raycasting & Game Development
+- YVAN MONKA (trigonometry methods)
+- Wolfenstein 3d
+
+### Mathematical Concepts
+- Trigonometry (sin, cos, tan for angle calculations, thales)
+
+
+
+**Default resolution**: 1920x1080 (configurable in Makefile via `WIDTH` and `HEIGHT` variables)

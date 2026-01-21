@@ -1,4 +1,4 @@
-.PHONY: all re clean fclean libft_rules
+.PHONY: all re clean fclean libft_rules bonus
 
 FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH)/includes -I$(MLX_PATH) -Iincludes -MD
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
@@ -6,6 +6,7 @@ FLAGLIBFT = -L$(LIBFT_PATH) -lft
 
 CC = cc
 NAME = cub3d
+NAME_BONUS = cub3d_bonus
 LIBFT_PATH = libft
 MLX_PATH = minilibx-linux
 
@@ -64,6 +65,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(NAME): $(OBJS) $(LIBFT) $(MLX)
 	$(CC) $(FLAGS) -g3 -o $(NAME) $(OBJS) $(FLAGSMLX) $(FLAGLIBFT)
 -include $(DEPS)
+
+$(NAME_BONUS): $(OBJS) $(MLX)
+	$(CC) $(FLAGS) -g3 -o $(NAME_BONUS) $(OBJS) $(FLAGSMLX) $(FLAGLIBFT)
+
 	
 
 $(MLX): 
@@ -79,11 +84,10 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(NAME_BONUS)
 	rm -f $(LIBFT)
 	rm -f $(MLX)
 	rm -f $(MLX_PATH)/libmlx.a
-
-resize: 
-	$(MAKE) H=$(H) L=$(L) clean $(NAME)
+bonus : libft_rules $(NAME_BONUS)
 
 re: fclean all

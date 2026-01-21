@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 13:36:58 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 17:41:48 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:55:20 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	calculate_tile_size(t_game *game)
 	int	tile_size;
 
 	pixel_width = MAX_MINIMAP_SIZE / (game->map_width - 1);
-	pixel_height = MAX_MINIMAP_SIZE / game->map_height;
+	pixel_height = MAX_MINIMAP_SIZE / game->mlx_data->img.img_height;
 	if (pixel_width < pixel_height)
 		tile_size = pixel_width;
 	else
@@ -93,13 +93,13 @@ void	create_minimap_buffer(t_game *g)
 		mlx_destroy_image(g->mlx_data->mlx_ptr,
 			g->mlx_data->map_buf.img_ptr);
 	g->mlx_data->map_buf.img_ptr = mlx_new_image(g->mlx_data->mlx_ptr,
-			(g->map_width - 1) * pixel, g->map_height * pixel);
+			(g->map_width - 1) * pixel, g->mlx_data->img.img_height * pixel);
 	g->mlx_data->map_buf.addr = mlx_get_data_addr(g->mlx_data->map_buf.img_ptr,
 			&g->mlx_data->map_buf.bits_per_pixel,
 			&g->mlx_data->map_buf.line_length,
 			&g->mlx_data->map_buf.endian);
 	map_y = -1;
-	while (++map_y < g->map_height)
+	while (++map_y < g->mlx_data->img.img_height)
 	{
 		map_x = -1;
 		while (++map_x < g->map_width - 1)

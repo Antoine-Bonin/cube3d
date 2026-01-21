@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:06:45 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:04:49 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 void	draw_minimap(t_game *game);
 void	draw_minimap_big_map(t_game *game);
-void	choose_wich_minimap_to_draw(t_game *game);
+void	choose_which_minimap_to_draw(t_game *game);
 
 /* ************************************************************************** */
 /*                          BUFFER MANAGEMENT                                 */

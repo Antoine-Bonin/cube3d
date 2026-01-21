@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:06:06 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/16 16:27:34 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 19:56:05 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	parse_game_data(t_game *game, t_parsing_data *pars)
 	if (!game->player)
 		return (msg_error(MALLOC_ERR, 0));
 	get_player_data(game->player, pars);
-	game->map_height = pars->map_height;
+	game->mlx_data->img.img_height = pars->map_height;
 	game->map_width = pars->map_width;
 	game->floor_color.value = (pars->floor_color[0] << 16)
 		| (pars->floor_color[1] << 8) | pars->floor_color[2];
