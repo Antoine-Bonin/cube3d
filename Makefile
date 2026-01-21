@@ -1,4 +1,4 @@
-.PHONY: all re clean fclean libft_make mlx_make
+.PHONY: all re clean fclean libft_rules
 
 FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_PATH)/includes -I$(MLX_PATH) -Iincludes -MD
 FLAGSMLX =  -L$(MLX_PATH) -lmlx_Linux -lX11 -lXext -lm
@@ -55,7 +55,7 @@ SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 DEPS = $(addprefix $(OBJ_DIR), $(addsuffix .d, $(FILES)))
 
-all: $(NAME)
+all: libft_rules $(NAME) 
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c 
 	@mkdir -p $(dir $@)
@@ -66,11 +66,11 @@ $(NAME): $(OBJS) $(LIBFT) $(MLX)
 -include $(DEPS)
 	
 
-$(LIBFT): 
-	$(MAKE) -C $(LIBFT_PATH)
-
 $(MLX): 
 	$(MAKE) -C $(MLX_PATH)
+
+libft_rules: 
+	$(MAKE) -C $(LIBFT_PATH)
 
 clean:
 	rm -rf $(OBJ_DIR)
