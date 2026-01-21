@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:29:58 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/21 20:09:34 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/21 20:58:48 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "window.h"
 #include <X11/X.h>
+#include "stdio.h"
 
 int	environment(t_game *game)
 {
@@ -50,7 +51,7 @@ int	main(int ac, char **av)
 	init_parsing_data(&parsing_data);
 	init_mlx(&mlx_data);
 	init_game(&game, &mlx_data);
-	if (ac > 1)
+	if (ac == 2)
 	{
 		if (!parsing(av[1], &parsing_data))
 			return (cleanup(&parsing_data, 1, &game));
@@ -62,5 +63,6 @@ int	main(int ac, char **av)
 		mlx_loop_hook(mlx_data.mlx_ptr, environment, &game);
 		mlx_loop(mlx_data.mlx_ptr);
 	}
+	printf("Error\nto test the game : \"./cube.3d maps/map_name\"\n");
 	return (cleanup(NULL, 0, &game));
 }
