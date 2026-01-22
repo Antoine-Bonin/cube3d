@@ -5,32 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 17:24:56 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/14 18:06:51 by antbonin         ###   ########.fr       */
+/*   Created: 2026/01/22 15:07:06 by antbonin          #+#    #+#             */
+/*   Updated: 2026/01/22 15:07:22 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INIT_H
 # define INIT_H
 
-/* ************************************************************************** */
-/*                          SCREEN CONFIGURATION                              */
-/* ************************************************************************** */
-
-# ifndef HEIGHT
-#  define HEIGHT 0
-# endif
-
-# ifndef LENGTH
-#  define LENGTH 0
-# endif
+# include "structures.h"
 
 /* ************************************************************************** */
-/*                          RENDERING CONFIGURATION                           */
+/*                         INITIALIZE STRUCT                                  */
 /* ************************************************************************** */
 
-# ifndef PIXEL_SIZE_IMG
-#  define PIXEL_SIZE_IMG 100
-# endif
+void	init_parsing_data(t_parsing_data *parsing_data);
+void	init_mlx(t_mlx_data *mlx_data);
+void	init_game(t_game *game, t_mlx_data *data);
+
+/* ************************************************************************** */
+/*                            MLX LOOP HOOK                                   */
+/* ************************************************************************** */
+
+int		environment(t_game *game);
+void	mlx_all_hook(t_game *game, t_mlx_data mlx_data);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 17:19:20 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 19:55:13 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:57 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "init.h"
+#include "configuration.h"
 #include "minimap.h"
 #include "mlx.h"
 #define VIEW_RANGE 10
@@ -27,12 +27,12 @@ static void	draw_tile(t_game *game, t_minimap_render *render, int map_x,
 					- render->view_range)) * render->pixel);
 	screen_y = render->offset_y + ((map_y - (render->player_y
 					- render->view_range)) * render->pixel);
-	index = find_index(game->map[map_y][map_x].type);
+	index = find_index(game->map.tiles[map_y][map_x].type);
 	if (index == PLAYER)
 		return ;
 	if (index < 0 || index >= END)
 		return ;
-	img = game->mlx_data->minimap_img[index];
+	img = game->mlx_data->graphics.minimap_img[index];
 	if (!img)
 		return ;
 	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
@@ -53,9 +53,9 @@ static void	draw_background(t_game *game, t_minimap_render *render)
 		while (x < size)
 		{
 			mlx_put_image_to_window(game->mlx_data->mlx_ptr,
-				game->mlx_data->win_ptr, game->mlx_data->minimap_img[FLOOR],
-				render->offset_x + x * render->pixel, render->offset_y + y
-				* render->pixel);
+				game->mlx_data->win_ptr,
+				game->mlx_data->graphics.minimap_img[FLOOR], render->offset_x
+				+ x * render->pixel, render->offset_y + y * render->pixel);
 			x++;
 		}
 		y++;
@@ -68,8 +68,8 @@ static void	init_minimap_render(t_minimap_render *render, t_game *game,
 	render->view_range = view_range;
 	render->offset_x = 0;
 	render->offset_y = 0;
-	render->player_x = (int)game->player->pos_x;
-	render->player_y = (int)game->player->pos_y;
+	render->player_x = (int)game->player->pos.x;
+	render->player_y = (int)game->player->pos.y;
 	if (LENGTH < HEIGHT)
 		render->pixel = (LENGTH / 4) / (view_range * 2 + 1);
 	else
@@ -83,7 +83,7 @@ void	draw_minimap_big_map(t_game *game)
 	int					map_y;
 
 	init_minimap_render(&render, game, VIEW_RANGE);
-	if (game->mlx_data->minimap_tile_size != render.pixel)
+	if (game->mlx_data->graphics.minimap_tile_size != render.pixel)
 		recreate_minimap_images(game, render.pixel);
 	draw_background(game, &render);
 	map_y = render.player_y - VIEW_RANGE;
@@ -92,15 +92,15 @@ void	draw_minimap_big_map(t_game *game)
 		map_x = render.player_x - VIEW_RANGE;
 		while (map_x <= render.player_x + VIEW_RANGE)
 		{
-			if (map_x >= 0 && map_x < game->map_width && map_y >= 0
-				&& map_y < game->mlx_data->img.img_height)
+			if (map_x >= 0 && map_x < game->map.width && map_y >= 0
+				&& map_y < game->mlx_data->graphics.screen.img_height)
 				draw_tile(game, &render, map_x, map_y);
 			map_x++;
 		}
 		map_y++;
 	}
 	mlx_put_image_to_window(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,
-		game->mlx_data->minimap_img[PLAYER], render.offset_x + (VIEW_RANGE
-			* render.pixel) + render.pixel / 4, render.offset_y + (VIEW_RANGE
-			* render.pixel) + render.pixel / 4);
+		game->mlx_data->graphics.minimap_img[PLAYER], render.offset_x
+		+ (VIEW_RANGE * render.pixel) + render.pixel / 4, render.offset_y
+		+ (VIEW_RANGE * render.pixel) + render.pixel / 4);
 }

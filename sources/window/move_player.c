@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 11:33:59 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 19:56:25 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:42:07 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ int	check_collision(t_game *game, double x, double y)
 
 	map_x = (int)x;
 	map_y = (int)y;
-	if (map_x < 0 || map_x >= game->map_width || map_y < 0
-		|| map_y >= game->mlx_data->img.img_height)
+	if (map_x < 0 || map_x >= game->map.width || map_y < 0
+		|| map_y >= game->mlx_data->graphics.screen.img_height)
 		return (1);
-	if (game->map[map_y][map_x].type == ' ')
+	if (game->map.tiles[map_y][map_x].type == ' ')
 	{
-		game->player->pos_x = game->player->base_pos_x;
-		game->player->pos_y = game->player->base_pos_y;
+		game->player->pos.x = game->player->pos.spawn_x;
+		game->player->pos.y = game->player->pos.spawn_y;
 		return (1);
 	}
-	if (game->map[map_y][map_x].is_solid)
+	if (game->map.tiles[map_y][map_x].is_solid)
 		return (1);
 	return (0);
 }
@@ -41,12 +41,12 @@ int	move_forward(t_game *game)
 	double	rad;
 
 	rad = game->player->deg * (M_PI / 180.0);
-	new_x = game->player->pos_x + cos(rad) * game->player->move_speed;
-	new_y = game->player->pos_y + sin(rad) * game->player->move_speed;
+	new_x = game->player->pos.x + cos(rad) * game->player->move.speed;
+	new_y = game->player->pos.y + sin(rad) * game->player->move.speed;
 	if (!check_collision(game, new_x, new_y))
 	{
-		game->player->pos_x = new_x;
-		game->player->pos_y = new_y;
+		game->player->pos.x = new_x;
+		game->player->pos.y = new_y;
 		return (0);
 	}
 	return (1);
@@ -59,12 +59,12 @@ int	move_backward(t_game *game)
 	double	rad;
 
 	rad = game->player->deg * (M_PI / 180.0);
-	new_x = game->player->pos_x - cos(rad) * game->player->move_speed;
-	new_y = game->player->pos_y - sin(rad) * game->player->move_speed;
+	new_x = game->player->pos.x - cos(rad) * game->player->move.speed;
+	new_y = game->player->pos.y - sin(rad) * game->player->move.speed;
 	if (!check_collision(game, new_x, new_y))
 	{
-		game->player->pos_x = new_x;
-		game->player->pos_y = new_y;
+		game->player->pos.x = new_x;
+		game->player->pos.y = new_y;
 		return (0);
 	}
 	return (1);
@@ -77,12 +77,12 @@ int	strafe_left(t_game *game)
 	double	rad;
 
 	rad = (game->player->deg - 90) * (M_PI / 180.0);
-	new_x = game->player->pos_x + cos(rad) * game->player->move_speed;
-	new_y = game->player->pos_y + sin(rad) * game->player->move_speed;
+	new_x = game->player->pos.x + cos(rad) * game->player->move.speed;
+	new_y = game->player->pos.y + sin(rad) * game->player->move.speed;
 	if (!check_collision(game, new_x, new_y))
 	{
-		game->player->pos_x = new_x;
-		game->player->pos_y = new_y;
+		game->player->pos.x = new_x;
+		game->player->pos.y = new_y;
 		return (0);
 	}
 	return (1);
@@ -95,12 +95,12 @@ int	strafe_right(t_game *game)
 	double	rad;
 
 	rad = (game->player->deg + 90) * (M_PI / 180.0);
-	new_x = game->player->pos_x + cos(rad) * game->player->move_speed;
-	new_y = game->player->pos_y + sin(rad) * game->player->move_speed;
+	new_x = game->player->pos.x + cos(rad) * game->player->move.speed;
+	new_y = game->player->pos.y + sin(rad) * game->player->move.speed;
 	if (!check_collision(game, new_x, new_y))
 	{
-		game->player->pos_x = new_x;
-		game->player->pos_y = new_y;
+		game->player->pos.x = new_x;
+		game->player->pos.y = new_y;
 		return (0);
 	}
 	return (1);

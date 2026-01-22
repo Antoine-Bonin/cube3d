@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   configuration.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 16:50:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 19:36:31 by antbonin         ###   ########.fr       */
+/*   Created: 2025/11/03 17:24:56 by pde-petr          #+#    #+#             */
+/*   Updated: 2026/01/22 15:06:46 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef INIT_H
+# define INIT_H
 
 /* ************************************************************************** */
-/*                          COLOR UTILITIES                                   */
+/*                          SCREEN CONFIGURATION                              */
 /* ************************************************************************** */
 
-int		color_argb(uint8_t a, uint8_t r, uint8_t g, uint8_t b);
+# ifndef HEIGHT
+#  define HEIGHT 0
+# endif
+
+# ifndef LENGTH
+#  define LENGTH 0
+# endif
 
 /* ************************************************************************** */
-/*                         INITIALIZE STRUCT                                  */
+/*                          RENDERING CONFIGURATION                           */
 /* ************************************************************************** */
 
-void	init_parsing_data(t_parsing_data *parsing_data);
-void	init_mlx(t_mlx_data *mlx_data);
-void	init_game(t_game *game, t_mlx_data *data);
+# ifndef PIXEL_SIZE_IMG
+#  define PIXEL_SIZE_IMG 100
+# endif
 
 #endif

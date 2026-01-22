@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 17:47:52 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 19:04:49 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:57:46 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,11 @@ void	choose_which_minimap_to_draw(t_game *game);
 
 void	create_minimap_buffer(t_game *game);
 void	recreate_minimap_images(t_game *game, int size);
+
+/* ************************************************************************** */
+/*                           COLOR MANAGEMENT                                 */
+/* ************************************************************************** */
+
+int		color_argb(uint8_t a, uint8_t r, uint8_t g, uint8_t b);
 
 #endif

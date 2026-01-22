@@ -27,8 +27,6 @@ The algorithm casts one ray per vertical screen column (1920 rays for a 1920px w
 **Key principle**: The closer the wall, the taller it appears on screen.
 
 
-## Instructions
-
 ### Compilation
 
 ```bash
@@ -103,18 +101,13 @@ C 225,30,0
 11111111 1111111 111111111111
 ```
 
-
-
-
-## Resources
-
 ### Raycasting & Game Development
 - YVAN MONKA (trigonometry methods)
 - Wolfenstein 3d
 
-### Mathematical Concepts
-- Trigonometry (sin, cos, tan for angle calculations, thales)
-
-
+### Mathematical Concepts & Algorithms
+- **Raycasting**: DDA (Digital Differential Analyzer) algorithm for wall detection
+- **Trigonometry**: sin, cos, tan for angle calculations and projections
+- **Map validation**: BFS (Breadth-First Search) flood fill algorithm to verify map closure
 
 **Default resolution**: 1920x1080 (configurable in Makefile via `WIDTH` and `HEIGHT` variables)

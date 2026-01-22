@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_malloc.h                                      :+:      :+:    :+:   */
+/*   cleanup.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 17:21:31 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:06:47 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:10 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_MALLOC_H
-# define FREE_MALLOC_H
+#ifndef CLEANUP_H
+# define CLEANUP_H
 
 # include "structures.h"
 
@@ -31,7 +31,6 @@ void	free_game(t_game *game);
 void	ft_free_tab(char **map);
 t_tile	**free_map_tile(t_tile **map, int height);
 void	free_and_set_null(void *ptr);
-int		free_return(void *ptr, int value);
 
 /* ************************************************************************** */
 /*                          ERROR HANDLING                                    */

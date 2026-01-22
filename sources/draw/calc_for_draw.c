@@ -6,12 +6,12 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:40:21 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 20:29:13 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:57 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw.h"
-#include "init.h"
+#include "configuration.h"
 
 void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
@@ -36,10 +36,10 @@ int	x_find_pixel_for_img(t_game *game, t_dir dda_point, int length)
 	double	x_find;
 
 	if (dda_point.x_or_y == 'x')
-		x_find = game->player->pos_y + (dda_point.side_dist
+		x_find = game->player->pos.y + (dda_point.side_dist
 				* dda_point.for_inverse_point->ray.raydir);
 	else
-		x_find = game->player->pos_x + (dda_point.side_dist
+		x_find = game->player->pos.x + (dda_point.side_dist
 				* dda_point.for_inverse_point->ray.raydir);
 	x_find = x_find - (int)x_find;
 	if ((dda_point.x_or_y == 'x' && dda_point.ray.raydir < 0)

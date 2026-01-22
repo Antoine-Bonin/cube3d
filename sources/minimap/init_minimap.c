@@ -6,13 +6,12 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 16:51:46 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/16 16:29:32 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:00:39 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minimap.h"
 #include "mlx.h"
-#include "utils.h"
 
 static void	*cc(void *mlx_ptr, int size, int color)
 {
@@ -45,7 +44,7 @@ static void	save_old_images(void **temp, t_mlx_data *mlx_data)
 
 	i = -1;
 	while (++i < MAX)
-		temp[i] = mlx_data->minimap_img[i];
+		temp[i] = mlx_data->graphics.minimap_img[i];
 }
 
 static void	create_new_images(t_game *game, int size)
@@ -57,7 +56,8 @@ static void	create_new_images(t_game *game, int size)
 	{
 		if (i == PLAYER)
 		{
-			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr, size
+			game->mlx_data->graphics.minimap_img[i] = \
+cc(game->mlx_data->mlx_ptr, size
 					/ 1.5, color_argb(CONTRAST,
 						g_type_block[i].color_mini_map[0],
 						g_type_block[i].color_mini_map[1],
@@ -65,7 +65,8 @@ static void	create_new_images(t_game *game, int size)
 		}
 		else
 		{
-			game->mlx_data->minimap_img[i] = cc(game->mlx_data->mlx_ptr, size,
+			game->mlx_data->graphics.minimap_img[i] = \
+cc(game->mlx_data->mlx_ptr, size,
 					color_argb(CONTRAST,
 						g_type_block[i].color_mini_map[0],
 						g_type_block[i].color_mini_map[1],
@@ -93,5 +94,5 @@ void	recreate_minimap_images(t_game *game, int size)
 	save_old_images(temp, game->mlx_data);
 	create_new_images(game, size);
 	destroy_old_images(temp, game->mlx_data->mlx_ptr);
-	game->mlx_data->minimap_tile_size = size;
+	game->mlx_data->graphics.minimap_tile_size = size;
 }

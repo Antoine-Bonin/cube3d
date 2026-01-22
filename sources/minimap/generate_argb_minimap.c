@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   choose_wich_minimap_to_use.c                       :+:      :+:    :+:   */
+/*   generate_argb_minimap.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 17:52:56 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/22 15:02:26 by antbonin         ###   ########.fr       */
+/*   Created: 2026/01/22 13:41:19 by antbonin          #+#    #+#             */
+/*   Updated: 2026/01/22 14:50:10 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minimap.h"
+#include "structures.h"
 
-void	choose_which_minimap_to_draw(t_game *game)
+int	color_argb(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
 {
-	if (game->minimap.visible && \
-(game->map.width >= 80 || game->mlx_data->graphics.screen.img_height >= 80))
-		draw_minimap_big_map(game);
-	else if (game->minimap.visible && (game->map.width < 80
-			&& game->mlx_data->graphics.screen.img_height < 80))
-		draw_minimap(game);
+	return ((a << 24) | (r << 16) | (g << 8) | b);
 }

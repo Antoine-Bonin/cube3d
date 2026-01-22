@@ -1,19 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   011-parse_game_tile.c                              :+:      :+:    :+:   */
+/*   012-parse_game_tile.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:07:15 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/16 16:28:43 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:05:22 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free_malloc.h"
+#include "cleanup.h"
 #include "libft.h"
 #include "parsing.h"
 #include "stdlib.h"
+
+int	find_index(char type)
+{
+	int	i;
+
+	i = 0;
+	if (type == 'N' || type == 'S' || type == 'E' || type == 'W')
+		return (find_index('P'));
+	else
+	{
+		while (g_type_index[i] != '\0')
+		{
+			if (g_type_index[i] == type)
+				return (i);
+			i++;
+		}
+	}
+	return (-1);
+}
 
 static void	parse_tile_line(t_tile *tiles, char *line, int y, int max_len)
 {

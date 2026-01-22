@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:40:21 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/21 20:18:34 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 14:38:21 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	size_block_in_height(double proj_to_screen, t_dir dda, t_game *game)
 {
 	double	side_dist_recalc;
 
-	side_dist_recalc = dda.side_dist * cos(game->param_draw.rad_for_x
+	side_dist_recalc = dda.side_dist * cos(game->render.params.rad_for_x
 			- deg_to_rad(game->player->deg));
 	if (side_dist_recalc == 0)
 		side_dist_recalc = DBL_MIN;

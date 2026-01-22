@@ -6,11 +6,11 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:06:16 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/14 18:20:40 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/22 15:06:57 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "init.h"
+#include "configuration.h"
 #include "window.h"
 #include "mlx.h"
 
@@ -27,11 +27,11 @@ int	mouse_handler(int x, int y, t_game *game)
 		game->player->deg += delta_x * SENSITIVITY;
 	if (y != center_y)
 	{
-		game->param_draw.orientation_vert -= delta_y * (SENSITIVITY * 8);
-		if (game->param_draw.orientation_vert >= HEIGHT)
-			game->param_draw.orientation_vert = HEIGHT - 1;
-		if (game->param_draw.orientation_vert <= -HEIGHT)
-			game->param_draw.orientation_vert = -HEIGHT + 1;
+		game->render.params.orientation_vert -= delta_y * (SENSITIVITY * 8);
+		if (game->render.params.orientation_vert >= HEIGHT)
+			game->render.params.orientation_vert = HEIGHT - 1;
+		if (game->render.params.orientation_vert <= -HEIGHT)
+			game->render.params.orientation_vert = -HEIGHT + 1;
 	}
 	if (x != center_x || y != center_y)
 		mlx_mouse_move(game->mlx_data->mlx_ptr, game->mlx_data->win_ptr,

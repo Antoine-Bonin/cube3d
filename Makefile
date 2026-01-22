@@ -14,12 +14,11 @@ MLX = $(MLX_PATH)/libmlx_Linux.a
 LIBFT = $(LIBFT_PATH)/libft.a
 
 FILES = main \
+		init_main \
 		errors/print_errors \
-		utils/utils \
-		utils/flood_fill \
-		utils/init_main \
-		free_malloc/free_parsing_data \
-		free_malloc/free_exit \
+		cleanup/free_parsing \
+		cleanup/free_game \
+		cleanup/free_exit \
 		parsing/00-parsing \
 		parsing/01-check_cub_filename \
 		parsing/02-parse_cub_file \
@@ -30,19 +29,23 @@ FILES = main \
 		parsing/07-check_floor_ceiling_color \
 		parsing/08-check_char_map_validity \
 		parsing/09-check_map_validity \
-		parsing/010-parse_game_data \
-		parsing/011-parse_game_tile \
+		parsing/010-flood_fill \
+		parsing/011-parse_game_data \
+		parsing/012-parse_game_tile \
+		parsing/013-tile_structure \
 		window/init_window_and_textures \
-		window/keypress_window \
+		window/handle_keypress_and_release \
 		window/move_player \
 		window/move_mouse \
 		window/count_fps \
 		window/sprint \
 		window/move_vision \
+		window/set_and_check_keystate \
 		minimap/choose_wich_minimap_to_use \
 		minimap/draw_minimap \
 		minimap/init_minimap \
 		minimap/draw_minimap_big_map \
+		minimap/generate_argb_minimap \
 		draw/draw \
 		draw/calc_for_dda \
 		draw/calc_for_draw \
