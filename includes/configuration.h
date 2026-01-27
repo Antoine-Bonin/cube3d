@@ -6,12 +6,12 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:24:56 by pde-petr          #+#    #+#             */
-/*   Updated: 2026/01/22 15:06:46 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:09:30 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INIT_H
-# define INIT_H
+#ifndef CONFIGURATION_H
+# define CONFIGURATION_H
 
 /* ************************************************************************** */
 /*                          SCREEN CONFIGURATION                              */

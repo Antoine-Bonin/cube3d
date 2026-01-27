@@ -6,7 +6,7 @@
 /*   By: antbonin <antbonin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 17:36:35 by antbonin          #+#    #+#             */
-/*   Updated: 2026/01/22 15:03:51 by antbonin         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:13:29 by antbonin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_dir	calc_direction(t_dir value, t_game *game, char x_or_y)
 		value = calc_side_dist(value, game->player->pos.x_int,
 				game->player->pos.x);
 		if (value.positive == 1)
-			value.texture_use = EAST;
-		else
 			value.texture_use = WEST;
+		else
+			value.texture_use = EAST;
 	}
 	else
 	{
